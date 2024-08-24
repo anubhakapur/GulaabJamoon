@@ -2,7 +2,10 @@
 export default {
   content: ["./src/**/*.{html,js,jsx}"],
   theme: {
-    extend: {},
+    extend: {fontFamily: {
+      serif: ['Georgia', 'Cambria', 'Times New Roman', 'Times', 'serif'],
+      sans: ['Arial', 'Helvetica', 'sans-serif'],
+    },},
   },
   plugins: [],
 };
