@@ -40,10 +40,10 @@ const Header = () => {
   };
 
   const dropdownVariants = {
-    hidden: { opacity: 0, x: 20 },
+    hidden: { opacity: 0, y: "-100%" },
     visible: {
       opacity: 1,
-      x: 0,
+      y: 0,
       transition: {
         duration: 0.3,
         ease: "easeInOut",
@@ -51,7 +51,7 @@ const Header = () => {
     },
     exit: {
       opacity: 0,
-      x: 20,
+      y: "-100%",
       transition: {
         duration: 0.3,
         ease: "easeInOut",
@@ -60,8 +60,8 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-black shadow-xl sticky top-0 z-50">
-      <div className="container  p-2 flex items-center justify-between relative">
+    <header className="bg-black shadow-xl sticky top-0 z-50 p-2">
+      <div className="container mx-auto flex items-center justify-between relative">
         <motion.div
           className="flex items-center"
           initial={{ opacity: 0, x: -50 }}
@@ -109,18 +109,21 @@ const Header = () => {
           initial="hidden"
           animate="visible"
         >
-          <ul className="flex space-x-6">
+          <ul className="flex gap-6 justify-end mr-0">
             {menuItems.map((item) => (
               <motion.li key={item} variants={itemVariants}>
                 <a
                   href="#"
-                  className={`${
+                  className={`text-white relative group ${
                     item === "LOGIN"
-                      ? "lg:bg-yellow-400 lg:text-white lg:px-2 lg:py-2 lg:rounded-lg lg:hover:bg-yellow-300 lg:hover:text-black lg:hover: transition-colors duration-300"
-                      : "text-white hover:text-yellow-500 transition-colors duration-300"
+                      ? "lg:border lg:border-white lg:rounded-full lg:px-4 lg:py-2 lg:hover:bg-white lg:hover:text-black lg:transition-colors lg:duration-300"
+                      : "group"
                   }`}
                 >
                   {item}
+                  {item !== "LOGIN" && (
+                    <span className="absolute left-0 bottom-0 w-full h-0.5 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-in-out"></span>
+                  )}
                 </a>
               </motion.li>
             ))}
@@ -128,41 +131,28 @@ const Header = () => {
         </motion.nav>
       </div>
 
-      {/* Blurred background */}
+      {/* Full-screen menu for medium and small screens */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
-            className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-40 lg:hidden"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setIsMenuOpen(false)}
-          />
-        )}
-      </AnimatePresence>
-
-      {/* Dropdown menu for medium and small screens */}
-      <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div
-            className="lg:hidden fixed top-16 right-4 w-64 z-50"
+            className="fixed inset-0 bg-black bg-opacity-75 backdrop-blur-sm z-40 lg:hidden flex items-center justify-center"
             variants={dropdownVariants}
             initial="hidden"
             animate="visible"
             exit="exit"
           >
-            <ul className="bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden">
-              {menuItems.map((item, index) => (
-                <motion.li
-                  key={item}
-                  className="border-b border-gray-200 last:border-b-0"
-                  variants={itemVariants}
-                >
+            <ul className="text-center">
+              {menuItems.map((item) => (
+                <motion.li key={item} className="mb-6" variants={itemVariants}>
                   <a
                     href="#"
-                    className="block px-4 py-2 text-black hover:bg-gray-100 transition-colors duration-300"
+                    className="text-white text-2xl relative group"
+                    onClick={() => setIsMenuOpen(false)}
                   >
                     {item}
+                    {item !== "LOGIN" && (
+                      <span className="absolute left-0 bottom-0 w-full h-0.5 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-in-out"></span>
+                    )}
                   </a>
                 </motion.li>
               ))}
