@@ -60,23 +60,23 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-white shadow-xl sticky top-0 z-50">
-      <div className="container mx-auto p-2 flex items-center justify-between relative">
+    <header className="bg-black shadow-xl sticky top-0 z-50">
+      <div className="container  p-2 flex items-center justify-between relative">
         <motion.div
           className="flex items-center"
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ type: "spring", stiffness: 300, damping: 20 }}
         >
-          <img src={GJlogo} alt="GJ" className="w-[7vh] mx-2"/>
-          <h1 className="text-black text-xl font-bold">Gulaab Jamoon</h1>
+          <img src={GJlogo} alt="GJ" className="w-[7vh] mx-2" />
+          <h1 className="text-white text-xl font-bold">Gulaab Jamoon</h1>
         </motion.div>
 
         {/* Hamburger menu for medium and small screens */}
         <div className="lg:hidden">
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="text-black focus:outline-none w-8 h-8 relative z-50"
+            className="text-white focus:outline-none w-8 h-8 relative z-50"
           >
             <span className="sr-only">Toggle menu</span>
             <div className="block w-8 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
@@ -114,7 +114,11 @@ const Header = () => {
               <motion.li key={item} variants={itemVariants}>
                 <a
                   href="#"
-                  className="text-black hover:text-yellow-500 transition-colors duration-300"
+                  className={`${
+                    item === "LOGIN"
+                      ? "lg:bg-yellow-400 lg:text-white lg:px-2 lg:py-2 lg:rounded-lg lg:hover:bg-yellow-300 lg:hover:text-black lg:hover: transition-colors duration-300"
+                      : "text-white hover:text-yellow-500 transition-colors duration-300"
+                  }`}
                 >
                   {item}
                 </a>

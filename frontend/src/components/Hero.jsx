@@ -49,7 +49,7 @@ const Hero = () => {
         <h1 className="text-4xl md:text-6xl lg:text-8xl font-bold text-white text-center px-4 mb-8">
           <span className="block font-serif tracking-wide">Do it the</span>
           <span className="block font-sans uppercase tracking-widest text-yellow-400 mt-2">GULAAB JAMOON</span>
-          <span className="block font-serif tracking-wide mt-2">way</span>
+          <span className="block font-serif tracking-wide mt-1">way</span>
         </h1>
         
         <p className="text-xl md:text-2xl lg:text-3xl text-white uppercase tracking-widest font-light mt-8 text-center px-4">
