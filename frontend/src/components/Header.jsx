@@ -1,17 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import GJlogo from "../assets/images/GJlogo.svg";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [isAtTop, setIsAtTop] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      setIsAtTop(currentScrollY === 0);
+      
+      if (currentScrollY > lastScrollY) {
+        setIsVisible(false);
+      } else {
+        setIsVisible(true);
+      }
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
 
   const menuItems = [
-    "ABOUT",
-    "EXPERIENCES",
-    "GALLERY",
-    "TESTIMONIALS",
-    "CONTACT US",
-    "LOGIN",
+    "About",
+    "Experiences",
+    "Gallery",
+    "Testimonials",
+    "Contact Us",
   ];
 
   const navVariants = {
@@ -60,41 +79,51 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-black shadow-xl sticky top-0 z-50 p-2">
-      <div className="container mx-auto flex items-center justify-between relative">
+    <motion.header 
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${!isAtTop ? 'bg-black bg-opacity-70 backdrop-blur-sm' : ''}`}
+      initial={{ y: 0 }}
+      animate={{ y: isVisible ? 0 : '-100%' }}
+      transition={{ duration: 0.3 }}
+    >
+      <div className="container mx-auto flex items-center justify-between relative py-4 px-4">
         <motion.div
           className="flex items-center"
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ type: "spring", stiffness: 300, damping: 20 }}
         >
-          <img src={GJlogo} alt="GJ" className="w-[7vh] mx-2" />
+          <motion.img 
+            src={GJlogo} 
+            alt="GJ" 
+            className="w-[7vh] mr-2 cursor-pointer" 
+            whileHover={{ scale: 1.1 }}
+            transition={{ type: "spring", stiffness: 400, damping: 10 }}
+          />
           <h1 className="text-white text-xl font-bold">Gulaab Jamoon</h1>
         </motion.div>
 
-        {/* Hamburger menu for medium and small screens */}
-        <div className="lg:hidden">
+        <div className="lg:hidden z-50">
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="text-white focus:outline-none w-8 h-8 relative z-50"
+            className="text-white focus:outline-none w-8 h-8 relative"
           >
             <span className="sr-only">Toggle menu</span>
             <div className="block w-8 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
               <span
                 aria-hidden="true"
-                className={`block absolute h-[3px] w-[2rem] rounded-lg bg-current transform transition duration-300 ease-in-out ${
+                className={`block absolute h-[3px] w-8 bg-current transform transition duration-300 ease-in-out ${
                   isMenuOpen ? "rotate-45" : "-translate-y-1.5"
                 }`}
               />
               <span
                 aria-hidden="true"
-                className={`block absolute h-[3px] w-[2rem] rounded-lg bg-current transform transition duration-300 ease-in-out ${
+                className={`block absolute h-[3px] w-8 bg-current transform transition duration-300 ease-in-out ${
                   isMenuOpen ? "opacity-0" : ""
                 }`}
               />
               <span
                 aria-hidden="true"
-                className={`block absolute h-[3px] w-[2rem] rounded-lg bg-current transform transition duration-300 ease-in-out ${
+                className={`block absolute h-[3px] w-8 bg-current transform transition duration-300 ease-in-out ${
                   isMenuOpen ? "-rotate-45" : "translate-y-1.5"
                 }`}
               />
@@ -102,55 +131,62 @@ const Header = () => {
           </button>
         </div>
 
-        {/* Navigation for large screens */}
         <motion.nav
-          className="hidden lg:block"
+          className="hidden lg:flex flex-grow justify-center items-center"
           variants={navVariants}
           initial="hidden"
           animate="visible"
         >
-          <ul className="flex gap-6 justify-end mr-0">
+          <ul className="flex gap-6">
             {menuItems.map((item) => (
               <motion.li key={item} variants={itemVariants}>
                 <a
                   href="#"
-                  className={`text-white relative group ${
-                    item === "LOGIN"
-                      ? "lg:border lg:border-white lg:rounded-full lg:px-4 lg:py-2 lg:transition lg:duration-300 lg:hover:bg-white lg:hover:text-black"
-                      : "group"
-                  }`}
+                  className="text-white relative group transition-colors duration-300 hover:text-gray-300 pb-1"
                 >
                   {item}
-                  {item !== "LOGIN" && (
-                    <span className="absolute left-0 bottom-0 w-full h-0.5 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-in-out"></span>
-                  )}
+                  <span className="absolute left-0 bottom-0 w-full h-0.5 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-in-out"></span>
                 </a>
               </motion.li>
             ))}
           </ul>
         </motion.nav>
+
+        <motion.div
+          className="hidden lg:block"
+          variants={itemVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <a
+            href="#"
+            className="text-white border border-white rounded-full px-4 py-2 transition duration-300 hover:bg-white hover:text-black"
+          >
+            Login
+          </a>
+        </motion.div>
+
       </div>
 
-      {/* Full-screen menu for medium and small screens */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
-            className="fixed inset-0 bg-black bg-opacity-75 backdrop-blur-sm z-40 lg:hidden flex items-center justify-center"
+            className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm z-40 lg:hidden flex items-center justify-center"
             variants={dropdownVariants}
             initial="hidden"
             animate="visible"
             exit="exit"
           >
             <ul className="text-center">
-              {menuItems.map((item) => (
+              {[...menuItems, "Login"].map((item) => (
                 <motion.li key={item} className="mb-6" variants={itemVariants}>
                   <a
                     href="#"
-                    className="text-white text-2xl relative group"
+                    className="text-white text-2xl relative group transition-colors duration-300 hover:text-gray-300 pb-1"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     {item}
-                    {item !== "LOGIN" && (
+                    {item !== "Login" && (
                       <span className="absolute left-0 bottom-0 w-full h-0.5 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-in-out"></span>
                     )}
                   </a>
@@ -160,7 +196,7 @@ const Header = () => {
           </motion.div>
         )}
       </AnimatePresence>
-    </header>
+    </motion.header>
   );
 };
 
