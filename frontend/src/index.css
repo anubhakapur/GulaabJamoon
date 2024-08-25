@@ -1,3 +1,33 @@
+@import "swiper/css";
+@import "swiper/css/navigation";
+@import "swiper/css/pagination";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: black !important;
+}
+
+.swiper-button-next:after,
+.swiper-button-prev:after {
+  font-size: 25px !important;
+  font-weight: bolder;
+}
+
+.swiper-pagination-bullet {
+  background-color: #808080 !important; /* Grey color for inactive dots */
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #000000 !important; /* Black color for active dot */
+}
+
+@media (max-width: 1023px) {
+  .swiper-button-next,
+  .swiper-button-prev {
+    display: none !important;
+  }
+}
