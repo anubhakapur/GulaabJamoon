@@ -116,7 +116,7 @@ const Header = () => {
                   href="#"
                   className={`text-white relative group ${
                     item === "LOGIN"
-                      ? "lg:border lg:border-white lg:rounded-full lg:px-4 lg:py-2 lg:hover:bg-white lg:hover:text-black lg:transition-colors lg:duration-300"
+                      ? "lg:border lg:border-white lg:rounded-full lg:px-4 lg:py-2 lg:transition lg:duration-300 lg:hover:bg-white lg:hover:text-black"
                       : "group"
                   }`}
                 >
