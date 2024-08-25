@@ -9,7 +9,7 @@ import 'swiper/css/autoplay';
 
 const TripCarousel = ({ trips }) => {
   return (
-    <div className="w-full  bg-white relative px-[3.4rem]">
+    <div className="w-full  bg-white relative px-[3.4rem] select-none">
       <div className="flex justify-between items-center mb-6 px-2">
         <h2 className="text-2xl font-bold text-black">Featured Trips</h2>
         <Link 
@@ -38,7 +38,7 @@ const TripCarousel = ({ trips }) => {
       >
         {trips.map((trip) => (
           <SwiperSlide key={trip.id}>
-            <div className="bg-white my-[1.5rem] rounded-2xl hover:shadow-2xl overflow-hidden transition-all duration-300 hover:scale-105">
+            <div className="bg-white my-[1.7rem] shadow-md rounded-lg hover:shadow-2xl overflow-hidden transition-all duration-300 hover:scale-105">
               <img
                 src={trip.image}
                 alt={trip.name}
