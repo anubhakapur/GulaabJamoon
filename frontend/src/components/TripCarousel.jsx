@@ -10,16 +10,31 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const TripCarousel = ({ trips }) => {
   const [activeImage, setActiveImage] = useState("");
-  const [showBackground, setShowBackground] = useState(false);
+  const [prevImage, setPrevImage] = useState("");
 
   useEffect(() => {
-    if (activeImage) {
-      setShowBackground(true);
-    } else {
-      const timer = setTimeout(() => setShowBackground(false), 500);
-      return () => clearTimeout(timer);
+    if (activeImage !== prevImage) {
+      setPrevImage(activeImage);
     }
-  }, [activeImage]);
+  }, [activeImage, prevImage]);
+
+  const BackgroundImage = ({ image, isActive }) => (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: isActive ? 1 : 0 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+      className="absolute inset-0 z-0"
+      style={{
+        backgroundImage: `url(${image})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
+      <div className="absolute inset-0 backdrop-blur-md bg-white/30"></div>
+    </motion.div>
+  );
 
   return (
     <motion.div
@@ -51,23 +66,8 @@ const TripCarousel = ({ trips }) => {
 
       <div className="w-full relative select-none">
         <AnimatePresence>
-          {showBackground && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.5 }}
-              className="absolute inset-0 z-0"
-              style={{
-                backgroundImage: `url(${activeImage})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                backgroundRepeat: "no-repeat",
-              }}
-            >
-              <div className="absolute inset-0 backdrop-blur-md bg-white/30"></div>
-            </motion.div>
-          )}
+          <BackgroundImage image={prevImage} isActive={!activeImage} key="prev" />
+          <BackgroundImage image={activeImage} isActive={!!activeImage} key="active" />
         </AnimatePresence>
         <div className="relative z-10 container mx-auto px-4 py-8">
           <div className="swiper-button-prev absolute left-0 top-1/2 transform -translate-y-1/2 z-20 text-black -ml-12"></div>
