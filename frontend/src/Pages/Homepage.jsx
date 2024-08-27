@@ -4,7 +4,7 @@ import Hero from "../components/Hero";
 import TripCarousel from "../components/TripCarousel";
 import trips from "../assets/data/trips";
 import TestimonialPage from "../components/TestimonialPage";
-import { motion } from "framer-motion";
+// import { motion } from "framer-motion";
 
 const Homepage = () => {
   return (
