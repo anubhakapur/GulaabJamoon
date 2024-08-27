@@ -3,7 +3,8 @@ import Header from "../components/Header";
 import Hero from "../components/Hero";
 import TripCarousel from "../components/TripCarousel";
 import trips from "../assets/data/trips";
-import Testimonials from "../components/testimonials"
+import TestimonialPage from "../components/TestimonialPage";
+import { motion } from "framer-motion";
 
 const Homepage = () => {
   return (
@@ -25,7 +26,7 @@ const Homepage = () => {
           Discover Our Trips
         </motion.h1>
         <TripCarousel trips={trips} />
-        <Testimonials />
+        <TestimonialPage />
       </motion.div>
     </div>
   );
