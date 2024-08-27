@@ -2,9 +2,8 @@ import React from "react";
 import Header from "../components/Header";
 import Hero from "../components/Hero";
 import TripCarousel from "../components/TripCarousel";
-import { motion } from "framer-motion";
 import trips from "../assets/data/trips";
-
+import Testimonials from "../components/testimonials"
 
 const Homepage = () => {
   return (
@@ -26,6 +25,7 @@ const Homepage = () => {
           Discover Our Trips
         </motion.h1>
         <TripCarousel trips={trips} />
+        <Testimonials />
       </motion.div>
     </div>
   );
