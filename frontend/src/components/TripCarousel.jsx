@@ -51,28 +51,37 @@ const TripCarousel = ({ trips }) => {
       >
         Discover Our Trips
       </motion.h1>
-      
+
       <div className="flex justify-between items-center mb-6 px-4 md:px-8 lg:px-16">
         <h2 className="text-xl md:text-2xl font-bold text-black">
           Featured Trips
         </h2>
         <Link
           to="/all-trips"
-          className="text-black font-semibold hover:underline"
+          className="text-black font-semibold relative group transition-colors duration-300 hover:text-gray-700 pb-1"
         >
           View All
+          <span className="absolute left-0 bottom-0 w-full h-0.5 bg-black transform scale-x-0 group-hover:scale-x-110 transition-transform duration-300 ease-in-out "></span>
         </Link>
       </div>
 
       <div className="w-full relative select-none">
         <AnimatePresence>
-          <BackgroundImage image={prevImage} isActive={!activeImage} key="prev" />
-          <BackgroundImage image={activeImage} isActive={!!activeImage} key="active" />
+          <BackgroundImage
+            image={prevImage}
+            isActive={!activeImage}
+            key="prev"
+          />
+          <BackgroundImage
+            image={activeImage}
+            isActive={!!activeImage}
+            key="active"
+          />
         </AnimatePresence>
         <div className="relative z-10 container mx-auto px-4 py-8">
           <div className="swiper-button-prev absolute left-0 top-1/2 transform -translate-y-1/2 z-20 text-black -ml-12"></div>
           <div className="swiper-button-next absolute right-0 top-1/2 transform -translate-y-1/2 z-20 text-black -mr-12"></div>
-          
+
           <Swiper
             modules={[Navigation, Pagination, A11y, Autoplay]}
             spaceBetween={30}
