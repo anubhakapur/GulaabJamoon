@@ -25,6 +25,36 @@
   background-color: #000000 !important; /* Black color for active dot */
 }
 
+.testimonial-swiper .swiper-button-next,
+.testimonial-swiper .swiper-button-prev {
+  color: #1F2937;
+  background-color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.testimonial-swiper .swiper-button-next:after,
+.testimonial-swiper .swiper-button-prev:after {
+  font-size: 18px;
+}
+
+.testimonial-swiper .swiper-pagination-bullet {
+  background-color: #4B5563;
+  opacity: 0.5;
+}
+
+.testimonial-swiper .swiper-pagination-bullet-active {
+  opacity: 1;
+  background-color: #1F2937;
+}
+
+.testimonial-swiper .swiper-button-next:hover,
+.testimonial-swiper .swiper-button-prev:hover {
+  background-color: #F3F4F6;
+}
+
 @media (max-width: 1023px) {
   .swiper-button-next,
   .swiper-button-prev {
