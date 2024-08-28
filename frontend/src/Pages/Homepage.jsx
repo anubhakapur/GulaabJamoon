@@ -4,6 +4,7 @@ import Hero from "../components/Hero";
 import TripCarousel from "../components/TripCarousel";
 import trips from "../assets/data/trips";
 import TestimonialPage from "../components/TestimonialPage";
+import Footer from "../components/Footer";
 // import { motion } from "framer-motion";
 
 const Homepage = () => {
@@ -13,6 +14,7 @@ const Homepage = () => {
       <Hero />
       <TripCarousel trips={trips} />
       <TestimonialPage />
+      <Footer/>
     </div>
   );
 };
