@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import GJlogo from "../assets/images/GJlogo.svg";
 
-const Header = () => {
+const Header = ({home}) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [isAtTop, setIsAtTop] = useState(true);
@@ -82,7 +82,7 @@ const Header = () => {
     <>
       <motion.header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          !isAtTop ? "bg-black bg-opacity-70 backdrop-blur-sm" : ""
+          !home || !isAtTop ? "bg-black bg-opacity-70 backdrop-blur-sm" : ""
         }`}
         initial={{ y: 0 }}
         animate={{ y: isVisible ? 0 : "-100%" }}

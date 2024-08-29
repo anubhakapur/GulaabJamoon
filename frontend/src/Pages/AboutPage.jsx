@@ -2,12 +2,14 @@ import React from "react";
 import { motion } from "framer-motion";
 import { FaQuoteLeft, FaQuoteRight } from "react-icons/fa";
 import Footer from "../components/Footer";
+import Header from "../components/Header";
 
 const AboutPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-300 text-gray-800 overflow-hidden select-none">
+      <Header home={false} />
       <motion.h1
-        className="text-6xl md:text-8xl font-extrabold text-gray-900 text-center py-20"
+        className="text-6xl md:text-8xl font-extrabold text-gray-900 text-center pt-[9rem] pb-[5rem]"
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, ease: "easeOut" }}

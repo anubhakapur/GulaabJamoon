@@ -11,7 +11,7 @@ import backgroundImage from "/src/assets/images/bg-main-test2.jpg";
 const Homepage = () => {
   return (
     <div className="bg-white min-h-screen">
-      <Header />
+      <Header home={true}/>
       <Hero backgroundImage={backgroundImage} />
       <TripCarousel trips={trips} />
       <TestimonialPage />
