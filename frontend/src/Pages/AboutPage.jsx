@@ -5,7 +5,7 @@ import Footer from "../components/Footer";
 
 const AboutPage = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-300 text-gray-800 overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-300 text-gray-800 overflow-hidden select-none">
       <motion.h1
         className="text-6xl md:text-8xl font-extrabold text-gray-900 text-center py-20"
         initial={{ opacity: 0, y: -50 }}
