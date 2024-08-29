@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import backgroundImage from '/src/assets/images/bg-main-test2.jpg';
 
-const Hero = () => {
+const Hero = ({backgroundImage}) => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const heroRef = useRef(null);
 
