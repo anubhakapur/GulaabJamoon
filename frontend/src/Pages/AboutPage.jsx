@@ -38,7 +38,7 @@ const AboutPage = () => {
         <div className="relative">
           <FaQuoteLeft className="text-4xl text-purple-400 absolute top-0 left-0" />
           <p className="text-xl leading-relaxed pl-10 pr-10 italic">
-            <p className="text-lg text-gray-300">
+            <p className="text-lg text-gray-400 transition-colors hover:text-white duration-300">
               We are a unique company, born from the vision of a group of
               friends who wanted to bring people together through shared
               experiences. From trips and treks, to movie nights and comedy
