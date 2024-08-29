@@ -38,7 +38,7 @@ const AboutPage = () => {
         <div className="relative">
           <FaQuoteLeft className="text-4xl text-purple-400 absolute top-0 left-0" />
           <p className="text-xl leading-relaxed pl-10 pr-10 italic">
-            <p className="text-lg text-gray-300">
+            <p className="text-lg text-gray-400 transition-colors hover:text-white duration-300">
               We are a unique company, born from the vision of a group of
               friends who wanted to bring people together through shared
               experiences. From trips and treks, to movie nights and comedy
@@ -66,11 +66,11 @@ const AboutPage = () => {
         <h2 className="text-4xl sm:text-5xl font-bold text-center mb-16 text-gray-800">
           Know Your Hosts
           <motion.div
-          className="h-1 bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 mt-4 mx-auto"
-          initial={{ width: 0 }}
-          animate={{ width: "40%" }}
-          transition={{ duration: 1.5, delay: 0.5 }}
-        />
+            className="h-1 bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 mt-4 mx-auto"
+            initial={{ width: 0 }}
+            animate={{ width: "40%" }}
+            transition={{ duration: 1.5, delay: 0.5 }}
+          />
         </h2>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 space-y-20">
           <HostCard
@@ -109,7 +109,7 @@ const HostCard = ({ name, location, image, description }) => {
             src={`https://api.dicebear.com/6.x/avataaars/svg?seed=${name}`}
             alt={name}
             className="w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 rounded-full flex-shrink-0 border-4 border-purple-600 shadow-lg"
-            whileHover={{ scale: 1.1, rotate: 360 }}
+            whileHover={{ scale: 1.1 }}
             transition={{ duration: 0.5 }}
           />
         </div>
@@ -122,7 +122,7 @@ const HostCard = ({ name, location, image, description }) => {
           </div>
           <div className="relative">
             <FaQuoteLeft className="text-2xl sm:text-3xl md:text-4xl text-purple-400 absolute top-0 left-0" />
-            <p className="text-base sm:text-lg md:text-xl leading-relaxed pl-8 sm:pl-10 md:pl-12 pr-8 sm:pr-10 md:pr-12 italic text-gray-300">
+            <p className="text-base sm:text-lg md:text-xl leading-relaxed pl-8 sm:pl-10 md:pl-12 pr-8 sm:pr-10 md:pr-12 italic text-gray-400 transition-colors hover:text-white duration-300">
               {description}
             </p>
             <FaQuoteRight className="text-2xl sm:text-3xl md:text-4xl text-pink-500 absolute bottom-0 right-0" />
