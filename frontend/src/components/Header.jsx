@@ -144,7 +144,7 @@ const Header = () => {
               {menuItems.map((item) => (
                 <motion.li key={item} variants={itemVariants}>
                   <a
-                    href="#"
+                    href={`/${item.toLowerCase()}`}
                     className="text-white relative group transition-colors duration-300 hover:text-gray-300 pb-1"
                   >
                     {item}
