@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import backgroundVideo from '/src/assets/images/bgvid.mp4'; // Update this path to your video file
 
 const Button = ({ children, className, ...props }) => (
@@ -20,6 +20,15 @@ const Input = ({ className, ...props }) => (
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.play().catch(error => {
+        console.error("Video playback failed:", error);
+      });
+    }
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -30,9 +39,11 @@ const Login = () => {
     <div className="relative min-h-screen w-full flex items-center justify-center p-4">
       {/* Video background */}
       <video
+        ref={videoRef}
         autoPlay
         loop
         muted
+        playsInline
         className="absolute inset-0 w-full h-full object-cover"
       >
         <source src={backgroundVideo} type="video/mp4" />
@@ -44,7 +55,7 @@ const Login = () => {
       
       {/* Login form container */}
       <div className="relative z-10 w-full max-w-md bg-black bg-opacity-50 rounded-lg p-4 sm:p-6 backdrop-blur-sm">
-        <h1 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4">Log in</h1>
+        <h1 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4 text-center">Log in</h1>
         
         <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
           <div>
