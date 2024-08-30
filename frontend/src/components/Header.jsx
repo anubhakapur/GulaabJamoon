@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "react-router-dom";
 import GJlogo from "../assets/images/GJlogo.svg";
 
-const Header = ({home}) => {
+const Header = ({ home }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [isAtTop, setIsAtTop] = useState(true);
@@ -161,12 +162,12 @@ const Header = ({home}) => {
             initial="hidden"
             animate="visible"
           >
-            <a 
-              href="#"
+            <Link 
+              to="/signin"
               className="text-white border border-white rounded-full px-4 py-2 transition duration-300 hover:bg-white hover:text-black"
             >
               Login
-            </a>
+            </Link>
           </motion.div>
         </div>
       </motion.header>
@@ -174,7 +175,7 @@ const Header = ({home}) => {
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
-            className="fixed inset-0 bg-black/90  z-50 lg:hidden flex items-center justify-center"
+            className="fixed inset-0 bg-black/90 z-50 lg:hidden flex items-center justify-center"
             variants={dropdownVariants}
             initial="hidden"
             animate="visible"
@@ -201,20 +202,27 @@ const Header = ({home}) => {
               </svg>
             </button>
             <ul className="text-center">
-              {[...menuItems, "Login"].map((item) => (
+              {menuItems.map((item) => (
                 <motion.li key={item} className="mb-6" variants={itemVariants}>
                   <a
-                    href="#"
+                    href={`/${item.toLowerCase()}`}
                     className="text-white text-2xl relative group transition-colors duration-300 hover:text-gray-300 pb-1"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     {item}
-                    {item !== "Login" && (
-                      <span className="absolute left-0 bottom-0 w-full h-0.5 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-in-out"></span>
-                    )}
+                    <span className="absolute left-0 bottom-0 w-full h-0.5 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-in-out"></span>
                   </a>
                 </motion.li>
               ))}
+              <motion.li className="mb-6" variants={itemVariants}>
+                <Link
+                  to="/signin"
+                  className="text-white text-2xl relative group transition-colors duration-300 hover:text-gray-300 pb-1"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Login
+                </Link>
+              </motion.li>
             </ul>
           </motion.div>
         )}
