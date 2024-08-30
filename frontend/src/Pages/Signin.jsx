@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import backgroundImage from '/src/assets/images/test2.png';
 const Button = ({ children, className, ...props }) => (
   <button 
     className={`px-4 py-2 rounded-md transition duration-300 ${className}`} 
@@ -27,7 +27,7 @@ const Login = () => {
 
   return (
     <div className="relative min-h-screen w-full bg-cover bg-center flex items-center justify-center" 
-         style={{backgroundImage: `url('/src/assets/images/test2.png')`}}>
+         style={{backgroundImage: `url(${backgroundImage})`}}>
       {/* Semi-transparent black overlay */}
       <div className="absolute inset-0 bg-black opacity-15"></div>
       
