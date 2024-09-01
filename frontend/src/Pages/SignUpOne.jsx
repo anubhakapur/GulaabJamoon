@@ -1,7 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import backgroundVideo from "/src/assets/images/bgvid.mp4"; // Update this path to your video file
+import backgroundVideo from "/src/assets/images/bgvid.mp4";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Button = ({ children, className, ...props }) => (
   <motion.button
@@ -22,9 +24,11 @@ const Input = ({ className, ...props }) => (
   />
 );
 
-const SignIn = () => {
+const SignUpOne = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   const videoRef = useRef(null);
 
   useEffect(() => {
@@ -35,14 +39,36 @@ const SignIn = () => {
     }
   }, []);
 
+  const validateEmail = (email) => {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    return emailRegex.test(email);
+  };
+
+  const validatePassword = (password) => {
+    const passwordRegex =
+      /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{7,}$/;
+    return passwordRegex.test(password);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle login logic here
+    setEmailError("");
+    setPasswordError("");
+    if (!validateEmail(email)) {
+      setEmailError("Please enter a valid email address.");
+    } else if (!validatePassword(password)) {
+      setPasswordError(
+        "Password must include at least 7 characters, a symbol, a number, and an uppercase letter."
+      );
+    } else {
+      toast.success("Verification email sent");
+      setEmail("");
+      setPassword("");
+    }
   };
 
   return (
     <div className="relative min-h-screen w-full flex items-center justify-center p-4">
-      {/* Video background */}
       <video
         ref={videoRef}
         autoPlay
@@ -55,10 +81,8 @@ const SignIn = () => {
         Your browser does not support the video tag.
       </video>
 
-      {/* Semi-transparent black overlay */}
       <div className="absolute inset-0 bg-black opacity-15"></div>
 
-      {/* Login form container */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -66,7 +90,7 @@ const SignIn = () => {
         className="relative z-10 w-full max-w-md bg-black bg-opacity-50 rounded-lg p-4 sm:p-6 backdrop-blur-sm"
       >
         <h1 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4 text-center">
-          Sign in
+          Sign Up
         </h1>
 
         <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
@@ -82,9 +106,15 @@ const SignIn = () => {
               type="email"
               placeholder="Enter Your Email Address"
               value={email}
+              required
               onChange={(e) => setEmail(e.target.value)}
-              className="bg-black bg-opacity-50 text-white placeholder-gray-400 border border-white rounded-md focus:outline-none focus:ring-1 focus:ring-white hover:bg-opacity-75"
+              className={`bg-black bg-opacity-50 text-white placeholder-gray-400 border border-white rounded-md focus:outline-none focus:ring-1 focus:ring-white hover:bg-opacity-75 ${
+                emailError ? "border-red-500" : ""
+              }`}
             />
+            {emailError && (
+              <p className="text-red-500 text-xs mt-1">{emailError}</p>
+            )}
           </div>
           <div>
             <label
@@ -97,16 +127,22 @@ const SignIn = () => {
               id="password"
               type="password"
               placeholder="Enter Your Password"
+              required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="bg-black bg-opacity-50 text-white placeholder-gray-400 border border-white rounded-md focus:outline-none focus:ring-1 focus:ring-white hover:bg-opacity-75"
+              className={`bg-black bg-opacity-50 text-white placeholder-gray-400 border border-white rounded-md focus:outline-none focus:ring-1 focus:ring-white hover:bg-opacity-75 ${
+                passwordError ? "border-red-500" : ""
+              }`}
             />
+            {passwordError && (
+              <p className="text-red-500 text-xs mt-1">{passwordError}</p>
+            )}
           </div>
           <Button
             type="submit"
             className="bg-white text-black rounded-md hover:bg-opacity-90 active:bg-opacity-100 transition-all duration-300"
           >
-            Sign In
+            Continue
           </Button>
         </form>
 
@@ -123,21 +159,23 @@ const SignIn = () => {
               d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.748L12.545,10.239z"
             />
           </svg>
-          Log in with Google
+          Sign up with Google
         </Button>
 
         <p className="mt-3 sm:mt-4 text-center text-gray-300 text-xs sm:text-sm">
-          Don't have an account?
+          Already have an account?
           <Link
-            to="/signupone"
+            to="/signin"
             className="text-white hover:underline ml-1 transition duration-300"
           >
-            Sign up
+            Sign in
           </Link>
         </p>
       </motion.div>
+
+      <ToastContainer />
     </div>
   );
 };
 
-export default SignIn;
+export default SignUpOne;

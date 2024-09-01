@@ -5,7 +5,8 @@ import AllTripsPage from "./Pages/AllTripsPage";
 import trips from "./assets/data/trips";
 import AboutPage from "./Pages/AboutPage";
 import SignIn from "./Pages/SignIn";
-import SignUp from "./Pages/Signup";
+import SignUpOne from "./Pages/SignUpOne";
+import SignUpTwo from "./Pages/SignUpTwo";
 
 const App = () => {
   return (
@@ -16,7 +17,8 @@ const App = () => {
           <Route path="/all-trips" element={<AllTripsPage trips={trips} />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/signin" element={<SignIn />} />
-          <Route path="/signup" element={<SignUp />} />
+          <Route path="/signupone" element={<SignUpOne />} />
+          <Route path="/signuptwo" element={<SignUpTwo />} />
         </Routes>
       </BrowserRouter>
     </div>

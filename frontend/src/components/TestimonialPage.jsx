@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FaStar, FaQuoteLeft, FaQuoteRight } from 'react-icons/fa';
-import { BsPeople } from 'react-icons/bs';
-import testimonials from '../assets/data/testimonials';
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { FaStar, FaQuoteLeft, FaQuoteRight } from "react-icons/fa";
+import { BsPeople } from "react-icons/bs";
+import testimonials from "../assets/data/testimonials";
 
 const TestimonialCard = ({ name, title, comment, rating }) => (
   <motion.div
@@ -48,16 +48,18 @@ const CustomSlider = ({ value, onChange, max }) => (
       onChange={onChange}
       className="w-full appearance-none bg-transparent cursor-pointer"
       style={{
-        '--range-color': '#4B5563',
+        "--range-color": "#4B5563",
       }}
     />
     <div
       className="absolute top-1/2 left-0 right-0 h-2 -mt-1 rounded-full bg-gray-300"
       style={{
-        background: `linear-gradient(to right, #4B5563 0%, #4B5563 ${(value / max) * 100}%, #D1D5DB ${(value / max) * 100}%, #D1D5DB 100%)`,
+        background: `linear-gradient(to right, #4B5563 0%, #4B5563 ${
+          (value / max) * 100
+        }%, #D1D5DB ${(value / max) * 100}%, #D1D5DB 100%)`,
       }}
     ></div>
-    <style jsx>{`
+    <style>{`
       input[type="range"] {
         -webkit-appearance: none;
         margin: 10px 0;
@@ -175,7 +177,10 @@ const TestimonialPage = () => {
 
         <div className="relative mb-8">
           <AnimatePresence mode="wait">
-            <TestimonialCard key={currentIndex} {...testimonials[currentIndex]} />
+            <TestimonialCard
+              key={currentIndex}
+              {...testimonials[currentIndex]}
+            />
           </AnimatePresence>
         </div>
 
