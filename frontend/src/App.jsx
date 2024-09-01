@@ -4,7 +4,9 @@ import Homepage from "./Pages/Homepage";
 import AllTripsPage from "./Pages/AllTripsPage";
 import trips from "./assets/data/trips";
 import AboutPage from "./Pages/AboutPage";
-import Signin from "./Pages/Signin";
+import SignIn from "./Pages/SignIn";
+import SignUp from "./Pages/Signup";
+
 const App = () => {
   return (
     <div className="te">
@@ -13,7 +15,8 @@ const App = () => {
           <Route path="/" element={<Homepage />} />
           <Route path="/all-trips" element={<AllTripsPage trips={trips} />} />
           <Route path="/about" element={<AboutPage />} />
-          <Route path="/signin" element={<Signin />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
         </Routes>
       </BrowserRouter>
     </div>
