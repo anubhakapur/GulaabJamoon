@@ -1,7 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
-import backgroundVideo from "/src/assets/images/bgvid.mp4"; // Update this path to your video file
-import { Link } from "react-router-dom";
+import backgroundVideo from "/src/assets/images/bgvid.mp4";
+import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Button = ({ children, className, ...props }) => (
   <motion.button
@@ -22,14 +24,18 @@ const Input = ({ className, ...props }) => (
   />
 );
 
-const SignUp = () => {
+const SignUpTwo = () => {
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [password, setPassword] = useState("");
   const [dob, setDob] = useState("");
   const [gender, setGender] = useState("");
+  const [occupation, setOccupation] = useState("");
+  const [otherOccupation, setOtherOccupation] = useState("");
+  const [redirecting, setRedirecting] = useState(false);
+  const [timer, setTimer] = useState(3);
+  const [phoneError, setPhoneError] = useState("");
   const videoRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (videoRef.current) {
@@ -39,9 +45,45 @@ const SignUp = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (redirecting && timer > 0) {
+      const countdown = setInterval(() => {
+        setTimer((prev) => prev - 1);
+      }, 1000);
+      return () => clearInterval(countdown);
+    }
+    if (timer === 0) {
+      navigate("/");
+    }
+  }, [redirecting, timer, navigate]);
+
+  const validatePhoneNumber = (phone) => {
+    const phonePattern = /^\d{10}$/;
+    return phonePattern.test(phone);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle sign up logic here
+
+    if (!validatePhoneNumber(phone)) {
+      setPhoneError("Phone number must contain exactly 10 digits.");
+      return;
+    } else {
+      setPhoneError("");
+    }
+
+    if (name && phone && dob && gender && occupation) {
+      toast.success("SignUp successful!", {
+        position: "top-right",
+        autoClose: 3000,
+      });
+      setName("");
+      setPhone("");
+      setDob("");
+      setGender("");
+      setOccupation("");
+      setRedirecting(true);
+    }
   };
 
   return (
@@ -69,8 +111,8 @@ const SignUp = () => {
         transition={{ duration: 0.6 }}
         className="relative z-10 w-full max-w-md bg-black bg-opacity-50 rounded-lg p-4 sm:p-6 backdrop-blur-sm"
       >
-        <h1 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4 text-center">
-          Sign Up
+        <h1 className="text-2xl sm:text-2xl font-bold text-white mb-3 sm:mb-4 text-center">
+          Help us know more about You
         </h1>
 
         <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
@@ -87,25 +129,11 @@ const SignUp = () => {
               placeholder="Enter Your Name"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              required
               className="bg-black bg-opacity-50 text-white placeholder-gray-400 border border-white rounded-md focus:outline-none focus:ring-1 focus:ring-white hover:bg-opacity-75"
             />
           </div>
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-xs sm:text-sm font-medium text-gray-300 mb-1"
-            >
-              Email
-            </label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="Enter Your Email Address"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="bg-black bg-opacity-50 text-white placeholder-gray-400 border border-white rounded-md focus:outline-none focus:ring-1 focus:ring-white hover:bg-opacity-75"
-            />
-          </div>
+
           <div>
             <label
               htmlFor="phone"
@@ -119,25 +147,14 @@ const SignUp = () => {
               placeholder="Enter Your Phone Number"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
+              required
               className="bg-black bg-opacity-50 text-white placeholder-gray-400 border border-white rounded-md focus:outline-none focus:ring-1 focus:ring-white hover:bg-opacity-75"
             />
+            {phoneError && (
+              <p className="text-red-500 text-xs mt-1">{phoneError}</p>
+            )}
           </div>
-          <div>
-            <label
-              htmlFor="password"
-              className="block text-xs sm:text-sm font-medium text-gray-300 mb-1"
-            >
-              Password
-            </label>
-            <Input
-              id="password"
-              type="password"
-              placeholder="Enter Your Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="bg-black bg-opacity-50 text-white placeholder-gray-400 border border-white rounded-md focus:outline-none focus:ring-1 focus:ring-white hover:bg-opacity-75"
-            />
-          </div>
+
           <div>
             <label
               htmlFor="dob"
@@ -150,9 +167,11 @@ const SignUp = () => {
               type="date"
               value={dob}
               onChange={(e) => setDob(e.target.value)}
+              required
               className="bg-black bg-opacity-50 text-white placeholder-gray-400 border border-white rounded-md focus:outline-none focus:ring-1 focus:ring-white hover:bg-opacity-75"
             />
           </div>
+
           <div>
             <label
               htmlFor="gender"
@@ -165,6 +184,7 @@ const SignUp = () => {
               id="gender"
               value={gender}
               onChange={(e) => setGender(e.target.value)}
+              required
               className="w-full px-3 py-2 sm:px-4 sm:py-3 rounded-md bg-black bg-opacity-50 text-white placeholder-gray-400 border border-white focus:outline-none focus:ring-1 focus:ring-white hover:bg-opacity-75 appearance-none"
               style={{ paddingRight: "2.5rem" }} // Padding to ensure arrow is not cut off
             >
@@ -176,6 +196,61 @@ const SignUp = () => {
               <option value="Other">Other</option>
             </motion.select>
           </div>
+
+          <div>
+            <label
+              htmlFor="occupation"
+              className="block text-xs sm:text-sm font-medium text-gray-300 mb-1"
+            >
+              Occupation
+            </label>
+            <motion.select
+              whileFocus={{ scale: 1.02 }}
+              id="occupation"
+              value={occupation}
+              onChange={(e) => setOccupation(e.target.value)}
+              required
+              className="w-full px-3 py-2 sm:px-4 sm:py-3 rounded-md bg-black bg-opacity-50 text-white placeholder-gray-400 border border-white focus:outline-none focus:ring-1 focus:ring-white hover:bg-opacity-75 appearance-none"
+              style={{ paddingRight: "2.5rem" }}
+            >
+              <option value="" disabled>
+                Select Occupation
+              </option>
+              <option value="Engineer">Engineer</option>
+              <option value="Teacher">Teacher</option>
+              <option value="Doctor">Doctor</option>
+              <option value="Accountant">Accountant</option>
+              <option value="Business">Business</option>
+              <option value="Student">Student</option>
+              <option value="Other">Other</option>
+            </motion.select>
+          </div>
+
+          {occupation === "Other" && (
+            <div>
+              <label
+                htmlFor="otherOccupation"
+                className="block text-xs sm:text-sm font-medium text-gray-300 mb-1"
+              >
+                Specify Occupation
+              </label>
+              <Input
+                id="otherOccupation"
+                type="text"
+                placeholder="Enter your occupation"
+                value={otherOccupation}
+                onChange={(e) => setOtherOccupation(e.target.value)}
+                className="bg-black bg-opacity-50 text-white placeholder-gray-400 border border-white rounded-md focus:outline-none focus:ring-1 focus:ring-white hover:bg-opacity-75"
+              />
+            </div>
+          )}
+
+          {redirecting && (
+            <p className="text-center text-white mb-3">
+              Redirecting to home in {timer} seconds...
+            </p>
+          )}
+
           <Button
             type="submit"
             className="bg-white text-black rounded-md hover:bg-opacity-90 active:bg-opacity-100 transition-all duration-300"
@@ -183,25 +258,19 @@ const SignUp = () => {
             Sign Up
           </Button>
         </form>
-
-        <div className="flex items-center my-3 sm:my-4">
-          <div className="flex-grow border-t border-gray-600"></div>
-          <span className="px-2 text-gray-400 text-xs sm:text-sm">or</span>
-          <div className="flex-grow border-t border-gray-600"></div>
-        </div>
-
-        <p className="mt-3 sm:mt-4 text-center text-gray-300 text-xs sm:text-sm">
-          Already have an account?
-          <Link
-            to="/signin"
-            className="text-white hover:underline ml-1 transition duration-300"
-          >
-            Log in
-          </Link>
-        </p>
       </motion.div>
+
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar
+        closeOnClick
+        rtl={false}
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 };
 
-export default SignUp;
+export default SignUpTwo;
