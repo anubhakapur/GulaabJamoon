@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
 import backgroundVideo from "/src/assets/images/bgvid.mp4"; // Update this path to your video file
+import { Link } from "react-router-dom";
 
 const Button = ({ children, className, ...props }) => (
   <motion.button
@@ -22,9 +22,13 @@ const Input = ({ className, ...props }) => (
   />
 );
 
-const SignIn = () => {
+const SignUp = () => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
+  const [dob, setDob] = useState("");
+  const [gender, setGender] = useState("");
   const videoRef = useRef(null);
 
   useEffect(() => {
@@ -37,7 +41,7 @@ const SignIn = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle login logic here
+    // Handle sign up logic here
   };
 
   return (
@@ -58,7 +62,7 @@ const SignIn = () => {
       {/* Semi-transparent black overlay */}
       <div className="absolute inset-0 bg-black opacity-15"></div>
 
-      {/* Login form container */}
+      {/* Sign up form container */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -66,10 +70,26 @@ const SignIn = () => {
         className="relative z-10 w-full max-w-md bg-black bg-opacity-50 rounded-lg p-4 sm:p-6 backdrop-blur-sm"
       >
         <h1 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4 text-center">
-          Log in
+          Sign Up
         </h1>
 
         <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
+          <div>
+            <label
+              htmlFor="name"
+              className="block text-xs sm:text-sm font-medium text-gray-300 mb-1"
+            >
+              Name
+            </label>
+            <Input
+              id="name"
+              type="text"
+              placeholder="Enter Your Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="bg-black bg-opacity-50 text-white placeholder-gray-400 border border-white rounded-md focus:outline-none focus:ring-1 focus:ring-white hover:bg-opacity-75"
+            />
+          </div>
           <div>
             <label
               htmlFor="email"
@@ -83,6 +103,22 @@ const SignIn = () => {
               placeholder="Enter Your Email Address"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              className="bg-black bg-opacity-50 text-white placeholder-gray-400 border border-white rounded-md focus:outline-none focus:ring-1 focus:ring-white hover:bg-opacity-75"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="phone"
+              className="block text-xs sm:text-sm font-medium text-gray-300 mb-1"
+            >
+              Phone Number
+            </label>
+            <Input
+              id="phone"
+              type="tel"
+              placeholder="Enter Your Phone Number"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
               className="bg-black bg-opacity-50 text-white placeholder-gray-400 border border-white rounded-md focus:outline-none focus:ring-1 focus:ring-white hover:bg-opacity-75"
             />
           </div>
@@ -102,11 +138,49 @@ const SignIn = () => {
               className="bg-black bg-opacity-50 text-white placeholder-gray-400 border border-white rounded-md focus:outline-none focus:ring-1 focus:ring-white hover:bg-opacity-75"
             />
           </div>
+          <div>
+            <label
+              htmlFor="dob"
+              className="block text-xs sm:text-sm font-medium text-gray-300 mb-1"
+            >
+              Date of Birth
+            </label>
+            <Input
+              id="dob"
+              type="date"
+              value={dob}
+              onChange={(e) => setDob(e.target.value)}
+              className="bg-black bg-opacity-50 text-white placeholder-gray-400 border border-white rounded-md focus:outline-none focus:ring-1 focus:ring-white hover:bg-opacity-75"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="gender"
+              className="block text-xs sm:text-sm font-medium text-gray-300 mb-1"
+            >
+              Gender
+            </label>
+            <motion.select
+              whileFocus={{ scale: 1.02 }}
+              id="gender"
+              value={gender}
+              onChange={(e) => setGender(e.target.value)}
+              className="w-full px-3 py-2 sm:px-4 sm:py-3 rounded-md bg-black bg-opacity-50 text-white placeholder-gray-400 border border-white focus:outline-none focus:ring-1 focus:ring-white hover:bg-opacity-75 appearance-none"
+              style={{ paddingRight: "2.5rem" }} // Padding to ensure arrow is not cut off
+            >
+              <option value="" disabled>
+                Select Gender
+              </option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </motion.select>
+          </div>
           <Button
             type="submit"
             className="bg-white text-black rounded-md hover:bg-opacity-90 active:bg-opacity-100 transition-all duration-300"
           >
-            Sign In
+            Sign Up
           </Button>
         </form>
 
@@ -116,23 +190,13 @@ const SignIn = () => {
           <div className="flex-grow border-t border-gray-600"></div>
         </div>
 
-        <Button className="bg-black bg-opacity-50 text-white border border-white rounded-md hover:bg-opacity-75 active:bg-opacity-100 flex items-center justify-center transition-all duration-300">
-          <svg className="w-4 h-4 sm:w-5 sm:h-5 mr-2" viewBox="0 0 24 24">
-            <path
-              fill="currentColor"
-              d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.748L12.545,10.239z"
-            />
-          </svg>
-          Log in with Google
-        </Button>
-
         <p className="mt-3 sm:mt-4 text-center text-gray-300 text-xs sm:text-sm">
-          Don't have an account?
+          Already have an account?
           <Link
-            to="/signup"
+            to="/signin"
             className="text-white hover:underline ml-1 transition duration-300"
           >
-            Sign up
+            Log in
           </Link>
         </p>
       </motion.div>
@@ -140,4 +204,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default SignUp;

@@ -96,14 +96,17 @@ const Header = ({ home }) => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
           >
-            <motion.img
-              src={GJlogo}
-              alt="GJ"
-              className="w-[7vh] mr-2 cursor-pointer"
-              whileHover={{ scale: 1.1 }}
-              transition={{ type: "spring", stiffness: 400, damping: 10 }}
-            />
-            <h1 className="text-white text-xl font-bold">Gulaab Jamoon</h1>
+            <Link to="/">
+              <motion.img
+                src={GJlogo}
+                alt="GJ"
+                className="w-[7vh] mr-2 cursor-pointer"
+                whileHover={{ scale: 1.1 }}
+                transition={{ type: "spring", stiffness: 400, damping: 10 }}
+              />
+            </Link>
+
+              <h1 className="text-white text-xl font-bold">Gulaab Jamoon</h1>
           </motion.div>
 
           <div className="lg:hidden z-50">
@@ -162,7 +165,7 @@ const Header = ({ home }) => {
             initial="hidden"
             animate="visible"
           >
-            <Link 
+            <Link
               to="/signin"
               className="text-white border border-white rounded-full px-4 py-2 transition duration-300 hover:bg-white hover:text-black"
             >
