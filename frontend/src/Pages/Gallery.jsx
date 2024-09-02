@@ -1,78 +1,69 @@
-import React from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination, Autoplay } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import 'swiper/css/autoplay';
+import React, { useState } from 'react';
 
-const TripGallery = ({ images, logo }) => {
-  const handleLogo = () => {
-    // Add any desired functionality for the logo click
+const Gallery = () => {
+  const [showOverlay, setShowOverlay] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const images = [
+    { src: 'https://via.placeholder.com/400x320', alt: 'Image 1' },
+    { src: 'https://via.placeholder.com/400x320', alt: 'Image 2' },
+    { src: 'https://via.placeholder.com/400x320', alt: 'Image 3' },
+    { src: 'https://via.placeholder.com/400x320', alt: 'Image 4' },
+    { src: 'https://via.placeholder.com/400x320', alt: 'Image 5' },
+    { src: 'https://via.placeholder.com/400x320', alt: 'Image 6' },
+  ];
+
+  const handleImageClick = (image) => {
+    setSelectedImage(image);
+    setShowOverlay(true);
+  };
+
+  const handleCloseOverlay = () => {
+    setShowOverlay(false);
+    setSelectedImage(null);
   };
 
   return (
-    <div className="bg-gray-100 h-screen relative">
-      <header className="bg-black flex justify-between items-center py-6 px-8">
-        <img
-          src="/src/assets/images/GJlogo.svg"
-          alt="Logo"
-          className="w-20 sm:w-24 lg:w-28 transition-transform duration-300 transform hover:scale-110"
-          onClick={handleLogo}
-        />
-        <h1 className="text-white text-3xl sm:text-4xl lg:text-5xl">Experience our moments of joy</h1>
-      </header>
-
-      <div className="mt-16">
-        <Swiper
-          navigation
-          pagination={{
-            clickable: true,
-          }}
-          autoplay={{
-            delay: 3000,
-            disableOnInteraction: false,
-          }}
-          breakpoints={{
-            640: {
-              slidesPerView: 1,
-              spaceBetween: 32,
-            },
-            768: {
-              slidesPerView: 2,
-              spaceBetween: 48,
-            },
-            1024: {
-              slidesPerView: 3,
-              spaceBetween: 64,
-            },
-          }}
-          modules={[Navigation, Pagination, Autoplay]}
-          className="mySwiper h-full"
-          style={{
-            '--swiper-navigation-color': '#fff',
-            '--swiper-pagination-color': '#fff',
-          }}
-        >
+    <div className="font-nunito">
+      <div className="mx-auto max-w-[1320px] my-20">
+        <h2 className="text-center text-3xl font-semibold mb-5">Gallery</h2>
+        <p className="text-center text-gray-500 text-lg max-w-[750px] mx-auto mb-10">
+          Lorem ipsum dolor sit amet, consect etur adip iscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna al
+        </p>
+        <div className="grid grid-cols-3 gap-5 relative h-[720px]">
           {images.map((image, index) => (
-            <SwiperSlide key={index} className="rounded-lg overflow-hidden">
-              <div className="relative group">
-                <img
-                  src={image.url}
-                  alt={image.alt}
-                  className="w-full h-full object-cover transition-transform duration-300 ease-in-out transform group-hover:scale-105"
-                />
-                <div className="absolute top-0 left-0 w-full h-full bg-gray-900 opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-50"></div>
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white font-bold text-2xl opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100">
-                  {image.alt}
-                </div>
+            <div
+              key={index}
+              className={`project project${index + 1} w-full h-full`}
+              onClick={() => handleImageClick(image)}
+            >
+              <img className="w-full h-full object-cover" src={image.src} alt={image.alt} />
+              <div className={`btn-box absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ${showOverlay && selectedImage === image ? 'block' : 'hidden'}`}>
+                <button className="bg-white px-6 py-3 rounded-md hover:bg-gray-200 transition-colors">View</button>
               </div>
-            </SwiperSlide>
+            </div>
           ))}
-        </Swiper>
+          {showOverlay && selectedImage && (
+            <div className="overlay fixed inset-0 bg-gray-700/70 flex items-center justify-center z-50">
+              <div className="bg-white rounded-lg max-w-[700px] w-[90%] p-8 relative">
+                <button
+                  className="close absolute top-2 right-4 text-gray-500 hover:text-gray-700 transition-colors uppercase tracking-wider"
+                  onClick={handleCloseOverlay}
+                >
+                  Close X
+                </button>
+                <img
+                  className="w-full"
+                  src={selectedImage.src}
+                  alt={selectedImage.alt}
+                />
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
 };
 
-export default TripGallery;
+export default Gallery;
