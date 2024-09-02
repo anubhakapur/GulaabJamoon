@@ -14,7 +14,7 @@ const Homepage = () => {
       <Header home={true}/>
       <Hero backgroundImage={backgroundImage} />
       <TripCarousel trips={trips} />
-      <TestimonialPage />
+      <TestimonialPage id="testimonials-section" /> {/* Add id here */}
       <Footer />
     </div>
   );

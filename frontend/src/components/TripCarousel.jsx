@@ -36,6 +36,9 @@ const TripCarousel = ({ trips }) => {
     </motion.div>
   );
 
+  // Limit the trips to the first 8
+  const limitedTrips = trips.slice(0, 6);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 50 }}
@@ -47,7 +50,7 @@ const TripCarousel = ({ trips }) => {
         initial={{ scale: 0.9 }}
         animate={{ scale: 1 }}
         transition={{ duration: 0.5 }}
-        className="text-5xl font-extrabold text-center mb-12 text-black"
+        className="text-6xl font-extrabold text-center mb-12 text-black"
       >
         Discover Our Trips
       </motion.h1>
@@ -103,7 +106,7 @@ const TripCarousel = ({ trips }) => {
             className="mySwiper"
             touchEventsTarget="container"
           >
-            {trips.map((trip) => (
+            {limitedTrips.map((trip) => (
               <SwiperSlide key={trip.id} className="pb-16">
                 <div
                   className="bg-white shadow-md rounded-lg overflow-hidden transition-all duration-300 hover:scale-105 group"
