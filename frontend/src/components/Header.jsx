@@ -31,7 +31,7 @@ const Header = ({ home }) => {
     { label: "About", href: "/about" },
     { label: "Experiences", href: "/experiences" },
     { label: "Gallery", href: "/gallery" },
-    { label: "Testimonials", href: "/testimonials" },
+    { label: "Testimonials", href: "/", id: "testimonials" }, // Add id for testimonials
     { label: "Contact Us", href: "/contact" },
   ];
 
