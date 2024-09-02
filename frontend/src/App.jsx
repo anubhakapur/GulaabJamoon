@@ -7,8 +7,37 @@ import AboutPage from "./Pages/AboutPage";
 import SignIn from "./Pages/SignIn";
 import SignUpOne from "./Pages/SignUpOne";
 import SignUpTwo from "./Pages/SignUpTwo";
+import Gallery from "./Pages/Gallery";
 
 const App = () => {
+  const images = [
+    {
+      url: "/src/assets/images/bg-main.jpg",
+      alt: "Image 1",
+    },
+    {
+      url: "/src/assets/images/bg-main.jpg",
+      alt: "Image 2",
+    },
+    {
+      url: "/src/assets/images/bg-main.jpg",
+      alt: "Image 3",
+    },
+    {
+      url: "/src/assets/images/bg-main.jpg",
+      alt: "Image 1",
+    },
+    {
+      url: "/src/assets/images/bg-main.jpg",
+      alt: "Image 2",
+    },
+    {
+      url: "/src/assets/images/bg-main.jpg",
+      alt: "Image 3",
+    },
+    // Add more image objects as needed
+  ];
+
   return (
     <div className="te">
       <BrowserRouter>
@@ -19,6 +48,7 @@ const App = () => {
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signupone" element={<SignUpOne />} />
           <Route path="/signuptwo" element={<SignUpTwo />} />
+          <Route path="/gallery" element={<Gallery images={images} />} />
         </Routes>
       </BrowserRouter>
     </div>

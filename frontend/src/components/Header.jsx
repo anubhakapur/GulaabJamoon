@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import GJlogo from "../assets/images/GJlogo.svg";
 
 const Header = ({ home }) => {
@@ -8,6 +8,7 @@ const Header = ({ home }) => {
   const [isVisible, setIsVisible] = useState(true);
   const [isAtTop, setIsAtTop] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -27,11 +28,11 @@ const Header = ({ home }) => {
   }, [lastScrollY]);
 
   const menuItems = [
-    "About",
-    "Experiences",
-    "Gallery",
-    "Testimonials",
-    "Contact Us",
+    { label: "About", href: "/about" },
+    { label: "Experiences", href: "/experiences" },
+    { label: "Gallery", href: "/gallery" },
+    { label: "Testimonials", href: "/testimonials" },
+    { label: "Contact Us", href: "/contact" },
   ];
 
   const navVariants = {
@@ -106,7 +107,7 @@ const Header = ({ home }) => {
               />
             </Link>
 
-              <h1 className="text-white text-xl font-bold">Gulaab Jamoon</h1>
+            <h1 className="text-white text-xl font-bold">Gulaab Jamoon</h1>
           </motion.div>
 
           <div className="lg:hidden z-50">
@@ -145,15 +146,17 @@ const Header = ({ home }) => {
             animate="visible"
           >
             <ul className="flex gap-6">
-              {menuItems.map((item) => (
-                <motion.li key={item} variants={itemVariants}>
-                  <a
-                    href={`/${item.toLowerCase()}`}
-                    className="text-white relative group transition-colors duration-300 hover:text-gray-300 pb-1"
+              {menuItems.map(({ label, href }) => (
+                <motion.li key={label} variants={itemVariants}>
+                  <Link
+                    to={href}
+                    className={`text-white relative group transition-colors duration-300 hover:text-gray-300 pb-1 ${
+                      location.pathname === href ? "text-gray-300" : ""
+                    }`}
                   >
-                    {item}
+                    {label}
                     <span className="absolute left-0 bottom-0 w-full h-0.5 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-in-out"></span>
-                  </a>
+                  </Link>
                 </motion.li>
               ))}
             </ul>
@@ -205,16 +208,18 @@ const Header = ({ home }) => {
               </svg>
             </button>
             <ul className="text-center">
-              {menuItems.map((item) => (
-                <motion.li key={item} className="mb-6" variants={itemVariants}>
-                  <a
-                    href={`/${item.toLowerCase()}`}
-                    className="text-white text-2xl relative group transition-colors duration-300 hover:text-gray-300 pb-1"
+              {menuItems.map(({ label, href }) => (
+                <motion.li key={label} className="mb-6" variants={itemVariants}>
+                  <Link
+                    to={href}
+                    className={`text-white text-2xl relative group transition-colors duration-300 hover:text-gray-300 pb-1 ${
+                      location.pathname === href ? "text-gray-300" : ""
+                    }`}
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    {item}
+                    {label}
                     <span className="absolute left-0 bottom-0 w-full h-0.5 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-in-out"></span>
-                  </a>
+                  </Link>
                 </motion.li>
               ))}
               <motion.li className="mb-6" variants={itemVariants}>
