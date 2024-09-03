@@ -8,7 +8,8 @@ import SignIn from "./Pages/SignIn";
 import SignUpOne from "./Pages/SignUpOne";
 import SignUpTwo from "./Pages/SignUpTwo";
 import Gallery from "./Pages/Gallery";
-import AdminPanel from './components/adminpanel/AdminPanel';
+import AdminPanel from "./components/adminpanel/AdminPanel";
+import UserPanel from "./components/userpanel/UserPanel";
 
 const App = () => {
   const images = [
@@ -50,7 +51,8 @@ const App = () => {
           <Route path="/signupone" element={<SignUpOne />} />
           <Route path="/signuptwo" element={<SignUpTwo />} />
           <Route path="/gallery" element={<Gallery images={images} />} />
-          <Route path='/admin' element={<AdminPanel/>}></Route>
+          <Route path="/admin" element={<AdminPanel />}></Route>
+          <Route path="/user" element={<UserPanel />} />
         </Routes>
       </BrowserRouter>
     </div>
