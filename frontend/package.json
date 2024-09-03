@@ -21,7 +21,8 @@
     "react-swipeable": "^7.0.1",
     "react-toastify": "^10.0.5",
     "slick-carousel": "^1.8.1",
-    "swiper": "^11.1.10"
+    "swiper": "^11.1.10",
+    "toastify": "^2.0.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
