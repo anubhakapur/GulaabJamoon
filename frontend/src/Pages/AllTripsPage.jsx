@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Footer from "../components/Footer";
+import ExperienceDetails from "./EXPERIENCES/ExperienceDetails";
 
 const AllTripsPage = ({ trips: allTrips }) => {
   const [visibleTrips, setVisibleTrips] = useState(8);
+  const [selectedTrip, setSelectedTrip] = useState(null);
 
   useEffect(() => {
-    window.scrollTo(0, 0);  // Scroll to the top when the component mounts
+    window.scrollTo(0, 0); // Scroll to the top when the component mounts
   }, []);
 
   const loadMore = () => {
@@ -28,13 +30,12 @@ const AllTripsPage = ({ trips: allTrips }) => {
     visible: {
       y: 0,
       opacity: 1,
-      transition: {
-        type: "spring",
-        stiffness: 100,
-        damping: 12,
-      },
+      transition: { type: "spring", stiffness: 100, damping: 12 },
     },
   };
+
+  const openTripCard = (trip) => setSelectedTrip(trip);
+  const closeTripCard = () => setSelectedTrip(null);
 
   return (
     <>
@@ -69,7 +70,8 @@ const AllTripsPage = ({ trips: allTrips }) => {
               {allTrips.slice(0, visibleTrips).map((trip) => (
                 <motion.div
                   key={trip.id}
-                  className="bg-white rounded-xl overflow-hidden shadow-md"
+                  className="bg-white rounded-xl overflow-hidden shadow-md flex flex-col justify-between"
+                  style={{ minHeight: '450px' }} // Fixed height for uniformity
                   variants={itemVariants}
                   layout
                   whileHover={{
@@ -87,42 +89,48 @@ const AllTripsPage = ({ trips: allTrips }) => {
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.5 }}
                   />
-                  <motion.div className="p-6">
-                    <motion.h2
-                      className="text-2xl font-bold text-gray-900 mb-2"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.2 }}
-                    >
-                      {trip.name}
-                    </motion.h2>
-                    <motion.p
-                      className="text-gray-600 mb-4"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 0.3 }}
-                    >
-                      {trip.description}
-                    </motion.p>
-                    <motion.p
-                      className="text-2xl font-bold text-black mb-4"
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{
-                        delay: 0.4,
-                        type: "spring",
-                        stiffness: 200,
-                      }}
-                    >
-                      ${trip.price}
-                    </motion.p>
-                    <motion.button
-                      className="w-full bg-black text-white py-3 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
-                      whileHover={{ scale: 1.05, backgroundColor: "#333" }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      Book Now
-                    </motion.button>
+                  <motion.div className="p-6 flex-1 flex flex-col justify-between">
+                    <motion.div>
+                      <motion.h2
+                        className="text-2xl font-bold text-gray-900 mb-2"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2 }}
+                      >
+                        {trip.name}
+                      </motion.h2>
+                      <motion.p
+                        className="text-gray-600 mb-4 line-clamp-2" // Limiting to 2 lines and ellipsis
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.3 }}
+                        style={{ minHeight: '48px' }} // Ensuring consistent height for descriptions
+                      >
+                        {trip.description}
+                      </motion.p>
+                    </motion.div>
+                    <div>
+                      <motion.p
+                        className="text-2xl font-bold text-black mb-4"
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{
+                          delay: 0.4,
+                          type: "spring",
+                          stiffness: 200,
+                        }}
+                      >
+                        ${trip.price}
+                      </motion.p>
+                      <motion.button
+                        className="w-full bg-black text-white py-3 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
+                        whileHover={{ scale: 1.05, backgroundColor: "#333" }}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={() => openTripCard(trip)}
+                      >
+                        Book Now
+                      </motion.button>
+                    </div>
                   </motion.div>
                 </motion.div>
               ))}
@@ -146,6 +154,16 @@ const AllTripsPage = ({ trips: allTrips }) => {
             </motion.div>
           )}
         </div>
+
+        {/* Expanded Trip Card */}
+        <AnimatePresence>
+          {selectedTrip && (
+            <ExperienceDetails
+              experience={selectedTrip}
+              onClose={closeTripCard}
+            />
+          )}
+        </AnimatePresence>
       </motion.div>
       <Footer />
     </>
