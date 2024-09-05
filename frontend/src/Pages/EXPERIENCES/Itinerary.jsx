@@ -18,7 +18,7 @@ function Itinerary({ itinerary }) {
             whileHover={{ scale: 1.02 }}
             transition={{ type: "spring", stiffness: 400 }}
           >
-            <span className="text-pink-500 font-bold mr-4">{index + 1}.</span>
+            <span className="text-black font-bold mr-4">{index + 1}.</span>
             <span className="text-gray-700">{item}</span>
           </motion.li>
         ))}

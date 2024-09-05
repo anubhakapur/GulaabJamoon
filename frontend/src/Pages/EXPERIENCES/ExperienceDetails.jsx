@@ -23,7 +23,7 @@ function ExperienceDetails({ experience, onClose }) {
   };
 
   return (
-    <>
+    <div className="select-none">
       <motion.div
         className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50"
         initial={{ opacity: 0 }}
@@ -79,7 +79,7 @@ function ExperienceDetails({ experience, onClose }) {
         </motion.div>
       </motion.div>
       <Footer />
-    </>
+    </div>
   );
 }
 
