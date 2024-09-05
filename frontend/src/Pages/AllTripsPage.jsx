@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Footer from "../components/Footer";
 import ExperienceDetails from "./EXPERIENCES/ExperienceDetails";
+import { Link, useNavigate } from "react-router-dom"; // Added useNavigate for back functionality
+import GJlogo from "../assets/images/GJlogo.svg";
 
 const AllTripsPage = ({ trips: allTrips }) => {
   const [visibleTrips, setVisibleTrips] = useState(8);
   const [selectedTrip, setSelectedTrip] = useState(null);
+  const navigate = useNavigate(); // Hook to handle back navigation
 
   useEffect(() => {
     window.scrollTo(0, 0); // Scroll to the top when the component mounts
@@ -37,10 +40,77 @@ const AllTripsPage = ({ trips: allTrips }) => {
   const openTripCard = (trip) => setSelectedTrip(trip);
   const closeTripCard = () => setSelectedTrip(null);
 
+  const goBack = () => {
+    navigate(-1); // Go back to the previous page
+  };
+
   return (
-    <>
+    <div className="bg-gray-100">
+      {/* <div className="container mx-auto flex items-center justify-between relative py-4 px-4 bg-gray-100">
+        <motion.div
+          className="flex items-center"
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ type: "spring", stiffness: 300, damping: 20 }}
+        >
+          <Link to="/">
+            <motion.img
+              src={GJlogo}
+              alt="GJ"
+              className="w-[7vh] mr-2 cursor-pointer"
+              whileHover={{ scale: 1.1 }}
+              transition={{ type: "spring", stiffness: 400, damping: 10 }}
+            />
+          </Link>
+          <Link
+            to="/"
+            className="text-black text-xl font-semibold relative group transition-colors duration-300 hover:text-gray-700 pb-1"
+          >
+            Gulaab Jamoon
+          </Link>
+        </motion.div>
+      </div> */}
+
+      <div className="container mx-auto flex items-center justify-between relative py-4  bg-gray-100">
+        <Link
+          to="/"
+          className="flex items-center cursor-pointer group transition-transform"
+        >
+          {/* Icon or Back Arrow */}
+          <motion.div
+            className="flex items-center justify-center p-2 rounded-full bg-gray-100 hover:bg-gray-200"
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: "spring", stiffness: 300, damping: 15 }}
+          >
+            <motion.svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="2"
+              stroke="currentColor"
+              className="w-6 h-6 text-gray-700"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M10 19l-7-7m0 0l7-7m-7 7h18"
+              />
+            </motion.svg>
+          </motion.div>
+
+          {/* Text */}
+          <motion.div
+            className="ml-3 text-gray-700 text-lg font-medium transition-colors duration-200 group-hover:text-gray-900"
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: "spring", stiffness: 300, damping: 15 }}
+          >
+            Back
+          </motion.div>
+        </Link>
+      </div>
+
       <motion.div
-        className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8"
+        className="min-h-screen bg-gray-100 py-8 px-4 sm:px-6 lg:px-8"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
@@ -56,7 +126,7 @@ const AllTripsPage = ({ trips: allTrips }) => {
             <motion.div
               className="h-1 bg-black mt-4 mx-auto"
               initial={{ width: 0 }}
-              animate={{ width: "50%" }}
+              animate={{ width: "45%" }}
               transition={{ duration: 1.5, delay: 0.5 }}
             />
           </motion.h1>
@@ -71,7 +141,7 @@ const AllTripsPage = ({ trips: allTrips }) => {
                 <motion.div
                   key={trip.id}
                   className="bg-white rounded-xl overflow-hidden shadow-md flex flex-col justify-between"
-                  style={{ minHeight: '450px' }} // Fixed height for uniformity
+                  style={{ minHeight: "450px" }} // Fixed height for uniformity
                   variants={itemVariants}
                   layout
                   whileHover={{
@@ -104,7 +174,7 @@ const AllTripsPage = ({ trips: allTrips }) => {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.3 }}
-                        style={{ minHeight: '48px' }} // Ensuring consistent height for descriptions
+                        style={{ minHeight: "48px" }} // Ensuring consistent height for descriptions
                       >
                         {trip.description}
                       </motion.p>
@@ -166,7 +236,7 @@ const AllTripsPage = ({ trips: allTrips }) => {
         </AnimatePresence>
       </motion.div>
       <Footer />
-    </>
+    </div>
   );
 };
 
