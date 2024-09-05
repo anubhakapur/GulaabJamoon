@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import Gallery from "./Gallery";
 import LocationDuration from "./LocationDuration";
@@ -22,6 +22,14 @@ function ExperienceDetails({ experience, onClose }) {
     e.stopPropagation();
   };
 
+  // Disable background scroll when modal is open
+  useEffect(() => {
+    document.body.style.overflow = "hidden"; // Disable background scroll
+    return () => {
+      document.body.style.overflow = "auto"; // Restore background scroll when modal is closed
+    };
+  }, []);
+
   return (
     <div className="select-none">
       <motion.div
@@ -37,7 +45,7 @@ function ExperienceDetails({ experience, onClose }) {
           animate={{ scale: 1 }}
           exit={{ scale: 0.8 }}
           onClick={handleContainerClick} // Prevent clicks inside from closing the details component
-          style={{ maxHeight: '90vh' }} // Ensure the component fits within the viewport
+          style={{ maxHeight: '90vh', overflowY: 'auto' }} // Ensure the white div is scrollable
         >
           <button
             className="absolute top-4 right-4 text-gray-600 hover:text-gray-800 text-2xl"
