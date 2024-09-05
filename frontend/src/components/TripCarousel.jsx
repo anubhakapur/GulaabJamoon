@@ -60,11 +60,11 @@ const TripCarousel = ({ trips }) => {
           Featured Trips
         </h2>
         <Link
-          to="/all-trips"
+          to="/experiences"
           className="text-black font-semibold relative group transition-colors duration-300 hover:text-gray-700 pb-1"
         >
           View All
-          <span className="absolute left-0 bottom-0 w-full h-0.5 bg-black transform scale-x-0 group-hover:scale-x-110 transition-transform duration-300 ease-in-out "></span>
+          <span className="absolute left-0 bottom-0 w-full h-0.5 bg-black transform scale-x-0 group-hover:scale-x-110 transition-transform duration-300 ease-in-out"></span>
         </Link>
       </div>
 
@@ -84,11 +84,10 @@ const TripCarousel = ({ trips }) => {
         <div className="relative z-10 container mx-auto px-4 py-8">
           <div className="swiper-button-prev absolute left-0 top-1/2 transform -translate-y-1/2 z-20 text-black -ml-12"></div>
           <div className="swiper-button-next absolute right-0 top-1/2 transform -translate-y-1/2 z-20 text-black -mr-12"></div>
-
           <Swiper
             modules={[Navigation, Pagination, A11y, Autoplay]}
-            spaceBetween={30}
-            slidesPerView={1}
+            spaceBetween={10} // Reduced the space between the cards
+            slidesPerView={1} // Default view is 1 slide per view
             navigation={{
               nextEl: ".swiper-button-next",
               prevEl: ".swiper-button-prev",
@@ -99,9 +98,9 @@ const TripCarousel = ({ trips }) => {
             }}
             autoplay={{ delay: 5000, disableOnInteraction: false }}
             breakpoints={{
-              640: { slidesPerView: 2, spaceBetween: 30 },
-              768: { slidesPerView: 3, spaceBetween: 40 },
-              1024: { slidesPerView: 4, spaceBetween: 50 },
+              640: { slidesPerView: 2, spaceBetween: 10 }, // 2 cards for small screens
+              768: { slidesPerView: 3, spaceBetween: 20 }, // 3 cards for medium screens
+              1024: { slidesPerView: 4, spaceBetween: 30 }, // 4 cards for large screens
             }}
             className="mySwiper"
             touchEventsTarget="container"
@@ -109,7 +108,7 @@ const TripCarousel = ({ trips }) => {
             {limitedTrips.map((trip) => (
               <SwiperSlide key={trip.id} className="pb-16">
                 <div
-                  className="bg-white shadow-md rounded-lg overflow-hidden transition-all duration-300 hover:scale-105 group"
+                  className="bg-white shadow-md rounded-lg overflow-hidden transition-all duration-300 hover:scale-105 group h-[380px]"
                   onMouseEnter={() => setActiveImage(trip.image)}
                   onMouseLeave={() => setActiveImage("")}
                 >
@@ -121,11 +120,11 @@ const TripCarousel = ({ trips }) => {
                     />
                     <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-opacity duration-300"></div>
                   </div>
-                  <div className="p-4 md:p-6">
+                  <div className="p-4 md:p-6 flex flex-col justify-between h-[230px]">
                     <h3 className="text-lg md:text-xl font-bold mb-2 text-black transition-colors duration-300">
                       {trip.name}
                     </h3>
-                    <p className="text-gray-600 mb-4 text-sm md:text-base">
+                    <p className="text-gray-600 mb-4 text-sm md:text-base overflow-hidden text-ellipsis">
                       {trip.description}
                     </p>
                     <p className="text-black font-bold text-base md:text-lg mb-4">
@@ -139,7 +138,7 @@ const TripCarousel = ({ trips }) => {
               </SwiperSlide>
             ))}
           </Swiper>
-          <div className="swiper-pagination mt-4"></div>
+          ;<div className="swiper-pagination mt-4"></div>
         </div>
       </div>
     </motion.div>
