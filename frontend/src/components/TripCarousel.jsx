@@ -7,10 +7,12 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/autoplay";
 import { motion, AnimatePresence } from "framer-motion";
+import ExperienceDetails from "../Pages/EXPERIENCES/ExperienceDetails"; // Import the ExperienceDetails component
 
 const TripCarousel = ({ trips }) => {
   const [activeImage, setActiveImage] = useState("");
   const [prevImage, setPrevImage] = useState("");
+  const [selectedTrip, setSelectedTrip] = useState(null); // State to track the selected trip
 
   useEffect(() => {
     if (activeImage !== prevImage) {
@@ -39,24 +41,30 @@ const TripCarousel = ({ trips }) => {
   // Limit the trips to the first 6
   const limitedTrips = trips.slice(0, 6);
 
+  // Function to handle opening the trip card
+  const openTripCard = (trip) => setSelectedTrip(trip);
+
+  // Function to handle closing the trip card
+  const closeTripCard = () => setSelectedTrip(null);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8 }}
-      className="w-full min-h-screen py-16 flex flex-col justify-center"
+      className="w-full min-h-screen py-16 flex flex-col justify-center relative overflow-hidden"
     >
       <motion.h1
         initial={{ scale: 0.9 }}
         animate={{ scale: 1 }}
         transition={{ duration: 0.5 }}
-        className="text-6xl font-extrabold text-center mb-12 text-black"
+        className="text-4xl md:text-6xl font-extrabold text-center mb-12 text-black"
       >
         Discover Our Trips
       </motion.h1>
 
       <div className="flex justify-between items-center mb-6 px-4 md:px-8 lg:px-16">
-        <h2 className="text-xl md:text-2xl font-bold text-black">
+        <h2 className="text-lg md:text-2xl font-bold text-black">
           Featured Trips
         </h2>
         <Link
@@ -82,14 +90,14 @@ const TripCarousel = ({ trips }) => {
           />
         </AnimatePresence>
 
-        <div className="relative z-10 container mx-auto px-8 py-8">
+        <div className="relative z-10 container mx-auto px-4 py-8">
           {/* Navigation Buttons */}
           <div className="swiper-button-prev absolute left-0 top-1/2 transform -translate-y-1/2 z-20 text-black -ml-12"></div>
           <div className="swiper-button-next absolute right-0 top-1/2 transform -translate-y-1/2 z-20 text-black -mr-12"></div>
 
           <Swiper
             modules={[Navigation, Pagination, A11y, Autoplay]}
-            spaceBetween={30} // Added space between slides for scaling effect
+            spaceBetween={30}
             slidesPerView={1}
             navigation={{
               nextEl: ".swiper-button-next",
@@ -101,17 +109,16 @@ const TripCarousel = ({ trips }) => {
             }}
             autoplay={{ delay: 5000, disableOnInteraction: false }}
             breakpoints={{
-              640: { slidesPerView: 2, spaceBetween: 20 }, // 2 cards for small screens
-              768: { slidesPerView: 3, spaceBetween: 30 }, // 3 cards for medium screens
-              1024: { slidesPerView: 4, spaceBetween: 40 }, // 4 cards for large screens
+              640: { slidesPerView: 2, spaceBetween: 20 },
+              768: { slidesPerView: 3, spaceBetween: 30 },
+              1024: { slidesPerView: 4, spaceBetween: 40 },
             }}
             className="mySwiper"
-            touchEventsTarget="container"
           >
             {limitedTrips.map((trip) => (
               <SwiperSlide key={trip.id} className="py-8">
                 <div
-                  className="flex flex-col bg-white shadow-md rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105 group relative h-full min-h-[450px] max-h-[500px]" // Added min/max height
+                  className="flex flex-col bg-white shadow-md rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105 group relative h-full min-h-[450px] max-h-[500px]"
                   onMouseEnter={() => setActiveImage(trip.image)}
                   onMouseLeave={() => setActiveImage("")}
                 >
@@ -133,7 +140,10 @@ const TripCarousel = ({ trips }) => {
                     <p className="text-black font-bold text-base md:text-lg mb-4">
                       ${trip.price}
                     </p>
-                    <button className="w-full bg-black text-white py-2 px-4 rounded-full hover:bg-gray-800 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black">
+                    <button
+                      className="w-full bg-black text-white py-2 px-4 rounded-full hover:bg-gray-800 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
+                      onClick={() => openTripCard(trip)} // OnClick opens the ExperienceDetails
+                    >
                       Book Now
                     </button>
                   </div>
@@ -144,6 +154,16 @@ const TripCarousel = ({ trips }) => {
           <div className="swiper-pagination mt-4"></div>
         </div>
       </div>
+
+      {/* Expanded Trip Card */}
+      <AnimatePresence>
+        {selectedTrip && (
+          <ExperienceDetails
+            experience={selectedTrip}
+            onClose={closeTripCard} // Close button to hide the ExperienceDetails
+          />
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 };
