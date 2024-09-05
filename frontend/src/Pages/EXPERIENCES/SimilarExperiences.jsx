@@ -33,7 +33,7 @@ function SimilarExperiences({ experiences }) {
               <p className="text-gray-600 mb-4">{exp.description}</p>
               <motion.a
                 href="#" // Replace with actual link
-                className="inline-flex items-center text-pink-500 hover:text-pink-600 transition-colors duration-300"
+                className="inline-flex items-center text-black hover:text-gray-700 transition-colors duration-300"
                 whileHover={{ x: 5 }}
                 transition={{ type: "spring", stiffness: 400 }}
               >

@@ -95,7 +95,7 @@ function Booking({ price, taxes, fees }) {
       {/* Date Selection */}
       <div className="mb-4 relative" ref={datePickerRef}>
         <button
-          className="w-full flex justify-between items-center bg-white border border-gray-300 rounded-lg px-4 py-2 text-left focus:outline-none focus:ring-2 focus:ring-pink-500"
+          className="w-full flex justify-between items-center bg-white border border-gray-300 rounded-lg px-4 py-2 text-left focus:outline-none focus:ring-2 focus:ring-black"
           onClick={() => setIsDatePickerOpen(!isDatePickerOpen)}
         >
           <span>{selectedDate ? selectedDate.toLocaleDateString() : 'Select Date'}</span>
@@ -141,7 +141,7 @@ function Booking({ price, taxes, fees }) {
                     cursor: 'not-allowed',
                   },
                   selected: {
-                    backgroundColor: '#FFC0CB',
+                    backgroundColor: '#000000',
                     color: 'white',
                   }
                 }}
@@ -155,7 +155,7 @@ function Booking({ price, taxes, fees }) {
       {selectedDate && (
         <div className="mb-4 relative" ref={timeSlotRef}>
           <button
-            className="w-full flex justify-between items-center bg-white border border-gray-300 rounded-lg px-4 py-2 text-left focus:outline-none focus:ring-2 focus:ring-pink-500"
+            className="w-full flex justify-between items-center bg-white border border-gray-300 rounded-lg px-4 py-2 text-left focus:outline-none focus:ring-2 focus:ring-black"
             onClick={() => setIsTimeSlotMenuOpen(!isTimeSlotMenuOpen)}
           >
             <span>{selectedTimeSlot || 'Choose a time slot'}</span>
@@ -192,7 +192,7 @@ function Booking({ price, taxes, fees }) {
       {/* Guest Selection */}
       <div className="mb-4 relative" ref={guestMenuRef}>
         <button
-          className="w-full flex justify-between items-center bg-white border border-gray-300 rounded-lg px-4 py-2 text-left focus:outline-none focus:ring-2 focus:ring-pink-500"
+          className="w-full flex justify-between items-center bg-white border border-gray-300 rounded-lg px-4 py-2 text-left focus:outline-none focus:ring-2 focus:ring-black"
           onClick={() => setIsGuestMenuOpen(!isGuestMenuOpen)}
         >
           <span>{totalGuests} Guest{totalGuests !== 1 ? 's' : ''}</span>
@@ -264,7 +264,7 @@ function Booking({ price, taxes, fees }) {
 
       {/* Book Now Button */}
       <button
-        className="w-full bg-pink-500 text-white py-3 rounded-lg font-semibold hover:bg-pink-600 transition duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed"
+        className="w-full bg-black text-white py-3 rounded-lg font-semibold hover:bg-black transition duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed"
         onClick={() => alert('Booking functionality to be implemented')}
         disabled={!selectedDate || !selectedTimeSlot}
       >

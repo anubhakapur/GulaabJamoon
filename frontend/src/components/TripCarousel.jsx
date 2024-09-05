@@ -36,7 +36,7 @@ const TripCarousel = ({ trips }) => {
     </motion.div>
   );
 
-  // Limit the trips to the first 8
+  // Limit the trips to the first 6
   const limitedTrips = trips.slice(0, 6);
 
   return (
@@ -81,13 +81,16 @@ const TripCarousel = ({ trips }) => {
             key="active"
           />
         </AnimatePresence>
-        <div className="relative z-10 container mx-auto px-4 py-8">
+
+        <div className="relative z-10 container mx-auto px-8 py-8">
+          {/* Navigation Buttons */}
           <div className="swiper-button-prev absolute left-0 top-1/2 transform -translate-y-1/2 z-20 text-black -ml-12"></div>
           <div className="swiper-button-next absolute right-0 top-1/2 transform -translate-y-1/2 z-20 text-black -mr-12"></div>
+
           <Swiper
             modules={[Navigation, Pagination, A11y, Autoplay]}
-            spaceBetween={10} // Reduced the space between the cards
-            slidesPerView={1} // Default view is 1 slide per view
+            spaceBetween={30} // Added space between slides for scaling effect
+            slidesPerView={1}
             navigation={{
               nextEl: ".swiper-button-next",
               prevEl: ".swiper-button-prev",
@@ -98,33 +101,33 @@ const TripCarousel = ({ trips }) => {
             }}
             autoplay={{ delay: 5000, disableOnInteraction: false }}
             breakpoints={{
-              640: { slidesPerView: 2, spaceBetween: 10 }, // 2 cards for small screens
-              768: { slidesPerView: 3, spaceBetween: 20 }, // 3 cards for medium screens
-              1024: { slidesPerView: 4, spaceBetween: 30 }, // 4 cards for large screens
+              640: { slidesPerView: 2, spaceBetween: 20 }, // 2 cards for small screens
+              768: { slidesPerView: 3, spaceBetween: 30 }, // 3 cards for medium screens
+              1024: { slidesPerView: 4, spaceBetween: 40 }, // 4 cards for large screens
             }}
             className="mySwiper"
             touchEventsTarget="container"
           >
             {limitedTrips.map((trip) => (
-              <SwiperSlide key={trip.id} className="pb-16">
+              <SwiperSlide key={trip.id} className="py-8">
                 <div
-                  className="bg-white shadow-md rounded-lg overflow-hidden transition-all duration-300 hover:scale-105 group h-[380px]"
+                  className="flex flex-col bg-white shadow-md rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105 group relative h-full min-h-[450px] max-h-[500px]" // Added min/max height
                   onMouseEnter={() => setActiveImage(trip.image)}
                   onMouseLeave={() => setActiveImage("")}
                 >
-                  <div className="relative overflow-hidden rounded-t-lg">
+                  <div className="relative overflow-hidden h-48 flex-shrink-0">
                     <img
                       src={trip.image}
                       alt={trip.name}
-                      className="w-full h-40 md:h-48 object-cover transition-transform duration-300 group-hover:scale-110"
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                     />
                     <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-opacity duration-300"></div>
                   </div>
-                  <div className="p-4 md:p-6 flex flex-col justify-between h-[230px]">
+                  <div className="p-4 md:p-6 flex flex-col justify-between flex-grow">
                     <h3 className="text-lg md:text-xl font-bold mb-2 text-black transition-colors duration-300">
                       {trip.name}
                     </h3>
-                    <p className="text-gray-600 mb-4 text-sm md:text-base overflow-hidden text-ellipsis">
+                    <p className="text-gray-600 mb-4 text-sm md:text-base overflow-hidden text-ellipsis flex-grow line-clamp-3">
                       {trip.description}
                     </p>
                     <p className="text-black font-bold text-base md:text-lg mb-4">
@@ -138,7 +141,7 @@ const TripCarousel = ({ trips }) => {
               </SwiperSlide>
             ))}
           </Swiper>
-          ;<div className="swiper-pagination mt-4"></div>
+          <div className="swiper-pagination mt-4"></div>
         </div>
       </div>
     </motion.div>

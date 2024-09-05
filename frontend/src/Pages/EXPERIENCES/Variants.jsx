@@ -38,9 +38,9 @@ function Variants({ variants }) {
         <h3 className="text-xl font-semibold mb-2 text-gray-800">{variant.name}</h3>
         <p className="text-gray-600 mb-4 flex-grow">{variant.description}</p>
         <div className="mt-auto flex justify-between items-center">
-          <span className="text-lg font-bold text-pink-500">${variant.price.toFixed(2)}</span>
+          <span className="text-lg font-bold text-black">${variant.price.toFixed(2)}</span>
           <motion.button
-            className="flex items-center text-pink-500 font-semibold"
+            className="flex items-center text-black font-semibold"
             whileHover={{ x: 5 }}
             transition={{ type: "spring", stiffness: 400 }}
           >
@@ -86,7 +86,7 @@ function Variants({ variants }) {
               <div
                 key={index}
                 className={`h-2 w-2 rounded-full ${
-                  index === currentIndex ? 'bg-pink-500' : 'bg-gray-300'
+                  index === currentIndex ? 'bg-black' : 'bg-gray-300'
                 }`}
               />
             ))}
