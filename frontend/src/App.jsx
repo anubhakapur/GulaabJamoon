@@ -10,6 +10,7 @@ import SignUpTwo from "./Pages/SignUpTwo";
 import Gallery from "./Pages/Gallery";
 import AdminPanel from "./components/adminpanel/AdminPanel";
 import UserPanel from "./components/userpanel/UserPanel";
+import HostExperience from "./Pages/HostExperience";
 
 const App = () => {
   const images = [
@@ -53,6 +54,7 @@ const App = () => {
           <Route path="/gallery" element={<Gallery images={images} />} />
           <Route path="/admin" element={<AdminPanel />}></Route>
           <Route path="/user" element={<UserPanel />} />
+          <Route path="/hostexperience" element={<HostExperience />} />
         </Routes>
       </BrowserRouter>
     </div>
