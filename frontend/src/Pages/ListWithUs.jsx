@@ -150,12 +150,6 @@ const ListWithUs = ({ setShowModal }) => {
             Submit
           </motion.button>
         </div>
-        <div className="flex justify-center mt-4">
-          <Link to="/signin" className="text-sm text-black">
-            Already a user?{" "}
-            <span className="font-bold text-md hover:underline">Sign in</span>
-          </Link>
-        </div>
       </motion.div>
     </div>
   );
