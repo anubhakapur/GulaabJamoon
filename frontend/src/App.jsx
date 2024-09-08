@@ -11,6 +11,7 @@ import Gallery from "./Pages/Gallery";
 import AdminPanel from "./components/adminpanel/AdminPanel";
 import UserPanel from "./components/userpanel/UserPanel";
 import HostExperience from "./Pages/HostExperience";
+import Corporate from "./Pages/Corporate";
 
 const App = () => {
   const images = [
@@ -55,6 +56,7 @@ const App = () => {
           <Route path="/admin" element={<AdminPanel />}></Route>
           <Route path="/user" element={<UserPanel />} />
           <Route path="/hostexperience" element={<HostExperience />} />
+          <Route path='corporate' element={<Corporate/>}/>
         </Routes>
       </BrowserRouter>
     </div>
