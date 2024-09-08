@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, A11y, Autoplay } from "swiper/modules";
@@ -7,18 +7,30 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/autoplay";
 import { motion, AnimatePresence } from "framer-motion";
-import ExperienceDetails from "../Pages/EXPERIENCES/ExperienceDetails"; // Import the ExperienceDetails component
+import ExperienceDetails from "../Pages/EXPERIENCES/ExperienceDetails";
 
 const TripCarousel = ({ trips }) => {
   const [activeImage, setActiveImage] = useState("");
   const [prevImage, setPrevImage] = useState("");
-  const [selectedTrip, setSelectedTrip] = useState(null); // State to track the selected trip
+  const [selectedTrip, setSelectedTrip] = useState(null);
+  const [isHovering, setIsHovering] = useState(false);
+  const swiperRef = useRef(null);
 
   useEffect(() => {
     if (activeImage !== prevImage) {
       setPrevImage(activeImage);
     }
   }, [activeImage, prevImage]);
+
+  useEffect(() => {
+    if (swiperRef.current && swiperRef.current.swiper) {
+      if (isHovering) {
+        swiperRef.current.swiper.autoplay.stop();
+      } else {
+        swiperRef.current.swiper.autoplay.start();
+      }
+    }
+  }, [isHovering]);
 
   const BackgroundImage = ({ image, isActive }) => (
     <motion.div
@@ -38,13 +50,10 @@ const TripCarousel = ({ trips }) => {
     </motion.div>
   );
 
-  // Limit the trips to the first 6
   const limitedTrips = trips.slice(0, 6);
 
-  // Function to handle opening the trip card
   const openTripCard = (trip) => setSelectedTrip(trip);
 
-  // Function to handle closing the trip card
   const closeTripCard = () => setSelectedTrip(null);
 
   return (
@@ -91,7 +100,6 @@ const TripCarousel = ({ trips }) => {
         </AnimatePresence>
 
         <div className="relative z-10 container mx-auto px-4 py-8">
-          {/* Navigation Buttons */}
           <div className="swiper-button-prev absolute left-0 top-1/2 transform -translate-y-1/2 z-20 text-black -ml-12"></div>
           <div className="swiper-button-next absolute right-0 top-1/2 transform -translate-y-1/2 z-20 text-black -mr-12"></div>
 
@@ -114,13 +122,21 @@ const TripCarousel = ({ trips }) => {
               1024: { slidesPerView: 4, spaceBetween: 40 },
             }}
             className="mySwiper"
+            ref={swiperRef}
           >
             {limitedTrips.map((trip) => (
               <SwiperSlide key={trip.id} className="py-8">
-                <div
-                  className="flex flex-col bg-white shadow-md rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105 group relative h-full min-h-[450px] max-h-[500px]"
-                  onMouseEnter={() => setActiveImage(trip.image)}
-                  onMouseLeave={() => setActiveImage("")}
+                <motion.div
+                  className="flex flex-col bg-white rounded-lg overflow-hidden group relative h-full min-h-[450px] max-h-[500px] shadow-md hover:shadow-xl transition-all duration-300"
+                  onMouseEnter={() => {
+                    setActiveImage(trip.image);
+                    setIsHovering(true);
+                  }}
+                  onMouseLeave={() => {
+                    setActiveImage("");
+                    setIsHovering(false);
+                  }}
+                  whileHover={{ scale: 1.05, zIndex: 1 }}
                 >
                   <div className="relative overflow-hidden h-48 flex-shrink-0">
                     <img
@@ -142,12 +158,12 @@ const TripCarousel = ({ trips }) => {
                     </p>
                     <button
                       className="w-full bg-black text-white py-2 px-4 rounded-full hover:bg-gray-800 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
-                      onClick={() => openTripCard(trip)} // OnClick opens the ExperienceDetails
+                      onClick={() => openTripCard(trip)}
                     >
                       Book Now
                     </button>
                   </div>
-                </div>
+                </motion.div>
               </SwiperSlide>
             ))}
           </Swiper>
@@ -155,12 +171,11 @@ const TripCarousel = ({ trips }) => {
         </div>
       </div>
 
-      {/* Expanded Trip Card */}
       <AnimatePresence>
         {selectedTrip && (
           <ExperienceDetails
             experience={selectedTrip}
-            onClose={closeTripCard} // Close button to hide the ExperienceDetails
+            onClose={closeTripCard}
           />
         )}
       </AnimatePresence>

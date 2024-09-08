@@ -5,30 +5,34 @@ const AdventurePopup = ({ onClose }) => {
   const [name, setName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [message, setMessage] = useState('');
-  const [expectingCallback, setExpectingCallback] = useState(true); // Default to true
+  const [expectingCallback, setExpectingCallback] = useState(true);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   useEffect(() => {
-    // Disable scroll when popup is open
     document.body.style.overflow = 'hidden';
     return () => {
-      // Re-enable scroll when popup is closed
       document.body.style.overflow = 'auto';
     };
   }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission logic here
     console.log({ name, phoneNumber, message, expectingCallback });
-    onClose();
+    setIsSubmitted(true);
+    setTimeout(() => {
+      onClose();
+    }, 2000); // Close after 2 seconds
   };
 
-  // Handle phone number input and restrict to digits only
   const handlePhoneNumberChange = (e) => {
     const value = e.target.value;
     if (/^\d{0,10}$/.test(value)) {
       setPhoneNumber(value);
     }
+  };
+
+  const inputVariants = {
+    focus: { scale: 1.02, boxShadow: "0 0 0 3px rgba(249, 168, 212, 0.4)" },
   };
 
   return (
@@ -37,101 +41,143 @@ const AdventurePopup = ({ onClose }) => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+        className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
       >
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.8, opacity: 0 }}
           transition={{ type: "spring", damping: 25, stiffness: 500 }}
-          className="bg-gray-900 rounded-lg p-6 w-full max-w-4xl md:max-w-3xl sm:max-w-md flex flex-col md:flex-row overflow-hidden
-                     sm:mx-4 sm:my-8 sm:p-4 sm:rounded-lg" // Adds padding and margin for mobile
+          className="w-full max-w-lg rounded-lg overflow-hidden shadow-xl relative"
+          style={{
+            backgroundImage: "url('/src/assets/images/test.jpg')",
+            backgroundSize: 'cover',
+            backgroundPosition: 'center'
+          }}
         >
           <motion.div 
-            initial={{ x: -50, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="md:w-1/2 w-full mb-4 md:mb-0 md:mr-6"
-          >
-            <img src="/src/assets/images/bg-main.jpg" alt="Adventure collage" className="w-full h-full object-cover rounded-lg" />
-          </motion.div>
-          <div className="md:w-1/2 w-full relative">
+            className="absolute inset-0 bg-black bg-opacity-60"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.6 }}
+            transition={{ duration: 0.5 }}
+          ></motion.div>
+          
+          <div className="relative p-6 z-10">
             <motion.button
-              whileHover={{ scale: 1.1 }}
+              whileHover={{ scale: 1.1, rotate: 90 }}
               whileTap={{ scale: 0.9 }}
               onClick={onClose}
-              className="absolute top-2 right-2 text-gray-400 hover:text-white text-3xl z-10" // Ensure close button is on top right
+              className="absolute top-2 right-2 text-white bg-gray-900 bg-opacity-50 rounded-full p-1 hover:bg-opacity-75"
             >
-              &times;
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
             </motion.button>
-            <motion.h2
-              initial={{ y: -20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.3 }}
-              className="text-3xl font-bold mb-4 text-yellow-500"
-            >
-              Looking for Your Next Adventure?
-            </motion.h2>
-            <motion.p
-              initial={{ y: -20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.4 }}
-              className="mb-4 text-gray-300"
-            >
-              Connect with our travel experts for exclusive itineraries and best deals tailored to your unique travel experiences.
-            </motion.p>
-            <motion.form
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.5 }}
-              onSubmit={handleSubmit}
-            >
-              <div className="flex mb-4 flex-col md:flex-row">
-                <input
-                  type="text"
-                  placeholder="Enter your Name"
-                  className="w-full md:w-1/2 p-2 mb-2 md:mb-0 md:mr-2 bg-gray-800 text-white border border-gray-700 rounded"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required
-                />
-                <input
-                  type="tel"
-                  placeholder="Phone Number"
-                  className="w-full md:w-1/2 p-2 bg-gray-800 text-white border border-gray-700 rounded"
-                  value={phoneNumber}
-                  onChange={handlePhoneNumberChange}
-                  required
-                  pattern="\d{10}"
-                />
-              </div>
-              <textarea
-                placeholder="Tell Us More"
-                className="w-full p-2 mb-4 bg-gray-800 text-white border border-gray-700 rounded"
-                rows="3"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                required
-              ></textarea>
-              <div className="flex items-center mb-4">
-                <input
-                  type="checkbox"
-                  id="expectCallback"
-                  checked={expectingCallback}
-                  onChange={(e) => setExpectingCallback(e.target.checked)}
-                  className="mr-2"
-                />
-                <label htmlFor="expectCallback" className="text-yellow-500">Expecting a Callback</label>
-              </div>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                type="submit"
-                className="w-full bg-yellow-500 text-gray-900 p-2 rounded font-bold hover:bg-yellow-600 transition-colors"
+
+            {!isSubmitted ? (
+              <>
+                <motion.h2
+                  initial={{ y: -20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.3 }}
+                  className="text-3xl font-bold mb-4 text-yellow-500"
+                >
+                  Looking for Your Next Adventure?
+                </motion.h2>
+                <motion.p
+                  initial={{ y: -20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.4 }}
+                  className="mb-6 text-white text-lg"
+                >
+                  Connect with our travel experts for exclusive itineraries and best deals.
+                </motion.p>
+                <motion.form
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.5 }}
+                  onSubmit={handleSubmit}
+                  className="space-y-4"
+                >
+                  <motion.input
+                    type="text"
+                    placeholder="Enter your Name"
+                    className="w-full p-3 bg-white bg-opacity-20 text-white placeholder-gray-300 border border-white border-opacity-30 rounded-lg focus:outline-none focus:border-yellow-500"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required
+                    variants={inputVariants}
+                    whileFocus="focus"
+                  />
+                  <motion.input
+                    type="tel"
+                    placeholder="Phone Number"
+                    className="w-full p-3 bg-white bg-opacity-20 text-white placeholder-gray-300 border border-white border-opacity-30 rounded-lg focus:outline-none focus:border-yellow-500"
+                    value={phoneNumber}
+                    onChange={handlePhoneNumberChange}
+                    required
+                    pattern="\d{10}"
+                    variants={inputVariants}
+                    whileFocus="focus"
+                  />
+                  <motion.textarea
+                    placeholder="Tell Us More"
+                    className="w-full p-3 bg-white bg-opacity-20 text-white placeholder-gray-300 border border-white border-opacity-30 rounded-lg focus:outline-none focus:border-yellow-500"
+                    rows="3"
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    required
+                    variants={inputVariants}
+                    whileFocus="focus"
+                  ></motion.textarea>
+                  <motion.div 
+                    className="flex items-center"
+                    whileHover={{ scale: 1.05 }}
+                  >
+                    <input
+                      type="checkbox"
+                      id="expectCallback"
+                      checked={expectingCallback}
+                      onChange={(e) => setExpectingCallback(e.target.checked)}
+                      className="mr-2"
+                    />
+                    <label htmlFor="expectCallback" className="text-yellow-500 text-sm">Expecting a Callback</label>
+                  </motion.div>
+                  <motion.button
+                    whileHover={{ scale: 1.05, backgroundColor: "#fbbf24" }}
+                    whileTap={{ scale: 0.95 }}
+                    type="submit"
+                    className="w-full bg-yellow-500 text-gray-900 p-3 rounded-lg font-bold transition-colors"
+                  >
+                    Send
+                  </motion.button>
+                </motion.form>
+              </>
+            ) : (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="text-center py-10"
               >
-                Send
-              </motion.button>
-            </motion.form>
+                <motion.h2
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ type: "spring", stiffness: 260, damping: 20 }}
+                  className="text-4xl font-bold text-yellow-500 mb-4"
+                >
+                  Thanks!
+                </motion.h2>
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.3 }}
+                  className="text-white text-xl"
+                >
+                  We'll be in touch soon.
+                </motion.p>
+              </motion.div>
+            )}
           </div>
         </motion.div>
       </motion.div>
