@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useRef } from 'react';
 import './WhatHelp.css';
-const WhatHelp = () => {
+
+const WhatHelp = ({ scrollToForm }) => {
   return (
     <div className="bg-gray-100 py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
@@ -11,7 +12,7 @@ const WhatHelp = () => {
           What Can We Help You Plan?
         </h2>
         <p className="text-center text-gray-600 max-w-3xl mx-auto mb-12">
-          Whether it's a <a href="#" className="underline">corporate retreat</a> to take your team offsite, or a President's Club type <a href="#" className="underline">incentive trip</a> to celebrate your Top Performers, we can help your team come together.
+          Whether it's a <a href="#" onClick={scrollToForm} className="underline">corporate retreat</a> to take your team offsite, or a President's Club type <a href="#" onClick={scrollToForm} className="underline">incentive trip</a> to celebrate your Top Performers, we can help your team come together.
         </p>
         <div className="h-1 w-16 bg-yellow-400 mx-auto mb-12"></div>
 

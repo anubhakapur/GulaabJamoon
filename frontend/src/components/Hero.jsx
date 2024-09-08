@@ -79,7 +79,7 @@ const Hero = ({ backgroundImage }) => {
         variants={sidebarVariants}
       >
         <Link
-          to="corporatexps"
+          to="corporate"
           className={`bg-white/75 hover:bg-white hover:text-black text-black font-bold rounded-full rounded-l-none
           shadow-xl transition-all duration-300 transform hover:scale-110 flex items-center justify-center`}
           style={{

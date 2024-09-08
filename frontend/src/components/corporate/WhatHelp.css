@@ -1,36 +1,54 @@
 .wave-btn {
-    transition: color 0.3s;
-  }
-  
-  .wave-btn::before,
-  .wave-btn::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #edaf13; /* Tailwind yellow-400 */
-    z-index: 0;
-    transition: transform 0.5s cubic-bezier(0.65, 0, 0.35, 1);
-  }
-  
-  .wave-btn::before {
-    transform: translateY(100%) scaleY(0.3);
-    transform-origin: bottom;
-  }
-  
-  .wave-btn::after {
-    transform: translateY(100%) scaleY(0.3);
-    transform-origin: top;
-    transition-delay: 0.1s;
-  }
-  
-  .wave-btn:hover {
-    color: black;
-  }
-  
-  .wave-btn:hover::before,
-  .wave-btn:hover::after {
-    transform: translateY(0) scaleY(1);
-  }
+  position: relative;
+  padding: 10px 20px;
+  color: white;
+  background-color: #333;
+  border: none;
+  cursor: pointer;
+  transition: color 0.3s, transform 0.3s;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.wave-btn::before,
+.wave-btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #edaf13; /* Tailwind yellow-400 */
+  z-index: 0;
+  transition: transform 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.wave-btn::before {
+  transform: translateY(100%) scaleY(0.3);
+  transform-origin: bottom;
+}
+
+.wave-btn::after {
+  transform: translateY(100%) scaleY(0.3);
+  transform-origin: top;
+  transition-delay: 0.1s;
+}
+
+.wave-btn:hover {
+  color: black;
+}
+
+.wave-btn:hover::before,
+.wave-btn:hover::after {
+  transform: translateY(0) scaleY(1);
+}
+
+/* For scrolling animation */
+.scrolled {
+  color: black;
+}
+
+.scrolled::before,
+.scrolled::after {
+  transform: translateY(0) scaleY(1);
+}

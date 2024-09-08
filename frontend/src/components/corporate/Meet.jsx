@@ -7,38 +7,39 @@ const Meet = () => {
   const [campers, setCampers] = useState(0);
 
   useEffect(() => {
-    let duration =4000; // 4 seconds total for all numbers to finish
+    let duration = 4000; // 4 seconds total for all numbers to finish
     let maxValue = {
       years: 11,
       staff: 18,
       retreats: 301,
-      campers: 845,
+      campers: 10000,
     };
 
-    const incrementNumber = (setter, target, intervalDuration, delay = 0) => {
+    const incrementNumber = (setter, target, intervalDuration, increment = 1) => {
       let count = 1;
-      setTimeout(() => {
-        const interval = setInterval(() => {
-          if (count <= target) {
-            setter(count);
-            count++;
-          } else {
-            clearInterval(interval);
-          }
-        }, intervalDuration);
-      }, delay);
+      const interval = setInterval(() => {
+        if (count <= target) {
+          setter(count);
+          count += increment;  // Increment by specified value
+        } else {
+          setter(target);  // Ensure the final number is set correctly
+          clearInterval(interval);
+        }
+      }, intervalDuration);
+      return interval;
     };
 
-    // Calculate intervals for numbers so they finish at the same time
+    // Calculate interval durations such that all numbers finish at the same time
     let yearsInterval = duration / maxValue.years;
     let staffInterval = duration / maxValue.staff;
     let retreatsInterval = duration / maxValue.retreats;
-    let campersInterval = duration  / maxValue.campers; // Add a delay to bigger numbers
+    let campersInterval = duration / (maxValue.campers / 10); // Divide campers by 10 for faster counting
 
+    // Start counting for each number
     const yearsCounting = incrementNumber(setYears, maxValue.years, yearsInterval);
     const staffCounting = incrementNumber(setStaff, maxValue.staff, staffInterval);
     const retreatsCounting = incrementNumber(setRetreats, maxValue.retreats, retreatsInterval);
-    const campersCounting = incrementNumber(setCampers, maxValue.campers, campersInterval, 1000); // Start campers count 1 second later
+    const campersCounting = incrementNumber(setCampers, maxValue.campers, campersInterval, 10); // Increment by 10
 
     return () => {
       clearInterval(yearsCounting);
@@ -54,11 +55,11 @@ const Meet = () => {
         <h2 className="text-2xl md:text-4xl font-bold mb-4">Meet Gulaab Jamoon.</h2>
         <div className="w-16 h-1 bg-yellow-500 mx-auto mb-6"></div>
         <p className="text-base md:text-lg leading-relaxed text-gray-700">
-          We are an Award-Winning Corporate Retreat Planning Agency, focused on helping companies connect with their teams through imaginative 
+          We are an Award-Winning Corporate Retreat Planning Agency, focused on helping companies connect with their teams through imaginative
           <span className="text-yellow-500"> Retreats, Incentive Trips,</span> and engaging Offsites around the globe.
         </p>
         <p className="text-base md:text-lg leading-relaxed text-gray-700 mt-6">
-          Our mission is simple: Help our clients create and operate memorable experiences that allow them to brainstorm, celebrate achievements, or kick back and bond in inspiring places around the world. All while making sure the process is fun, transparent, and approached in a collaborative way. 
+          Our mission is simple: Help our clients create and operate memorable experiences that allow them to brainstorm, celebrate achievements, or kick back and bond in inspiring places around the world. All while making sure the process is fun, transparent, and approached in a collaborative way.
         </p>
         <p className="text-base md:text-lg leading-relaxed text-gray-700 mt-6">
           Over 11 years in, we've helped more than a thousand companies do just that.
