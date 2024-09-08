@@ -1,7 +1,12 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import backgroundVideo from "/src/assets/images/bgvid.mp4"; // Update this path to your video file
+import axios from 'axios'
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Context from "../context/index";
+import ROLE from '../common/role';
 
 const Button = ({ children, className, ...props }) => (
   <motion.button
@@ -26,6 +31,8 @@ const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const videoRef = useRef(null);
+  const navigate = useNavigate();
+  const {fetchUserDetails} = useContext(Context)
 
   useEffect(() => {
     if (videoRef.current) {
@@ -35,9 +42,36 @@ const SignIn = () => {
     }
   }, []);
 
-  const handleSubmit = (e) => {
+    const loginwithgoogle = ()=>{
+        window.open("/auth/google/callback","_self")
+    }
+
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    // Handle login logic here
+    // Implement your login logic here
+    try{
+    const response = await axios.post('http://localhost:8080/api/signin',{email,password})
+    
+    if(response.data.success){
+      console.log(response.data)
+      toast.success("Sign in successful")
+      if(response.data.role === ROLE.ADMIN){
+        navigate('/admin')
+        fetchUserDetails()
+      }
+      else{
+      navigate('/')
+      fetchUserDetails()
+      }
+    }
+
+    if(response.data.error){
+      toast.error(response.data.message)
+    }
+
+    }catch(err){
+      toast.error(err.response.data.message || 'Something went wrong') 
+    }
   };
 
   return (
@@ -116,7 +150,7 @@ const SignIn = () => {
           <div className="flex-grow border-t border-gray-600"></div>
         </div>
 
-        <Button className="bg-black bg-opacity-50 text-white border border-white rounded-md hover:bg-opacity-75 active:bg-opacity-100 flex items-center justify-center transition-all duration-300">
+        <Button onClick={loginwithgoogle} className="bg-black bg-opacity-50 text-white border border-white rounded-md hover:bg-opacity-75 active:bg-opacity-100 flex items-center justify-center transition-all duration-300">
           <svg className="w-4 h-4 sm:w-5 sm:h-5 mr-2" viewBox="0 0 24 24">
             <path
               fill="currentColor"
@@ -136,6 +170,17 @@ const SignIn = () => {
           </Link>
         </p>
       </motion.div>
+
+       <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar
+        closeOnClick
+        rtl={false}
+        draggable
+        pauseOnHover
+      />
+
     </div>
   );
 };

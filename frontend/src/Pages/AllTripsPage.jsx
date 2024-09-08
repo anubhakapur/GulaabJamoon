@@ -4,15 +4,34 @@ import Footer from "../components/Footer";
 import ExperienceDetails from "./EXPERIENCES/ExperienceDetails";
 import { Link, useNavigate } from "react-router-dom"; // Added useNavigate for back functionality
 import GJlogo from "../assets/images/GJlogo.svg";
+import axios from "axios";
 
-const AllTripsPage = ({ trips: allTrips }) => {
+const AllTripsPage = () => {
   const [visibleTrips, setVisibleTrips] = useState(8);
   const [selectedTrip, setSelectedTrip] = useState(null);
+  const [allTrips,setAllTrips] = useState([])
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate(); // Hook to handle back navigation
 
   useEffect(() => {
     window.scrollTo(0, 0); // Scroll to the top when the component mounts
   }, []);
+
+  useEffect(() => {
+    const fetchExperiences = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/api/all-experiences');
+        console.log("trips",response.data)
+        setAllTrips(response.data.data);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching experiences:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchExperiences();
+  }, [allTrips]);
 
   const loadMore = () => {
     setVisibleTrips((prevCount) => Math.min(prevCount + 8, allTrips.length));
@@ -139,7 +158,7 @@ const AllTripsPage = ({ trips: allTrips }) => {
             <AnimatePresence>
               {allTrips.slice(0, visibleTrips).map((trip) => (
                 <motion.div
-                  key={trip.id}
+                  key={trip._id}
                   className="bg-white rounded-xl overflow-hidden shadow-md flex flex-col justify-between"
                   style={{ minHeight: "450px" }} // Fixed height for uniformity
                   variants={itemVariants}
@@ -152,7 +171,7 @@ const AllTripsPage = ({ trips: allTrips }) => {
                   whileTap={{ scale: 0.98 }}
                 >
                   <motion.img
-                    src={trip.image}
+                    src={trip.images[0]}
                     alt={trip.name}
                     className="w-full h-56 object-cover"
                     initial={{ opacity: 0 }}

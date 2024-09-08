@@ -1,9 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import backgroundVideo from "/src/assets/images/bgvid.mp4";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axios from 'axios'
 
 const Button = ({ children, className, ...props }) => (
   <motion.button
@@ -33,9 +34,12 @@ const SignUpTwo = () => {
   const [otherOccupation, setOtherOccupation] = useState("");
   const [redirecting, setRedirecting] = useState(false);
   const [timer, setTimer] = useState(3);
+  // const [verificationStatus, setVerificationStatus] = useState(null);
   const [phoneError, setPhoneError] = useState("");
   const videoRef = useRef(null);
   const navigate = useNavigate();
+  const location = useLocation()
+  const email = localStorage.getItem("email");
 
   useEffect(() => {
     if (videoRef.current) {
@@ -44,6 +48,7 @@ const SignUpTwo = () => {
       });
     }
   }, []);
+ 
 
   useEffect(() => {
     if (redirecting && timer > 0) {
@@ -57,12 +62,19 @@ const SignUpTwo = () => {
     }
   }, [redirecting, timer, navigate]);
 
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    if (params.get('verified') === 'true') {
+      toast.success('Email is verified!');
+    }
+  }, [location])
+
   const validatePhoneNumber = (phone) => {
     const phonePattern = /^\d{10}$/;
     return phonePattern.test(phone);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
 
     if (!validatePhoneNumber(phone)) {
@@ -73,10 +85,18 @@ const SignUpTwo = () => {
     }
 
     if (name && phone && dob && gender && occupation) {
-      toast.success("SignUp successful!", {
-        position: "top-right",
-        autoClose: 3000,
-      });
+      try{
+      const response = await axios.post(`http://localhost:8080/api/signuptwo`,{
+        name: name,
+        phone: phone,
+        dob: new Date(dob),
+        gender:gender,
+        occupation: occupation,
+        email : email
+      })
+
+      if (response.data.success) {
+      toast.success("SignUp successful!");
       setName("");
       setPhone("");
       setDob("");
@@ -84,7 +104,18 @@ const SignUpTwo = () => {
       setOccupation("");
       setRedirecting(true);
     }
-  };
+    else{
+      toast.error("SignUp failed. Please try again.")
+    }
+  }catch(error){
+       console.error("Error during sign up:", error);
+          toast.error(error.response.data.message || "An error occurred during sign up.", {
+            position: "top-right",
+            autoClose: 3000,
+          });
+  }
+  }
+  }
 
   return (
     <div className="relative min-h-screen w-full flex items-center justify-center p-4">
@@ -258,6 +289,7 @@ const SignUpTwo = () => {
             Sign Up
           </Button>
         </form>
+  
       </motion.div>
 
       <ToastContainer

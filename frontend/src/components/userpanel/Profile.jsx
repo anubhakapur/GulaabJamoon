@@ -1,27 +1,65 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Camera, Save, UserCircle, XCircle, Trash } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
 
 const Profile = () => {
   const [editMode, setEditMode] = useState('view'); // 'view', 'edit', or 'photo'
+
+  const user = useSelector(state => state?.user?.user);
+  console.log("userProfile",user)
+  console.log("userProfile",user?.name)
+
+  const isoDate = user?.dateOfBirth;
+  const date = new Date(isoDate);
+  const day = String(date.getUTCDate()).padStart(2, '0');
+  const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Months are 0-based
+  const year = date.getUTCFullYear();
+  const formattedDate = `${day}/${month}/${year}`;
+
   const [profile, setProfile] = useState({
     photo: '',
-    name: 'John Doe',
-    email: 'john.doe@example.com',
-    mobile: '+1 (555) 123-4567',
-    dob: '1990-01-01',
-    gender: 'Male',
-    occupation: 'Software Developer'
+    name: '',
+    email: '',
+    mobile: '',
+    dob: '',
+    gender: '',
+    occupation: ''
   });
+
+  useEffect(() => {
+    setProfile({
+      photo: '',
+      name: user?.name,
+      email: user?.email,
+      mobile: user?.phoneNumber,
+      dob: formattedDate,
+      gender: user?.gender,
+      occupation: user?.occupation
+    });
+  }, [user]);
 
   const handleChange = useCallback((e) => {
     const { name, value } = e.target;
     setProfile(prev => ({ ...prev, [name]: value }));
   }, []);
 
-  const handleSave = useCallback(() => {
+  const handleSave = useCallback(async() => {
     console.log('Saving profile:', profile);
     setEditMode('view');
+
+    // Save profile to the database
+    const response = await axios.post('http://localhost:8080/api/update-user-details',{
+      name : profile.name,
+      mobile : profile.mobile,
+      occupation : profile.occupation
+    });
+
+    console.log(response.data);
+    if(response.data.success){
+      console.log("Profile updated successfully");
+    }
   }, [profile]);
 
   const handlePhotoChange = useCallback((e) => {

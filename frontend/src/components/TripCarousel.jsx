@@ -8,11 +8,30 @@ import "swiper/css/pagination";
 import "swiper/css/autoplay";
 import { motion, AnimatePresence } from "framer-motion";
 import ExperienceDetails from "../Pages/EXPERIENCES/ExperienceDetails"; // Import the ExperienceDetails component
+import axios from "axios";
 
-const TripCarousel = ({ trips }) => {
+const TripCarousel = () => {
   const [activeImage, setActiveImage] = useState("");
   const [prevImage, setPrevImage] = useState("");
   const [selectedTrip, setSelectedTrip] = useState(null); // State to track the selected trip
+  const [trips, setTrips] = useState([]); // State to store the trips
+  const [loading, setLoading] = useState(true); // State to track loading state
+
+  useEffect(() => {
+    const fetchExperiences = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/api/all-experiences');
+        console.log("trips",response.data)
+        setTrips(response.data.data);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching experiences:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchExperiences();
+  }, []);
 
   useEffect(() => {
     if (activeImage !== prevImage) {
@@ -39,7 +58,7 @@ const TripCarousel = ({ trips }) => {
   );
 
   // Limit the trips to the first 6
-  const limitedTrips = trips.slice(0, 6);
+  const limitedTrips = trips?.slice(0, 6);
 
   // Function to handle opening the trip card
   const openTripCard = (trip) => setSelectedTrip(trip);
@@ -115,16 +134,16 @@ const TripCarousel = ({ trips }) => {
             }}
             className="mySwiper"
           >
-            {limitedTrips.map((trip) => (
-              <SwiperSlide key={trip.id} className="py-8">
+            {limitedTrips?.map((trip) => (
+              <SwiperSlide key={trip._id} className="py-8">
                 <div
                   className="flex flex-col bg-white shadow-md rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105 group relative h-full min-h-[450px] max-h-[500px]"
-                  onMouseEnter={() => setActiveImage(trip.image)}
+                  onMouseEnter={() => setActiveImage(trip.images[0])}
                   onMouseLeave={() => setActiveImage("")}
                 >
                   <div className="relative overflow-hidden h-48 flex-shrink-0">
                     <img
-                      src={trip.image}
+                      src={trip.images[0]}
                       alt={trip.name}
                       className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                     />
@@ -138,7 +157,7 @@ const TripCarousel = ({ trips }) => {
                       {trip.description}
                     </p>
                     <p className="text-black font-bold text-base md:text-lg mb-4">
-                      ${trip.price}
+                      ${100}
                     </p>
                     <button
                       className="w-full bg-black text-white py-2 px-4 rounded-full hover:bg-gray-800 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"

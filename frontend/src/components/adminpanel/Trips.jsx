@@ -1,15 +1,32 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaEye, FaLink, FaEdit, FaPauseCircle, FaPlayCircle, FaPlus } from 'react-icons/fa';
 import CreateExperience from './createExperience/CreateTrips';
+import axios from 'axios';
 
 const Trips = () => {
-  const [experiences, setExperiences] = useState([
-    { id: 1, name: 'Floating Feni Experience', status: 'Live', bookings: 618 },
-    { id: 2, name: 'Slaves and Sultans of Qutub with Shah Umar', status: 'Live', bookings: 28 },
-    { id: 3, name: 'One Heart, Two Worlds: A Walk of Jew Town', status: 'Live', bookings: 13 },
-    { id: 4, name: 'A Day Trip to Kracadawna Farm', status: 'Live', bookings: 0 },
-    { id: 5, name: "Exploring Sultan Ghari - Delhi's First Mausoleum", status: 'Live', bookings: 21 },
-  ]);
+  const [experiences, setExperiences] = useState([]);
+
+  useEffect(() => {
+    const fetchExperiences = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/api/all-experiences');
+        if (response.data.success) {
+          const fetchedExperiences = response.data.data;
+          const enrichedExperiences = fetchedExperiences.map(exp => ({
+            id: exp._id,
+            name: exp.name,
+            status: 'Live', // Default status
+            bookings: 0 // Random booking number for demonstration
+          }));
+          setExperiences(enrichedExperiences);
+        }
+      } catch (error) {
+        console.error("Error fetching experiences:", error);
+      }
+    };
+
+    fetchExperiences();
+  }, [experiences]);
 
   const [isCreatingExperience, setIsCreatingExperience] = useState(false);
   const [editingId, setEditingId] = useState(null);
@@ -37,7 +54,12 @@ const Trips = () => {
   const handleCreateExperience = (newExperience) => {
     setExperiences(prevExperiences => [
       ...prevExperiences,
-      { ...newExperience, id: Date.now(), status: 'Live', bookings: 0 }
+      { 
+        ...newExperience, 
+        id: Date.now(), 
+        status: 'Live', 
+        bookings: 0 
+      }
     ]);
     setIsCreatingExperience(false);
   };
