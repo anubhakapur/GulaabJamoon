@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import {toast, ToastContainer} from 'react-toastify';
 
 const Form = () => {
   const [formData, setFormData] = useState({
@@ -38,11 +40,35 @@ const Form = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     if (validateForm()) {
       // Here you would typically send the form data to your server
-      console.log("Form submitted:", formData);
+      try{
+      const response = await axios.post('http://localhost:8080/api/corporate',formData);
+      
+      if(response.data.success){
+        toast.success(response.data.message);
+        setFormData({
+          name: '',
+          email: '',
+          companyName: '',
+          participants: '',
+          budget: '',
+          tripDates: '',
+          findUs: '',
+          moreInfo: ''
+        });
+        setErrors({});
+      }
+    }
+    catch(err){
+      console.log(err)
+      toast.error(err.response.data.message || 'Something went wrong')
+
+    }
+
+      
     } else {
       console.log("Form has errors, please correct them");
     }

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
 import { Link } from "react-router-dom";
 
 const ListWithUs = ({ setShowModal }) => {
@@ -63,14 +64,36 @@ const ListWithUs = ({ setShowModal }) => {
     setErrors({});
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async() => {
     if (validateForm()) {
+
+      // Here you would typically send the form data to your server
+      try{
+      const response = await axios.post('http://localhost:8080/api/hostexperience',userData);
+      console.log(response)
+
+      // if(response.data.success){
+      //   toast.success(response.data.message, {
+      //     position: "top-right",
+      //     autoClose: 3000,
+      //   });
+      //   setShowModal(false);
+      // }
+
       clearForm();
-      toast.success("Request Sent!", {
+      // toast.success("Request Sent!", {
+      //   position: "top-right",
+      //   autoClose: 3000,
+      // });
+    }
+    catch(err){
+      console.error(err);
+      toast.error(err.response.data.message || "Server error", {
         position: "top-right",
         autoClose: 3000,
       });
     }
+  }
   };
 
   const renderInput = (name, placeholder, type = "text", size = "full") => (

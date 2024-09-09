@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import axios from 'axios';
 
 const AdventurePopup = ({ onClose }) => {
   const [name, setName] = useState('');
@@ -15,9 +16,12 @@ const AdventurePopup = ({ onClose }) => {
     };
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     console.log({ name, phoneNumber, message, expectingCallback });
+    const response = await axios.post('http://localhost:8080/api/popup',{name,phoneNumber,message,expectingCallback});
+    console.log(response.data)
+
     setIsSubmitted(true);
     setTimeout(() => {
       onClose();
