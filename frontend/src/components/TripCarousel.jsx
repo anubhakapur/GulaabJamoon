@@ -7,12 +7,10 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/autoplay";
 import { motion, AnimatePresence } from "framer-motion";
-import ExperienceDetails from "../Pages/EXPERIENCES/ExperienceDetails";
 
 const TripCarousel = ({ trips }) => {
   const [activeImage, setActiveImage] = useState("");
   const [prevImage, setPrevImage] = useState("");
-  const [selectedTrip, setSelectedTrip] = useState(null);
   const [isHovering, setIsHovering] = useState(false);
   const swiperRef = useRef(null);
 
@@ -52,9 +50,22 @@ const TripCarousel = ({ trips }) => {
 
   const limitedTrips = trips.slice(0, 6);
 
-  const openTripCard = (trip) => setSelectedTrip(trip);
+  const createSlug = (name) => {
+    return name.toLowerCase().replace(/\s+/g, "-");
+  };
 
-  const closeTripCard = () => setSelectedTrip(null);
+  const navigateToTrip = (trip) => {
+    // You can define your navigation logic here, using a router for example
+  };
+
+  const itemVariants = {
+    hover: {
+      scale: 1.05,
+      boxShadow:
+        "0 20px 35px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+    },
+    tap: { scale: 0.98 },
+  };
 
   return (
     <motion.div
@@ -99,9 +110,9 @@ const TripCarousel = ({ trips }) => {
           />
         </AnimatePresence>
 
-        <div className="relative z-10 container mx-auto px-4 py-8">
-          <div className="swiper-button-prev absolute left-0 top-1/2 transform -translate-y-1/2 z-20 text-black -ml-12"></div>
-          <div className="swiper-button-next absolute right-0 top-1/2 transform -translate-y-1/2 z-20 text-black -mr-12"></div>
+        <div className="relative z-10 container mx-auto px-10 py-8">
+          <div className="swiper-button-prev absolute left-4 top-1/2 transform -translate-y-1/2 z-20 text-black -ml-6"></div>
+          <div className="swiper-button-next absolute right-4 top-1/2 transform -translate-y-1/2 z-20 text-black -mr-6"></div>
 
           <Swiper
             modules={[Navigation, Pagination, A11y, Autoplay]}
@@ -126,59 +137,83 @@ const TripCarousel = ({ trips }) => {
           >
             {limitedTrips.map((trip) => (
               <SwiperSlide key={trip.id} className="py-8">
-                <motion.div
-                  className="flex flex-col bg-white rounded-lg overflow-hidden group relative h-full min-h-[450px] max-h-[500px] shadow-md hover:shadow-xl transition-all duration-300"
-                  onMouseEnter={() => {
-                    setActiveImage(trip.image);
-                    setIsHovering(true);
-                  }}
-                  onMouseLeave={() => {
-                    setActiveImage("");
-                    setIsHovering(false);
-                  }}
-                  whileHover={{ scale: 1.05, zIndex: 1 }}
-                >
-                  <div className="relative overflow-hidden h-48 flex-shrink-0">
-                    <img
+                <Link to={`/experiences/${createSlug(trip.name)}`}>
+                  <motion.div
+                    key={trip.id}
+                    className="bg-white rounded-xl overflow-hidden shadow-md flex flex-col justify-between"
+                    style={{ minHeight: "450px" }}
+                    variants={itemVariants}
+                    layout
+                    whileHover={itemVariants.hover}
+                    whileTap={itemVariants.tap}
+                    onMouseEnter={() => {
+                      setActiveImage(trip.image);
+                      setIsHovering(true);
+                    }}
+                    onMouseLeave={() => {
+                      setActiveImage("");
+                      setIsHovering(false);
+                    }}
+                  >
+                    <motion.img
                       src={trip.image}
                       alt={trip.name}
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                      className="w-full h-56 object-cover"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.5 }}
                     />
-                    <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-opacity duration-300"></div>
-                  </div>
-                  <div className="p-4 md:p-6 flex flex-col justify-between flex-grow">
-                    <h3 className="text-lg md:text-xl font-bold mb-2 text-black transition-colors duration-300">
-                      {trip.name}
-                    </h3>
-                    <p className="text-gray-600 mb-4 text-sm md:text-base overflow-hidden text-ellipsis flex-grow line-clamp-3">
-                      {trip.description}
-                    </p>
-                    <p className="text-black font-bold text-base md:text-lg mb-4">
-                      ${trip.price}
-                    </p>
-                    <button
-                      className="w-full bg-black text-white py-2 px-4 rounded-full hover:bg-gray-800 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
-                      onClick={() => openTripCard(trip)}
-                    >
-                      Book Now
-                    </button>
-                  </div>
-                </motion.div>
+                    <motion.div className="p-6 flex-1 flex flex-col justify-between">
+                      <motion.div>
+                        <motion.h2
+                          className="text-2xl font-bold text-gray-900 mb-2"
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.2 }}
+                        >
+                          {trip.name}
+                        </motion.h2>
+                        <motion.p
+                          className="text-gray-600 mb-4 line-clamp-2"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={{ delay: 0.3 }}
+                          style={{ minHeight: "48px" }}
+                        >
+                          {trip.description}
+                        </motion.p>
+                      </motion.div>
+                      <div>
+                        <motion.p
+                          className="text-2xl font-bold text-black mb-4"
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          transition={{
+                            delay: 0.4,
+                            type: "spring",
+                            stiffness: 200,
+                          }}
+                        >
+                          ${trip.price}
+                        </motion.p>
+                        <motion.button
+                          className="w-full bg-black text-white py-3 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
+                          whileHover={{ scale: 1.05, backgroundColor: "#333" }}
+                          whileTap={{ scale: 0.95 }}
+                          onClick={() => navigateToTrip(trip)} // Navigate to trip details on button click
+                        >
+                          Book Now
+                        </motion.button>
+                      </div>
+                    </motion.div>
+                  </motion.div>
+                </Link>
               </SwiperSlide>
             ))}
           </Swiper>
           <div className="swiper-pagination mt-4"></div>
         </div>
       </div>
-
-      <AnimatePresence>
-        {selectedTrip && (
-          <ExperienceDetails
-            experience={selectedTrip}
-            onClose={closeTripCard}
-          />
-        )}
-      </AnimatePresence>
     </motion.div>
   );
 };
