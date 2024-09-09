@@ -12,6 +12,7 @@
   "dependencies": {
     "@heroicons/react": "^1.0.6",
     "@reduxjs/toolkit": "^2.2.7",
+    "firebase": "^10.13.1",
     "framer-motion": "^11.3.30",
     "google-map-react": "^2.2.1",
     "heroicons": "^2.1.5",

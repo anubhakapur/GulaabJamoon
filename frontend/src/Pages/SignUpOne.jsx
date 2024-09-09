@@ -41,6 +41,10 @@ const SignUpOne = () => {
     }
   }, []);
 
+  const loginwithgoogle = ()=>{
+        window.open("/auth/google/callback","_self")
+    }
+
   const validateEmail = (email) => {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
     return emailRegex.test(email);
@@ -171,7 +175,7 @@ const SignUpOne = () => {
           <div className="flex-grow border-t border-gray-600"></div>
         </div>
 
-        <Button className="bg-black bg-opacity-50 text-white border border-white rounded-md hover:bg-opacity-75 active:bg-opacity-100 flex items-center justify-center transition-all duration-300">
+        <Button onClick={loginwithgoogle} className="bg-black bg-opacity-50 text-white border border-white rounded-md hover:bg-opacity-75 active:bg-opacity-100 flex items-center justify-center transition-all duration-300">
           <svg className="w-4 h-4 sm:w-5 sm:h-5 mr-2" viewBox="0 0 24 24">
             <path
               fill="currentColor"

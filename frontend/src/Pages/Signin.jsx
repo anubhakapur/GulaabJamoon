@@ -7,6 +7,8 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Context from "../context/index";
 import ROLE from '../common/role';
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { auth } from "../firebase";
 
 const Button = ({ children, className, ...props }) => (
   <motion.button
@@ -42,9 +44,32 @@ const SignIn = () => {
     }
   }, []);
 
-    const loginwithgoogle = ()=>{
-        window.open("/auth/google/callback","_self")
-    }
+//  useEffect(() => {
+//     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+//       if (currentUser) {
+//         setUser(currentUser);
+//         currentUser.getIdToken(true).then(setToken);
+//       } else {
+//         setUser(null);
+//         setToken(null);
+//       }
+//     });
+
+//       // Cleanup subscription on unmount
+//     return () => unsubscribe();
+//   }, []);
+
+
+  const googleLogin = () => {
+    const provider = new GoogleAuthProvider()
+    signInWithPopup(auth, provider).then(async(result) => {
+      console.log("result",result)
+      if(result.user){
+        toast.success("Sign in successful")
+        window.location.href = '/'
+      }
+    })
+  }  
 
   const handleSubmit = async(e) => {
     e.preventDefault();
@@ -150,7 +175,7 @@ const SignIn = () => {
           <div className="flex-grow border-t border-gray-600"></div>
         </div>
 
-        <Button onClick={loginwithgoogle} className="bg-black bg-opacity-50 text-white border border-white rounded-md hover:bg-opacity-75 active:bg-opacity-100 flex items-center justify-center transition-all duration-300">
+        <Button onClick={googleLogin} className="bg-black bg-opacity-50 text-white border border-white rounded-md hover:bg-opacity-75 active:bg-opacity-100 flex items-center justify-center transition-all duration-300">
           <svg className="w-4 h-4 sm:w-5 sm:h-5 mr-2" viewBox="0 0 24 24">
             <path
               fill="currentColor"

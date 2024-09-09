@@ -46,8 +46,8 @@ passport.deserializeUser((user,done)=>{
 authRouter.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 authRouter.get("/google/callback",passport.authenticate("google",{
-    successRedirect:"http://localhost:5173/signuptwo",
-    failureRedirect:"http://localhost:5173/signupone"
+    successRedirect:`${process.env.FRONTEND_URL}/signuptwo`,
+    failureRedirect:`${process.env.FRONTEND_URL}/signupone`
 }))
 
 module.exports = authRouter;
