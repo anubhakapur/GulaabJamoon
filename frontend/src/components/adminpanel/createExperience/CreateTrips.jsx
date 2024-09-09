@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import ExperienceForm from './ExperienceForm';
 import VariantForm from './VariantForm';
 import VariantPreview from './VariantPreview';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-const CreateExperience = ({ setPendingExperiences, setIsCreatingExperience }) => {
+const CreateExperience = () => {
+  const navigate = useNavigate();
   const initialExperience = {
     name: '',
+    url: '',
     description: '',
+    shortDescription: '',
     images: [],
     location: { state: '', city: '', latitude: '', longitude: '' },
     startDate: '',
@@ -17,29 +21,32 @@ const CreateExperience = ({ setPendingExperiences, setIsCreatingExperience }) =>
     duration: '',
     overview: '',
     highlights: [''],
+    itinerary: [''],
+    inclusions: [''],
+    exclusions: [''],
     cancellationPolicy: '',
     knowBeforeYouGo: [''],
+    faqs: [{ question: '', answer: '' }],
+    variants: []
   };
 
   const [experience, setExperience] = useState(initialExperience);
   const [isCreatingVariant, setIsCreatingVariant] = useState(false);
   const [editingVariantIndex, setEditingVariantIndex] = useState(null);
 
-  const handleSaveExperience = async(e) => {
+  const handleSaveExperience = async (e) => {
     e.preventDefault();
-    setPendingExperiences(prevExperiences => [...prevExperiences, { ...experience, id: Date.now(), status: 'Pending' }]);
-    setIsCreatingExperience(false);
-try{
-     const response = await axios.post('http://localhost:8080/api/experiences', experience)
-     if(response.data.success){
-       toast.success("Experience created successfully")
-     }
-
-}
-catch(err){
-  console.log(err)
-  toast.error(err.response.data.message || 'Something went wrong')
-}
+    try {
+      const response = await axios.post('http://localhost:8080/api/experiences', experience)
+      if (response.data.success) {
+        toast.success("Experience created successfully")
+        navigate('/trips');
+      }
+    }
+    catch (err) {
+      console.log(err)
+      toast.error(err.response.data.message || 'Something went wrong')
+    }
   };
 
   const handleSaveVariant = (variant) => {
@@ -115,7 +122,7 @@ catch(err){
             <button
               className="text-white bg-gray-500 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
               type="button"
-              onClick={() => setIsCreatingExperience(false)}
+              onClick={() => navigate('/admin')}
             >
               Cancel
             </button>

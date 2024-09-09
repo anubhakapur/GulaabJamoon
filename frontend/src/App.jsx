@@ -15,7 +15,7 @@ import { useDispatch } from "react-redux";
 import { setUserDetails } from "./store/userSlice";
 import axios from "axios";
 import Context from "./context/index";
-
+import CreateTrip from "./components/adminpanel/createExperience/CreateTrips"
  axios.defaults.withCredentials = true;
 
 import HostExperience from "./Pages/HostExperience";
@@ -89,6 +89,7 @@ const App = () => {
           <Route path="/hostexperience" element={<HostExperience />} />
           <Route path="corporate" element={<Corporate />} />
           <Route path="test" element={<Test />} />
+          <Route path="/create-trip" element={<CreateTrip />} />
           <Route
             path="/experiences/:tripName"
             element={<ExperienceDetails />}

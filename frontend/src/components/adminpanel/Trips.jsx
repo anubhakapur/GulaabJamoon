@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FaEye, FaLink, FaEdit, FaPauseCircle, FaPlayCircle, FaPlus } from 'react-icons/fa';
-import CreateExperience from './createExperience/CreateTrips';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 const Trips = () => {
@@ -15,8 +15,8 @@ const Trips = () => {
           const enrichedExperiences = fetchedExperiences.map(exp => ({
             id: exp._id,
             name: exp.name,
-            status: 'Live', // Default status
-            bookings: 0 // Random booking number for demonstration
+            status: 'Live',
+            bookings: 0
           }));
           setExperiences(enrichedExperiences);
         }
@@ -26,9 +26,8 @@ const Trips = () => {
     };
 
     fetchExperiences();
-  }, [experiences]);
+  }, []);
 
-  const [isCreatingExperience, setIsCreatingExperience] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [editingName, setEditingName] = useState('');
 
@@ -49,19 +48,6 @@ const Trips = () => {
       }
       return exp;
     }));
-  };
-
-  const handleCreateExperience = (newExperience) => {
-    setExperiences(prevExperiences => [
-      ...prevExperiences,
-      { 
-        ...newExperience, 
-        id: Date.now(), 
-        status: 'Live', 
-        bookings: 0 
-      }
-    ]);
-    setIsCreatingExperience(false);
   };
 
   const ExperienceTable = ({ experiences }) => (
@@ -138,24 +124,12 @@ const Trips = () => {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h2 className="text-3xl font-bold text-gray-800">Trips</h2>
-        {!isCreatingExperience && (
-          <button
-            className="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800 transition-colors duration-200 flex items-center"
-            onClick={() => setIsCreatingExperience(true)}
-          >
-            <FaPlus className="mr-2" /> Create new trip
-          </button>
-        )}
+        <Link to="/create-trip" className="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800 transition-colors duration-200 flex items-center">
+          <FaPlus className="mr-2" /> Create new trip
+        </Link>
       </div>
       
-      {isCreatingExperience ? (
-        <CreateExperience 
-          setPendingExperiences={handleCreateExperience}
-          setIsCreatingExperience={setIsCreatingExperience}
-        />
-      ) : (
-        <ExperienceTable experiences={experiences} />
-      )}
+      <ExperienceTable experiences={experiences} />
     </div>
   );
 };

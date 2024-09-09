@@ -11,6 +11,28 @@ const ExperienceForm = ({ experience, setExperience, isVariant }) => {
     setExperience(prev => ({...prev, location: {...prev.location, [field]: value}}));
   };
 
+  const handleFaqChange = (index, field, value) => {
+    setExperience(prev => {
+      const updatedFaqs = [...prev.faqs];
+      updatedFaqs[index] = { ...updatedFaqs[index], [field]: value };
+      return { ...prev, faqs: updatedFaqs };
+    });
+  };
+
+  const addFaq = () => {
+    setExperience(prev => ({
+      ...prev,
+      faqs: [...prev.faqs, { question: '', answer: '' }]
+    }));
+  };
+
+  const removeFaq = (index) => {
+    setExperience(prev => ({
+      ...prev,
+      faqs: prev.faqs.filter((_, i) => i !== index)
+    }));
+  };
+
   const inputClass = "shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-black focus:border-black block w-full p-2.5";
   const labelClass = "block mb-2 text-sm font-medium text-gray-900";
 
@@ -30,6 +52,19 @@ const ExperienceForm = ({ experience, setExperience, isVariant }) => {
       </div>
 
       <div className="mb-4">
+        <label className={labelClass} htmlFor="url">URL</label>
+        <input
+          className={inputClass}
+          id="url"
+          type="text"
+          placeholder="eg: one-day-trips-from-banglore"
+          value={experience.url}
+          onChange={(e) => handleChange('url', e.target.value.replace(/\s+/g, ''))}
+          required
+        />
+      </div>
+
+      <div className="mb-4">
         <label className={labelClass} htmlFor="description">Description</label>
         <textarea
           className={inputClass}
@@ -37,6 +72,18 @@ const ExperienceForm = ({ experience, setExperience, isVariant }) => {
           placeholder="Description"
           value={experience.description}
           onChange={(e) => handleChange('description', e.target.value)}
+          required
+        />
+      </div>
+
+      <div className="mb-4">
+        <label className={labelClass} htmlFor="shortDescription">Short Description (for trip cards)</label>
+        <textarea
+          className={inputClass}
+          id="shortDescription"
+          placeholder="Short description for trip cards"
+          value={experience.shortDescription}
+          onChange={(e) => handleChange('shortDescription', e.target.value)}
           required
         />
       </div>
@@ -70,8 +117,6 @@ const ExperienceForm = ({ experience, setExperience, isVariant }) => {
           />
         </div>
       </div>
-
-      
 
       <div className="mb-4 grid grid-cols-2 gap-4">
         <div>
@@ -141,6 +186,28 @@ const ExperienceForm = ({ experience, setExperience, isVariant }) => {
         label="Highlights"
         items={experience.highlights}
         setItems={(items) => handleChange('highlights', items)}
+        placeholder="Highlight"
+      />
+
+      <ArrayInput
+        label="Itinerary"
+        items={experience.itinerary}
+        setItems={(items) => handleChange('itinerary', items)}
+        placeholder={(index) => `Day ${index + 1}`}
+      />
+
+      <ArrayInput
+        label="Inclusions"
+        items={experience.inclusions}
+        setItems={(items) => handleChange('inclusions', items)}
+        placeholder="Inclusion"
+      />
+
+      <ArrayInput
+        label="Exclusions"
+        items={experience.exclusions}
+        setItems={(items) => handleChange('exclusions', items)}
+        placeholder="Exclusion"
       />
 
       <div className="mb-4">
@@ -159,7 +226,9 @@ const ExperienceForm = ({ experience, setExperience, isVariant }) => {
         label="Know Before You Go"
         items={experience.knowBeforeYouGo}
         setItems={(items) => handleChange('knowBeforeYouGo', items)}
+        placeholder="Know Before You Go Item"
       />
+
       <div className="mb-4 grid grid-cols-2 gap-4">
         <div>
           <label className={labelClass}>Latitude of Boarding Location</label>
@@ -183,6 +252,49 @@ const ExperienceForm = ({ experience, setExperience, isVariant }) => {
             required
           />
         </div>
+      </div>
+
+      <div className="mb-4">
+        <label className={labelClass}>FAQ</label>
+        {experience.faqs.map((faq, index) => (
+          <div key={index} className="mb-4 p-4 border border-gray-300 rounded-lg">
+            <div className="mb-2">
+              <input
+                className={inputClass}
+                type="text"
+                placeholder="Question 1"
+                value={faq.question}
+                onChange={(e) => handleFaqChange(index, 'question', e.target.value)}
+                required
+              />
+            </div>
+            <div className="mb-2">
+              <textarea
+                className={inputClass}
+                placeholder="Answer 1"
+                value={faq.answer}
+                onChange={(e) => handleFaqChange(index, 'answer', e.target.value)}
+                required
+              />
+            </div>
+            {index !== 0 && (
+              <button
+                type="button"
+                onClick={() => removeFaq(index)}
+                className="text-red-500 hover:text-red-700"
+              >
+                Remove FAQ
+              </button>
+            )}
+          </div>
+        ))}
+        <button
+          type="button"
+          onClick={addFaq}
+          className="text-white bg-black hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+        >
+          Add FAQ
+        </button>
       </div>
     </div>
   );
