@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ExperienceForm from './ExperienceForm';
 import VariantForm from './VariantForm';
 import VariantPreview from './VariantPreview';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { useLocation } from 'react-router-dom';
 
 const CreateExperience = ({ setPendingExperiences, setIsCreatingExperience }) => {
+
+  const location = useLocation()
+  const id = new URLSearchParams(location.search).get('id');
   const initialExperience = {
     name: '',
     description: '',
@@ -25,21 +29,52 @@ const CreateExperience = ({ setPendingExperiences, setIsCreatingExperience }) =>
   const [isCreatingVariant, setIsCreatingVariant] = useState(false);
   const [editingVariantIndex, setEditingVariantIndex] = useState(null);
 
+
+  // useEffect(async() => {
+  //   if(!id){
+  //     return;
+  //   }
+
+  //   try{
+  //     const response = await axios.get(`http://localhost:8080/api/experiences/${id}`)
+  //     if(response.data.success){
+  //       setExperience(response.data.data)
+  //     }
+  //   }
+  //   catch(err){
+  //     console.log(err)
+  //     toast.error(err.response.data.message || 'Something went wrong')
+  //   }
+
+  // },[id])
+
   const handleSaveExperience = async(e) => {
     e.preventDefault();
     setPendingExperiences(prevExperiences => [...prevExperiences, { ...experience, id: Date.now(), status: 'Pending' }]);
     setIsCreatingExperience(false);
-try{
-     const response = await axios.post('http://localhost:8080/api/experiences', experience)
-     if(response.data.success){
-       toast.success("Experience created successfully")
-     }
+// try{
+//     if(id){
+//       //update place
+//       const response = await axios.put(`http://localhost:8080/api/update-experiences`, {id,...experience})
+//       if(response.data.success){
+//         toast.success("Experience updated successfully")
+//       }
+//     }
+//     else{
+//       // new place
+//       const response = await axios.post('http://localhost:8080/api/experiences', experience)
+//      if(response.data.success){
+//        toast.success("Experience created successfully")
+//      }
 
-}
-catch(err){
-  console.log(err)
-  toast.error(err.response.data.message || 'Something went wrong')
-}
+//     }
+     
+
+// }
+// catch(err){
+//   console.log(err)
+//   toast.error(err.response.data.message || 'Something went wrong')
+// }
   };
 
   const handleSaveVariant = (variant) => {

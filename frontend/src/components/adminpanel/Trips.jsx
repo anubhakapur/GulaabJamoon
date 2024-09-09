@@ -2,17 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { FaEye, FaLink, FaEdit, FaPauseCircle, FaPlayCircle, FaPlus } from 'react-icons/fa';
 import CreateExperience from './createExperience/CreateTrips';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Trips = () => {
   const [experiences, setExperiences] = useState([]);
+  const navigate = useNavigate()
 
   useEffect(() => {
+
     const fetchExperiences = async () => {
       try {
         const response = await axios.get('http://localhost:8080/api/all-experiences');
+        console.log("create trip",response.data)
         if (response.data.success) {
-          const fetchedExperiences = response.data.data;
-          const enrichedExperiences = fetchedExperiences.map(exp => ({
+          // const fetchedExperiences = response.data.data;
+          const enrichedExperiences = response.data.data.map(exp => ({
             id: exp._id,
             name: exp.name,
             status: 'Live', // Default status
@@ -26,7 +30,7 @@ const Trips = () => {
     };
 
     fetchExperiences();
-  }, [experiences]);
+  }, []);
 
   const [isCreatingExperience, setIsCreatingExperience] = useState(false);
   const [editingId, setEditingId] = useState(null);
@@ -38,6 +42,7 @@ const Trips = () => {
         if (action === 'edit') {
           setEditingId(id);
           setEditingName(exp.name);
+          navigate('/create-trip?id='+id)
         } else if (action === 'save') {
           exp.name = editingName;
           setEditingId(null);
@@ -64,7 +69,13 @@ const Trips = () => {
     setIsCreatingExperience(false);
   };
 
-  const ExperienceTable = ({ experiences }) => (
+  // const handleEdit = (id) => {
+  //   navigate(`/create-trip?id=${id}`)
+  // }
+
+  // console.log("experiences",experiences)
+
+  const ExperienceTable = ({experiences}) => (
     <table className="w-full bg-white shadow-md rounded-lg overflow-hidden">
       <thead className="bg-gray-50">
         <tr>
@@ -114,7 +125,7 @@ const Trips = () => {
                   Save
                 </button>
               ) : (
-                <button onClick={() => handleAction('edit', exp.id)} className="text-blue-600 hover:text-blue-900 mr-2">
+                <button onClick={() => handleAction('edit',exp.id)} className="text-blue-600 hover:text-blue-900 mr-2">
                   <FaEdit className="inline mr-1 text-lg" /> Edit
                 </button>
               )}

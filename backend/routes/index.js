@@ -14,6 +14,8 @@ const resetPasswordController = require('../controllers/resetPassword.js');
 const corporateController = require('../controllers/corporate.js');
 const hostExperienceController = require('../controllers/hostExperience.js');
 const popUpController = require('../controllers/popUp.js');
+const getExperienceController = require('../controllers/getExperience.js');
+const updateExperiencesController = require('../controllers/updateExperiences.js');
 
 const router = express.Router();
 
@@ -28,6 +30,8 @@ router.get("/logout",userLogoutController)
 router.post("/corporate",corporateController)
 router.post("/hostexperience",hostExperienceController)
 router.post("/popup",popUpController)
+router.get("/experiences/:id",getExperienceController)
+router.put("/update-experiences",authToken,updateExperiencesController)
 
 
 // admin panel
