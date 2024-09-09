@@ -1,141 +1,125 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { Instagram, Linkedin, Youtube, Facebook, Twitter } from 'lucide-react';
 
 const Footer = () => {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        type: 'spring',
-        stiffness: 100
-      }
-    }
-  };
-
-  const linkVariants = {
-    hover: {
-      x: 5,
-      transition: {
-        type: 'spring',
-        stiffness: 300
-      }
-    }
-  };
+  const teamMembers = [
+    { name: "Mohin", linkedIn: "https://www.linkedin.com/in/johndoe" },
+    { name: "Simran", linkedIn: "https://www.linkedin.com/in/janesmith" },
+    { name: "Anubha", linkedIn: "https://www.linkedin.com/in/alexjohnson" },
+    { name: "Madhav", linkedIn: "https://www.linkedin.com/in/emilybrown" },
+    { name: "Navish", linkedIn: "https://www.linkedin.com/in/chrislee" }
+  ];
 
   return (
-    <motion.footer
-      className="bg-black text-white py-8"
-      initial="hidden"
-      animate="visible"
-      variants={containerVariants}
-    >
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {['About Us', 'Support', 'Contact'].map((title, index) => (
-            <motion.div key={index} variants={itemVariants}>
-              <h3 className="text-lg font-semibold mb-4 relative">
-                {title}
-                <motion.span
-                  className="absolute bottom-0 left-0 w-12 h-0.5 bg-white"
-                  initial={{ scaleX: 0 }}
-                  animate={{ scaleX: 1 }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-                ></motion.span>
-              </h3>
-              <ul className="space-y-2">
-                {index === 0 && (
-                  <>
-                    <motion.li variants={linkVariants} whileHover="hover">
-                      <a href="#" className="inline-block hover:text-gray-300 transition-colors duration-300">
-                        ► Our Story
-                      </a>
-                    </motion.li>
-                    <motion.li variants={linkVariants} whileHover="hover">
-                      <a href="#" className="inline-block hover:text-gray-300 transition-colors duration-300">
-                        ► Team
-                      </a>
-                    </motion.li>
-                  </>
-                )}
-                {index === 1 && (
-                  <>
-                    <motion.li variants={linkVariants} whileHover="hover">
-                      <a href="#" className="inline-block hover:text-gray-300 transition-colors duration-300">
-                        ► Help Center
-                      </a>
-                    </motion.li>
-                    <motion.li variants={linkVariants} whileHover="hover">
-                      <a href="#" className="inline-block hover:text-gray-300 transition-colors duration-300">
-                        ► Safety Information
-                      </a>
-                    </motion.li>
-                    <motion.li variants={linkVariants} whileHover="hover">
-                      <a href="#" className="inline-block hover:text-gray-300 transition-colors duration-300">
-                        ► Cancellation Options
-                      </a>
-                    </motion.li>
-                  </>
-                )}
-                {index === 2 && (
-                  <>
-                    <motion.li className="flex items-center" variants={linkVariants} whileHover="hover">
-                      <span className="mr-2">✉</span>
-                      <a 
-                        href="mailto:gulaabjamoon@gmail.com"
-                        className="hover:text-gray-300 transition-colors duration-300"
-                      >
-                        gulaabjamoon@gmail.com
-                      </a>
-                    </motion.li>
-                    <motion.li className="flex items-center" variants={linkVariants} whileHover="hover">
-                      <span className="mr-2">☏</span>
-                      +1 (123) 456-7890
-                    </motion.li>
-                    <motion.li className="flex items-center" variants={linkVariants} whileHover="hover">
-                      <span className="mr-2">📍</span>
-                      123 Travel Street, Adventure City
-                    </motion.li>
-                  </>
-                )}
-              </ul>
-            </motion.div>
-          ))}
+    <footer className="bg-black text-white"> {/* Changed from bg-gray-900 to bg-gray-900 */}
+      <div className="container mx-auto py-12 px-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8">
+          {/* Company Info */}
+          <div className="lg:col-span-2 space-y-4">
+            <img src="/path-to-rosanisa-logo.png" alt="Rosanisa Xperiences LLP" className="h-12 mb-4" />
+            <p className="text-sm text-blue-300">
+              GJ Experiences is a subsidiary registered under ROSANISA XPERIENCES LLP (Bangalore, India)
+            </p>
+            <a href="#" className="text-sm text-blue-300 hover:underline block">Click here to subscribe our newsletter</a>
+            <div className="flex space-x-4 mt-4">
+              <img src="/path-to-ministry-logo.png" alt="Ministry of Tourism" className="h-10" />
+              <img src="/path-to-karnataka-logo.png" alt="Karnataka Tourism" className="h-10" />
+              <img src="/path-to-kstdc-logo.png" alt="KSTDC" className="h-10" />
+            </div>
+          </div>
+
+          {/* Contacts and Timings */}
+          <div className="space-y-4">
+            <h3 className="text-lg font-bold text-yellow-500">Contacts and Timings</h3>
+            <p className="text-sm">Office Hours:<br />10 AM to 08 PM (IST)<br />Mondays to Saturdays</p>
+            <p className="text-sm">Telephone: <a href="tel:+917007162269" className="text-blue-300 hover:underline">+917007162269</a></p>
+            <p className="text-sm">Email: business@gulaabjamoon.com</p>
+          </div>
+
+          {/* India Registered Address */}
+          <div className="space-y-4">
+            <h3 className="text-lg font-bold text-yellow-500">India Registered Address</h3>
+            <p className="text-sm">NO 3 K NO 620 Begur Hobli<br />Akshay Nagar<br />Bangalore Karnataka<br />India 574212</p>
+            <p className="text-sm">LLP Identification No.: ACE-2203<br />GSTIN: AA290124094020M</p>
+          </div>
+
+          {/* About Us */}
+          <div className="space-y-4">
+            <h3 className="text-lg font-bold text-yellow-500">About Us</h3>
+            <ul className="text-sm space-y-2">
+              <li><a href="#" className="text-blue-300 hover:underline">Who is Gulaab Jamoon</a></li>
+              <li><a href="#" className="text-blue-300 hover:underline">Travel Styles</a></li>
+              <li><a href="#" className="text-blue-300 hover:underline">Team GJ</a></li>
+              <li><a href="#" className="text-blue-300 hover:underline">Testimonials</a></li>
+            </ul>
+          </div>
+
+          {/* GJ Company Policy */}
+          <div className="space-y-4">
+            <h3 className="text-lg font-bold text-yellow-500">GJ Company Policy</h3>
+            <ul className="text-sm space-y-2">
+              <li><a href="#" className="text-blue-300 hover:underline">Privacy Policy</a></li>
+              <li><a href="#" className="text-blue-300 hover:underline">Terms & Conditions</a></li>
+              <li><a href="#" className="text-blue-300 hover:underline">Refund Policy</a></li>
+              <li><a href="#" className="text-blue-300 hover:underline">Responsible Travel Policy</a></li>
+              <li><a href="#" className="text-blue-300 hover:underline">Anti-Slavery and Human Trafficking Policy</a></li>
+              <li><a href="#" className="text-blue-300 hover:underline">Anti-Corruption and Bribery Policy</a></li>
+            </ul>
+          </div>
         </div>
-        <motion.div
-          className="mt-8 pt-8 border-t border-gray-700 text-center"
-          variants={itemVariants}
-        >
-          <p className="text-sm">
-            © 2024 Gulaab Jamoon. All rights reserved.
-          </p>
-          <div className="mt-4 space-x-4">
-            {['Privacy Policy', 'Terms of Service', 'Cookie Policy'].map((policy, index) => (
-              <motion.a
-                key={index}
-                href="#"
-                className="text-sm hover:text-gray-300 transition-colors duration-300"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                {policy}
-              </motion.a>
+
+        {/* Additional Sections */}
+        <div className="mt-12 flex flex-wrap justify-between">
+          {/* GJ Helpline & Support */}
+          <div className="w-full md:w-auto mb-6 md:mb-0">
+            <h3 className="text-lg font-bold text-yellow-500 mb-4">GJ Helpline & Support</h3>
+            <ul className="text-sm space-y-2">
+              <li><a href="tel:+917869926687" className="text-blue-300 hover:underline">+91-7869926687</a></li>
+              <li><a href="tel:+919972368454" className="text-blue-300 hover:underline">+91-9972368454</a></li>
+            </ul>
+          </div>
+
+          {/* Follow Us */}
+          <div className="w-full md:w-auto mb-6 md:mb-0">
+            <h3 className="text-lg font-bold text-yellow-500 mb-4">Follow Us</h3>
+            <div className="flex space-x-4">
+              <a href="#" className="text-gray-400 hover:text-white"><Instagram size={24} /></a>
+              <a href="#" className="text-gray-400 hover:text-white"><Linkedin size={24} /></a>
+              <a href="#" className="text-gray-400 hover:text-white"><Youtube size={24} /></a>
+              <a href="#" className="text-gray-400 hover:text-white"><Facebook size={24} /></a>
+              <a href="#" className="text-gray-400 hover:text-white"><Twitter size={24} /></a>
+            </div>
+          </div>
+        </div>
+
+        {/* Copyright */}
+        <div className="mt-12 text-center">
+          <div className="text-sm">© 2024 ROSANISA XPERIENCES LLP</div>
+        </div>
+      </div>
+
+      {/* Website by section */}
+      <div className="bg-gray-900 py-3 px-4">
+        <div className="container mx-auto flex flex-wrap items-center justify-between text-xs">
+          <span className="text-gray-400 mr-4">Website by:</span>
+          <div className="flex flex-wrap">
+            {teamMembers.map((member, index) => (
+              <React.Fragment key={member.name}>
+                <a
+                  href={member.linkedIn}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-300 hover:text-white hover:underline"
+                >
+                  {member.name}
+                </a>
+                {index < teamMembers.length - 1 && <span className="mx-2 text-gray-400">|</span>}
+              </React.Fragment>
             ))}
           </div>
-        </motion.div>
+        </div>
       </div>
-    </motion.footer>
+    </footer>
   );
 };
 
