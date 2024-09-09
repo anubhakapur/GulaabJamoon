@@ -1,189 +1,131 @@
-import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { FaStar, FaGoogle } from "react-icons/fa";
-import { BsPeople } from "react-icons/bs";
-import { GiCaptainHatProfile } from "react-icons/gi";
-import { FaMapMarkerAlt } from "react-icons/fa";
+import React, { useState, useEffect } from 'react';
 
-const reviews = [
+const testimonials = [
   {
-    name: "John Doe",
-    title: "Adventure Seeker",
-    comment: "Amazing experience! The tour was well-organized and our guide was knowledgeable.",
+    id: 1,
+    name: "Arushi Goyal",
+    location: "Visitor Manali",
+    avatar: "https://res.cloudinary.com/dgtt3iwmv/image/upload/v1720079377/girl1_lfcrqy.png",
     rating: 5,
-    date: "2024-03-15"
+    text: "My stay at Ringen by Mid Orchards was great! I stayed at one of the rooms in the main cottage which had beautiful interiors and a balcony with an amazing mountain view. It also had a common room with a fireplace and great wooden decor. The property is easily accessible and very peaceful. The food was good and staff is very polite. I highly recommend staying at one of the premium luxury rooms of Ringen for the best experience."
   },
   {
-    name: "Jane Smith",
-    title: "Nature Lover",
-    comment: "Breathtaking views and great company. Highly recommended!",
+    id: 2,
+    name: "Hemant Kumar",
+    location: "Kasol Visitor",
+    avatar: "https://res.cloudinary.com/dgtt3iwmv/image/upload/v1720079377/boy1_ikp0p7.png",
     rating: 4,
-    date: "2024-03-10"
+    text: "We looked for many hotels online, found this one fascinating. After staying here for 2 days, I must say this is one of the finest property and we loved the food. I think this is the only pure vegetarian hotel in Kasol."
   },
   {
-    name: "Mike Johnson",
-    title: "Culture Enthusiast",
-    comment: "Learned so much about local history and traditions. Unforgettable trip!",
+    id: 3,
+    name: "Rohit Seth",
+    location: "Local Guide",
+    avatar: "https://res.cloudinary.com/dgtt3iwmv/image/upload/v1720079377/boy2_exqfe5.png",
     rating: 5,
-    date: "2024-03-05"
+    text: "Mid Orchard folks are making quite a mark in the hospitality scene in kullu- manali sector. The latest addition to Mid Orchard brand is Aangan. This place is plush with white glove feel at rather great prices. The place is vegan and Jain friendly. Great kitchen which serves great food. Not to mention the hidden gems in the valley which you can visit."
   },
   {
-    name: "Emily Brown",
-    title: "Food Explorer",
-    comment: "The culinary experiences were out of this world. A feast for all senses!",
+    id: 4,
+    name: "Siddhi Mishra",
+    location: "Visitor Kasol",
+    avatar: "https://res.cloudinary.com/dgtt3iwmv/image/upload/v1720079377/girl2_z0d2ym.png",
     rating: 5,
-    date: "2024-02-28"
-  },
-  {
-    name: "lavid Lee",
-    title: "Photography Buff",
-    comment: "Captured some of my best shots ever. The locations were picture-perfect.",
-    rating: 4,
-    date: "2024-02-20"
+    text: "Stayed for 3 days in this lovely place. The staff is very cooperative and helpful. Also, the river side view is amazing from the hotel. We were only 2 girls and felt completely safe and comfortable throughout our stay. Highly recommend this place."
   }
 ];
 
-const TestimonialCard = ({ name, title, comment, rating, date }) => (
-  <motion.div
-    initial={{ opacity: 0, x: -100 }}
-    animate={{ opacity: 1, x: 0 }}
-    exit={{ opacity: 0, x: 100 }}
-    transition={{ duration: 0.5 }}
-    whileHover={{ scale: 1.05, boxShadow: "0px 10px 20px rgba(0,0,0,0.1)" }}
-    className="bg-white rounded-lg p-6 shadow-md max-w-3xl mx-auto transition-all duration-300"
-  >
-    <div className="flex items-center mb-4">
-      <img
-        src={`https://api.dicebear.com/6.x/initials/svg?seed=${name}`}
-        alt={name}
-        className="w-12 h-12 rounded-full mr-4"
-      />
-      <div>
-        <h3 className="font-bold text-lg">{name}</h3>
-        <p className="text-gray-500 text-sm">{date}</p>
-      </div>
-    </div>
-    <div className="flex mb-2">
-      {[...Array(5)].map((_, i) => (
-        <FaStar key={i} className={i < rating ? "text-yellow-400" : "text-gray-300"} />
-      ))}
-    </div>
-    <p className="text-gray-700 mb-2">{comment}</p>
-    <div className="flex items-center text-blue-500">
-      <FaGoogle className="mr-2" />
-      <span className="text-sm">Posted on Google</span>
-    </div>
-  </motion.div>
-);
-
-const AnimatedNumber = ({ value, decimals = 0 }) => {
-  const [count, setCount] = useState(0);
+const Testimonial = () => {
+  const [currentTestimonial, setCurrentTestimonial] = useState(testimonials[0]);
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
-    const duration = 2000;
-    const steps = 60;
-    const stepValue = value / steps;
-    let current = 0;
-
-    const timer = setInterval(() => {
-      current += stepValue;
-      if (current > value) {
-        setCount(value);
-        clearInterval(timer);
-      } else {
-        setCount(Number(current.toFixed(decimals)));
+    const intervalId = setInterval(() => {
+      if (!isHovered) {
+        setCurrentTestimonial((prev) => {
+          const nextIndex = (testimonials.findIndex(t => t.id === prev.id) + 1) % testimonials.length;
+          return testimonials[nextIndex];
+        });
       }
-    }, duration / steps);
-
-    return () => clearInterval(timer);
-  }, [value, decimals]);
-
-  return <span>{count.toFixed(decimals)}</span>;
-};
-
-const StatCard = ({ icon, title, value, decimals = 0 }) => (
-  <motion.div
-    whileHover={{ scale: 1.05 }}
-    className="bg-black text-white p-6 rounded-xl shadow-md text-center flex-1"
-  >
-    {icon}
-    <h3 className="mt-4 font-semibold text-lg">{title}</h3>
-    <p className="text-3xl font-bold">
-      <AnimatedNumber value={parseFloat(value)} decimals={decimals} />
-      {typeof value === "string" && value.includes("+") && "+"}
-    </p>
-  </motion.div>
-);
-
-const ProgressBar = ({ currentIndex, total }) => (
-  <div className="w-full bg-gray-200 rounded-full h-2.5 mb-4">
-    <div
-      className="bg-blue-600 h-2.5 rounded-full transition-all duration-500 ease-in-out"
-      style={{ width: `${((currentIndex + 1) / total) * 100}%` }}
-    ></div>
-  </div>
-);
-
-const TestimonialPage = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % reviews.length);
     }, 5000);
 
-    return () => clearInterval(timer);
-  }, []);
+    return () => clearInterval(intervalId);
+  }, [isHovered]);
+
+  const handleImageError = (e) => {
+    e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(e.target.alt)}&background=random`;
+  };
 
   return (
-    <div className="bg-gradient-to-br from-gray-100 to-gray-200 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
-        <motion.h1
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-5xl sm:text-6xl font-extrabold text-center mb-12 text-gray-800 tracking-tight"
-        >
-          What Our Clients Say
-        </motion.h1>
+    <div className="min-h-screen flex items-center justify-center p-4 bg-[#f8f8f8]">
+      <div className="max-w-4xl w-full">
+        <h1 className="text-gray-800 text-3xl sm:text-5xl lg:text-6xl font-bold mb-6 sm:mb-10 relative inline-block
+                       hover:text-[#eab308] transition-colors duration-300">
+          Testimonials
+          <span className="absolute -bottom-2 left-0 w-full h-1 sm:h-2 bg-[#eab308]
+                           transition-all duration-300 hover:w-0"></span>
+        </h1>
+        
+        <div className="relative pb-20">
+          <div className="bg-white bg-opacity-95 rounded-lg sm:rounded-xl p-4 sm:p-6 shadow-lg 
+                          transition-all duration-300 hover:shadow-2xl hover:bg-opacity-100
+                          transform hover:scale-105"
+               onMouseEnter={() => setIsHovered(true)}
+               onMouseLeave={() => setIsHovered(false)}>
+            <div className="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-4">
+              <img 
+                src={currentTestimonial.avatar}
+                alt={currentTestimonial.name}
+                className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover flex-shrink-0 border-2 sm:border-4 border-[#eab308] shadow-md
+                           transition-transform duration-300 hover:scale-110"
+                onError={handleImageError}
+              />
+              <div className="flex-grow text-center sm:text-left">
+                <h2 className="font-semibold text-xl sm:text-2xl text-gray-800 mb-1
+                               hover:text-[#eab308] transition-colors duration-300">{currentTestimonial.name}</h2>
+                <p className="text-sm sm:text-base text-gray-600 mb-2
+                              hover:text-gray-800 transition-colors duration-300">{currentTestimonial.location}</p>
+                <div className="flex justify-center sm:justify-start text-[#eab308] mt-1 sm:mt-2 text-lg sm:text-xl
+                                hover:text-yellow-500 transition-colors duration-300">
+                  {Array.from({ length: 5 }, (_, i) => (
+                    <span key={i}>{i < currentTestimonial.rating ? '★' : '☆'}</span>
+                  ))}
+                </div>
+                <p className="mt-3 text-sm sm:text-base leading-relaxed text-gray-700
+                              hover:text-gray-900 transition-colors duration-300">{currentTestimonial.text}</p>
+                <div className="flex items-center justify-center sm:justify-start mt-4">
+                  <img 
+                    src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" 
+                    alt="Google Logo" 
+                    className="h-5 mr-2"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
 
-        <div className="flex flex-wrap justify-between gap-8 mb-12">
-          <StatCard
-            icon={<BsPeople className="text-4xl text-blue-500 mx-auto" />}
-            title="Happy Travellers"
-            value="1000+"
-          />
-          <StatCard
-            icon={<FaStar className="text-4xl text-yellow-400 mx-auto" />}
-            title="Google Rating"
-            value={4.9}
-            decimals={1}
-          />
-          <StatCard
-            icon={<FaMapMarkerAlt className="text-4xl text-green-500 mx-auto" />}
-            title="Destinations"
-            value="500+"
-          />
-          <StatCard
-            icon={<GiCaptainHatProfile className="text-4xl text-purple-500 mx-auto" />}
-            title="Tour Captains"
-            value={180}
-          />
+          <div className="absolute -bottom-12 right-0 flex justify-end space-x-2 sm:space-x-3">
+            {testimonials.map((testimonial) => (
+              <div 
+                key={testimonial.id}
+                className={`w-16 h-24 sm:w-20 sm:h-28 bg-gray-300 rounded-lg relative overflow-hidden cursor-pointer 
+                            transition-all duration-300 hover:shadow-md hover:scale-105
+                            ${currentTestimonial.id === testimonial.id ? 'ring-2 ring-[#eab308]' : ''}`}
+                onClick={() => setCurrentTestimonial(testimonial)}
+              >
+                <img 
+                  src={testimonial.avatar}
+                  alt={testimonial.name}
+                  className="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+                  onError={handleImageError}
+                />
+              </div>
+            ))}
+          </div>
         </div>
-
-        <div className="relative mb-8 overflow-hidden">
-          <AnimatePresence mode="wait">
-            <TestimonialCard
-              key={currentIndex}
-              {...reviews[currentIndex]}
-            />
-          </AnimatePresence>
-        </div>
-
-        <ProgressBar currentIndex={currentIndex} total={reviews.length} />
       </div>
     </div>
   );
 };
 
-export default TestimonialPage;
+export default Testimonial;
