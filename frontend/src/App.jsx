@@ -10,7 +10,7 @@ import SignUpTwo from "./Pages/SignUpTwo";
 import Gallery from "./Pages/Gallery";
 import AdminPanel from "./components/adminpanel/AdminPanel";
 import UserPanel from "./components/userpanel/UserPanel";
-
+import Test from "./Pages/Popup"
 import { useDispatch } from "react-redux";
 import { setUserDetails } from "./store/userSlice";
 import axios from "axios";
@@ -88,6 +88,7 @@ const App = () => {
           <Route path="/user" element={<UserPanel />} />
           <Route path="/hostexperience" element={<HostExperience />} />
           <Route path="corporate" element={<Corporate />} />
+          <Route path="test" element={<Test />} />
           <Route
             path="/experiences/:tripName"
             element={<ExperienceDetails />}

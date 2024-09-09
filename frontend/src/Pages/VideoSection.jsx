@@ -42,7 +42,7 @@ const VideoSection = () => {
       {/* Content overlay with fade-in animation */}
       <div className={`absolute inset-0 flex flex-col items-center justify-center z-20 transition-opacity duration-300 ${isPlaying ? 'opacity-0' : 'opacity-100 animate-fade-in'}`}>
         <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 md:mb-8 text-white text-center px-4 animate-text-glow">
-          Tripcat - Trekking & Fun
+          Gulaab Jamoon - Trekking & Fun
         </h2>
         <button 
           onClick={handlePlay}
