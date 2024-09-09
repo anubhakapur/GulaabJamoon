@@ -12,6 +12,8 @@ import AdminPanel from "./components/adminpanel/AdminPanel";
 import UserPanel from "./components/userpanel/UserPanel";
 import HostExperience from "./Pages/HostExperience";
 import Corporate from "./Pages/Corporate";
+import ExperienceDetails from "./Pages/EXPERIENCES/ExperienceDetails";
+import Hello from "./Pages/EXPERIENCES/Hello";
 
 const App = () => {
   const images = [
@@ -56,7 +58,11 @@ const App = () => {
           <Route path="/admin" element={<AdminPanel />}></Route>
           <Route path="/user" element={<UserPanel />} />
           <Route path="/hostexperience" element={<HostExperience />} />
-          <Route path='corporate' element={<Corporate/>}/>
+          <Route path="corporate" element={<Corporate />} />
+          <Route
+            path="/experiences/:tripName"
+            element={<ExperienceDetails />}
+          />
         </Routes>
       </BrowserRouter>
     </div>
