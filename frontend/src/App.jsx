@@ -10,12 +10,19 @@ import SignUpTwo from "./Pages/SignUpTwo";
 import Gallery from "./Pages/Gallery";
 import AdminPanel from "./components/adminpanel/AdminPanel";
 import UserPanel from "./components/userpanel/UserPanel";
+
 import { useDispatch } from "react-redux";
 import { setUserDetails } from "./store/userSlice";
 import axios from "axios";
 import Context from "./context/index";
 
  axios.defaults.withCredentials = true;
+
+import HostExperience from "./Pages/HostExperience";
+import Corporate from "./Pages/Corporate";
+import ExperienceDetails from "./Pages/EXPERIENCES/ExperienceDetails";
+import Hello from "./Pages/EXPERIENCES/Hello";
+
 
 const App = () => {
 
@@ -79,6 +86,12 @@ const App = () => {
           <Route path="/gallery" element={<Gallery images={images} />} />
           <Route path="/admin" element={<AdminPanel />}></Route>
           <Route path="/user" element={<UserPanel />} />
+          <Route path="/hostexperience" element={<HostExperience />} />
+          <Route path="corporate" element={<Corporate />} />
+          <Route
+            path="/experiences/:tripName"
+            element={<ExperienceDetails />}
+          />
         </Routes>
       </BrowserRouter>
     </div>

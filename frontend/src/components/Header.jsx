@@ -64,6 +64,11 @@ const Header = ({ home }) => {
     { label: "Contact Us", href: "/contact" },
   ];
 
+  const additionalItems = [
+    { label: "Corporate XPs", href: "/corporatexps" },
+    { label: "List with Us", href: "/hostexperience" },
+  ];
+
   const navVariants = {
     hidden: { opacity: 0, y: -20 },
     visible: {
@@ -208,7 +213,7 @@ const Header = ({ home }) => {
             ) :
            ( <Link
               to="/signin"
-              className="text-white border border-white rounded-full px-4 py-2 transition duration-300 hover:bg-white hover:text-black"
+              className="text-white border border-white rounded-full px-4 py-2 mx-2 transition duration-300 hover:bg-white hover:text-black"
             >
               Login
             </Link>)
@@ -259,6 +264,22 @@ const Header = ({ home }) => {
                   >
                     {label}
                     <span className="absolute left-0 bottom-0 w-full h-0.5 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-in-out"></span>
+                  </Link>
+                </motion.li>
+              ))}
+              {/* Add Corporate XPs and List with Us for small screen sizes */}
+              {additionalItems.map(({ label, href }) => (
+                <motion.li
+                  key={label}
+                  className="mb-6 lg:hidden md:hidden"
+                  variants={itemVariants}
+                >
+                  <Link
+                    to={href}
+                    className="text-white text-2xl relative group transition-colors duration-300 hover:text-gray-300 pb-1"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {label}
                   </Link>
                 </motion.li>
               ))}

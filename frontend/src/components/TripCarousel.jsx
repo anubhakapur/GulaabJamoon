@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, A11y, Autoplay } from "swiper/modules";
@@ -32,12 +32,24 @@ const TripCarousel = () => {
 
     fetchExperiences();
   }, []);
+  const [isHovering, setIsHovering] = useState(false);
+  const swiperRef = useRef(null);
 
   useEffect(() => {
     if (activeImage !== prevImage) {
       setPrevImage(activeImage);
     }
   }, [activeImage, prevImage]);
+
+  useEffect(() => {
+    if (swiperRef.current && swiperRef.current.swiper) {
+      if (isHovering) {
+        swiperRef.current.swiper.autoplay.stop();
+      } else {
+        swiperRef.current.swiper.autoplay.start();
+      }
+    }
+  }, [isHovering]);
 
   const BackgroundImage = ({ image, isActive }) => (
     <motion.div
@@ -57,14 +69,24 @@ const TripCarousel = () => {
     </motion.div>
   );
 
-  // Limit the trips to the first 6
-  const limitedTrips = trips?.slice(0, 6);
+  const limitedTrips = trips.slice(0, 6);
 
-  // Function to handle opening the trip card
-  const openTripCard = (trip) => setSelectedTrip(trip);
+  const createSlug = (name) => {
+    return name.toLowerCase().replace(/\s+/g, "-");
+  };
 
-  // Function to handle closing the trip card
-  const closeTripCard = () => setSelectedTrip(null);
+  const navigateToTrip = (trip) => {
+    // You can define your navigation logic here, using a router for example
+  };
+
+  const itemVariants = {
+    hover: {
+      scale: 1.05,
+      boxShadow:
+        "0 20px 35px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+    },
+    tap: { scale: 0.98 },
+  };
 
   return (
     <motion.div
@@ -109,10 +131,9 @@ const TripCarousel = () => {
           />
         </AnimatePresence>
 
-        <div className="relative z-10 container mx-auto px-4 py-8">
-          {/* Navigation Buttons */}
-          <div className="swiper-button-prev absolute left-0 top-1/2 transform -translate-y-1/2 z-20 text-black -ml-12"></div>
-          <div className="swiper-button-next absolute right-0 top-1/2 transform -translate-y-1/2 z-20 text-black -mr-12"></div>
+        <div className="relative z-10 container mx-auto px-10 py-8">
+          <div className="swiper-button-prev absolute left-4 top-1/2 transform -translate-y-1/2 z-20 text-black -ml-6"></div>
+          <div className="swiper-button-next absolute right-4 top-1/2 transform -translate-y-1/2 z-20 text-black -mr-6"></div>
 
           <Swiper
             modules={[Navigation, Pagination, A11y, Autoplay]}
@@ -133,6 +154,7 @@ const TripCarousel = () => {
               1024: { slidesPerView: 4, spaceBetween: 40 },
             }}
             className="mySwiper"
+            ref={swiperRef}
           >
             {limitedTrips?.map((trip) => (
               <SwiperSlide key={trip._id} className="py-8">
@@ -145,7 +167,10 @@ const TripCarousel = () => {
                     <img
                       src={trip.images[0]}
                       alt={trip.name}
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                      className="w-full h-56 object-cover"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.5 }}
                     />
                     <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-opacity duration-300"></div>
                   </div>
@@ -173,16 +198,6 @@ const TripCarousel = () => {
           <div className="swiper-pagination mt-4"></div>
         </div>
       </div>
-
-      {/* Expanded Trip Card */}
-      <AnimatePresence>
-        {selectedTrip && (
-          <ExperienceDetails
-            experience={selectedTrip}
-            onClose={closeTripCard} // Close button to hide the ExperienceDetails
-          />
-        )}
-      </AnimatePresence>
     </motion.div>
   );
 };

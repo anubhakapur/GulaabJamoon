@@ -1,133 +1,127 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaStar, FaQuoteLeft, FaQuoteRight } from "react-icons/fa";
+import { FaStar, FaGoogle } from "react-icons/fa";
 import { BsPeople } from "react-icons/bs";
-import testimonials from "../assets/data/testimonials";
+import { GiCaptainHatProfile } from "react-icons/gi";
+import { FaMapMarkerAlt } from "react-icons/fa";
 
-const TestimonialCard = ({ name, title, comment, rating }) => (
+const reviews = [
+  {
+    name: "John Doe",
+    title: "Adventure Seeker",
+    comment: "Amazing experience! The tour was well-organized and our guide was knowledgeable.",
+    rating: 5,
+    date: "2024-03-15"
+  },
+  {
+    name: "Jane Smith",
+    title: "Nature Lover",
+    comment: "Breathtaking views and great company. Highly recommended!",
+    rating: 4,
+    date: "2024-03-10"
+  },
+  {
+    name: "Mike Johnson",
+    title: "Culture Enthusiast",
+    comment: "Learned so much about local history and traditions. Unforgettable trip!",
+    rating: 5,
+    date: "2024-03-05"
+  },
+  {
+    name: "Emily Brown",
+    title: "Food Explorer",
+    comment: "The culinary experiences were out of this world. A feast for all senses!",
+    rating: 5,
+    date: "2024-02-28"
+  },
+  {
+    name: "lavid Lee",
+    title: "Photography Buff",
+    comment: "Captured some of my best shots ever. The locations were picture-perfect.",
+    rating: 4,
+    date: "2024-02-20"
+  }
+];
+
+const TestimonialCard = ({ name, title, comment, rating, date }) => (
   <motion.div
-    initial={{ opacity: 0, y: 50 }}
-    animate={{ opacity: 1, y: 0 }}
-    exit={{ opacity: 0, y: -50 }}
+    initial={{ opacity: 0, x: -100 }}
+    animate={{ opacity: 1, x: 0 }}
+    exit={{ opacity: 0, x: 100 }}
     transition={{ duration: 0.5 }}
-    className="bg-gradient-to-br from-gray-900 to-black text-white rounded-3xl p-8 shadow-xl max-w-3xl mx-auto"
+    whileHover={{ scale: 1.05, boxShadow: "0px 10px 20px rgba(0,0,0,0.1)" }}
+    className="bg-white rounded-lg p-6 shadow-md max-w-3xl mx-auto transition-all duration-300"
   >
-    <div className="flex flex-col sm:flex-row items-center sm:items-start mb-6">
-      <motion.img
-        src={`https://api.dicebear.com/6.x/avataaars/svg?seed=${name}`}
+    <div className="flex items-center mb-4">
+      <img
+        src={`https://api.dicebear.com/6.x/initials/svg?seed=${name}`}
         alt={name}
-        className="w-24 h-24 rounded-full mb-4 sm:mb-0 sm:mr-6 flex-shrink-0 border-4 border-purple-600"
-        whileHover={{ scale: 1.1 }}
-        transition={{ duration: 0.3 }}
+        className="w-12 h-12 rounded-full mr-4"
       />
-      <div className="flex-1 text-center sm:text-left">
-        <h3 className="font-bold text-2xl sm:text-3xl">{name}</h3>
-        <p className="text-gray-400 text-lg">{title}</p>
-        <div className="flex justify-center sm:justify-start mt-2">
-          {[...Array(rating)].map((_, i) => (
-            <FaStar key={i} className="text-yellow-400 mr-1" />
-          ))}
-        </div>
+      <div>
+        <h3 className="font-bold text-lg">{name}</h3>
+        <p className="text-gray-500 text-sm">{date}</p>
       </div>
     </div>
-    <div className="relative">
-      <FaQuoteLeft className="text-4xl text-gray-700 absolute top-0 left-0" />
-      <p className="text-xl leading-relaxed pl-10 pr-10 italic">{comment}</p>
-      <FaQuoteRight className="text-4xl text-gray-700 absolute bottom-0 right-0" />
+    <div className="flex mb-2">
+      {[...Array(5)].map((_, i) => (
+        <FaStar key={i} className={i < rating ? "text-yellow-400" : "text-gray-300"} />
+      ))}
+    </div>
+    <p className="text-gray-700 mb-2">{comment}</p>
+    <div className="flex items-center text-blue-500">
+      <FaGoogle className="mr-2" />
+      <span className="text-sm">Posted on Google</span>
     </div>
   </motion.div>
 );
 
-const CustomSlider = ({ value, onChange, max }) => (
-  <div className="relative w-full max-w-xl mx-auto">
-    <input
-      type="range"
-      min="0"
-      max={max}
-      value={value}
-      onChange={onChange}
-      className="w-full appearance-none bg-transparent cursor-pointer"
-      style={{
-        "--range-color": "#4B5563",
-      }}
-    />
-    <div
-      className="absolute top-1/2 left-0 right-0 h-2 -mt-1 rounded-full bg-gray-300"
-      style={{
-        background: `linear-gradient(to right, #4B5563 0%, #4B5563 ${
-          (value / max) * 100
-        }%, #D1D5DB ${(value / max) * 100}%, #D1D5DB 100%)`,
-      }}
-    ></div>
-    <style>{`
-      input[type="range"] {
-        -webkit-appearance: none;
-        margin: 10px 0;
-        width: 100%;
-      }
-      input[type="range"]:focus {
-        outline: none;
-      }
-      input[type="range"]::-webkit-slider-runnable-track {
-        width: 100%;
-        height: 2px;
-        cursor: pointer;
-        background: transparent;
-        border: none;
-      }
-      input[type="range"]::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        height: 0;
-        width: 0;
-      }
-      input[type="range"]::-moz-range-track {
-        width: 100%;
-        height: 2px;
-        cursor: pointer;
-        background: transparent;
-        border: none;
-      }
-      input[type="range"]::-moz-range-thumb {
-        height: 0;
-        width: 0;
-        background: transparent;
-        cursor: pointer;
-        border: none;
-      }
-      input[type="range"]::-ms-track {
-        width: 100%;
-        height: 2px;
-        cursor: pointer;
-        background: transparent;
-        border: none;
-        color: transparent;
-      }
-      input[type="range"]::-ms-fill-lower {
-        background: transparent;
-      }
-      input[type="range"]::-ms-fill-upper {
-        background: transparent;
-      }
-      input[type="range"]::-ms-thumb {
-        height: 0;
-        width: 0;
-        background: transparent;
-        cursor: pointer;
-        border: none;
-      }
-    `}</style>
-  </div>
-);
+const AnimatedNumber = ({ value, decimals = 0 }) => {
+  const [count, setCount] = useState(0);
 
-const StatCard = ({ icon, title, value }) => (
+  useEffect(() => {
+    const duration = 2000;
+    const steps = 60;
+    const stepValue = value / steps;
+    let current = 0;
+
+    const timer = setInterval(() => {
+      current += stepValue;
+      if (current > value) {
+        setCount(value);
+        clearInterval(timer);
+      } else {
+        setCount(Number(current.toFixed(decimals)));
+      }
+    }, duration / steps);
+
+    return () => clearInterval(timer);
+  }, [value, decimals]);
+
+  return <span>{count.toFixed(decimals)}</span>;
+};
+
+const StatCard = ({ icon, title, value, decimals = 0 }) => (
   <motion.div
     whileHover={{ scale: 1.05 }}
-    className="bg-white p-6 rounded-xl shadow-md text-center"
+    className="bg-black text-white p-6 rounded-xl shadow-md text-center flex-1"
   >
     {icon}
-    <h3 className="mt-4 font-semibold text-lg text-gray-700">{title}</h3>
-    <p className="text-3xl font-bold text-gray-900">{value}</p>
+    <h3 className="mt-4 font-semibold text-lg">{title}</h3>
+    <p className="text-3xl font-bold">
+      <AnimatedNumber value={parseFloat(value)} decimals={decimals} />
+      {typeof value === "string" && value.includes("+") && "+"}
+    </p>
   </motion.div>
+);
+
+const ProgressBar = ({ currentIndex, total }) => (
+  <div className="w-full bg-gray-200 rounded-full h-2.5 mb-4">
+    <div
+      className="bg-blue-600 h-2.5 rounded-full transition-all duration-500 ease-in-out"
+      style={{ width: `${((currentIndex + 1) / total) * 100}%` }}
+    ></div>
+  </div>
 );
 
 const TestimonialPage = () => {
@@ -135,15 +129,11 @@ const TestimonialPage = () => {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % reviews.length);
     }, 5000);
 
     return () => clearInterval(timer);
   }, []);
-
-  const handleSliderChange = (event) => {
-    setCurrentIndex(Number(event.target.value));
-  };
 
   return (
     <div className="bg-gradient-to-br from-gray-100 to-gray-200 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
@@ -157,43 +147,40 @@ const TestimonialPage = () => {
           What Our Clients Say
         </motion.h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        <div className="flex flex-wrap justify-between gap-8 mb-12">
           <StatCard
             icon={<BsPeople className="text-4xl text-blue-500 mx-auto" />}
-            title="Happy Clients"
+            title="Happy Travellers"
             value="1000+"
           />
           <StatCard
-            icon={<FaStar className="text-4xl text-yellow-500 mx-auto" />}
-            title="Average Rating"
-            value="4.9"
+            icon={<FaStar className="text-4xl text-yellow-400 mx-auto" />}
+            title="Google Rating"
+            value={4.9}
+            decimals={1}
           />
           <StatCard
-            icon={<FaQuoteRight className="text-4xl text-green-500 mx-auto" />}
-            title="Testimonials"
+            icon={<FaMapMarkerAlt className="text-4xl text-green-500 mx-auto" />}
+            title="Destinations"
             value="500+"
+          />
+          <StatCard
+            icon={<GiCaptainHatProfile className="text-4xl text-purple-500 mx-auto" />}
+            title="Tour Captains"
+            value={180}
           />
         </div>
 
-        <div className="relative mb-8">
+        <div className="relative mb-8 overflow-hidden">
           <AnimatePresence mode="wait">
             <TestimonialCard
               key={currentIndex}
-              {...testimonials[currentIndex]}
+              {...reviews[currentIndex]}
             />
           </AnimatePresence>
         </div>
 
-        <div className="mt-8 flex flex-col items-center">
-          <CustomSlider
-            value={currentIndex}
-            onChange={handleSliderChange}
-            max={testimonials.length - 1}
-          />
-          <div className="text-center mt-4 text-gray-600">
-            {currentIndex + 1} / {testimonials.length}
-          </div>
-        </div>
+        <ProgressBar currentIndex={currentIndex} total={reviews.length} />
       </div>
     </div>
   );
