@@ -2,8 +2,12 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
+import { useSelector } from "react-redux";
 
 const ResetPassword = () => {
+
+  const user = useSelector((state) => state?.user?.user);
   const [email, setEmail] = useState("");
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -12,10 +16,10 @@ const ResetPassword = () => {
   const [errors, setErrors] = useState({});
   const [focusedField, setFocusedField] = useState(null);
 
-  const mockProfile = {
-    email: "john.doe@example.com",
-    password: "OldPassword123!",
-  };
+  // const mockProfile = {
+  //   email: "john.doe@example.com",
+  //   password: "OldPassword123!",
+  // };
 
   const validateEmail = (email) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -27,7 +31,7 @@ const ResetPassword = () => {
     return regex.test(password);
   };
 
-  const handleResetPassword = () => {
+  const handleResetPassword = async() => {
     const newErrors = {};
 
     if (!validateEmail(email)) {
@@ -44,8 +48,8 @@ const ResetPassword = () => {
       return;
     }
 
-    if (email !== mockProfile.email || oldPassword !== mockProfile.password) {
-      toast.error("Invalid credentials");
+    if (email !== user.email) {
+      toast.error("Invalid email address");
       return;
     }
 
@@ -54,8 +58,31 @@ const ResetPassword = () => {
       return;
     }
 
-    toast.success("Password Changed");
-    // Update the password logic here
+    // toast.success("Password Changed");
+    
+    // Add the API call here to send the data to the backend
+    try{
+      const response = await axios.post("http://localhost:8080/api/reset-password",{
+        email,
+        oldPassword,
+        newPassword
+      })
+
+      if(response.data.success){
+        toast.success(response.data.message);
+        setEmail("");
+        setOldPassword("");
+        setNewPassword("");
+        setConfirmPassword("");
+        
+      }  
+        
+    }
+    catch(error){
+      console.error(error);
+      toast.error(error.response.data.message || "Server error");
+    }
+
   };
 
   const handleForgotPassword = () => {

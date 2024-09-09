@@ -1,15 +1,30 @@
 import React from 'react';
 
 const ImageUpload = ({ images, setImages }) => {
-  const handleImageUpload = (e) => {
+  const convertToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
+  const handleImageUpload = async (e) => {
     const files = Array.from(e.target.files);
     if (files.length > 0) {
       if (images.length + files.length > 10) {
         alert('You can upload a maximum of 10 images.');
         return;
       }
-      const newImages = files.map(file => URL.createObjectURL(file));
-      setImages([...images, ...newImages]);
+      
+      try {
+        const base64Images = await Promise.all(files.map(convertToBase64));
+        setImages([...images, ...base64Images]);
+      } catch (error) {
+        console.error('Error converting images to base64:', error);
+        alert('There was an error processing your images. Please try again.');
+      }
     }
   };
 
@@ -49,6 +64,7 @@ const ImageUpload = ({ images, setImages }) => {
               onClick={() => removeImage(index)}
               className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1"
             >
+              ×
             </button>
           </div>
         ))}

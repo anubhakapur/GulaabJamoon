@@ -2,13 +2,42 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
 import GJlogo from "../assets/images/GJlogo.svg";
+import { useSelector } from "react-redux";
+import axios from "axios";
+import { toast,ToastContainer } from "react-toastify";
+import { setUserDetails } from "../store/userSlice";
 
 const Header = ({ home }) => {
+  const user = useSelector((state) => state?.user);
+  const user_id = user?.user?._id;
+  console.log("user",user);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [isAtTop, setIsAtTop] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const location = useLocation();
+
+  const handleLogout = async() => {
+
+    try{
+    const response = await axios.get('http://localhost:8080/api/logout')
+    console.log(response.data)
+    if(response.data.success){
+      toast.success(response.data.message)
+      dispatch(setUserDetails(null))
+      navigate("/")
+    }
+
+    if(response.data.error){
+      toast.error(data.message)
+    }
+  }
+  catch(err){
+    console.log(err)
+    toast.error(err.response.data.message || "Something went wrong")
+  }
+  }
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -173,12 +202,23 @@ const Header = ({ home }) => {
             initial="hidden"
             animate="visible"
           >
-            <Link
+          {
+            user_id ? (
+               <Link
+              onClick={handleLogout}
+              className="text-white border border-white rounded-full px-4 py-2 transition duration-300 hover:bg-white hover:text-black"
+            >
+              Logout
+            </Link>
+            ) :
+           ( <Link
               to="/signin"
               className="text-white border border-white rounded-full px-4 py-2 mx-2 transition duration-300 hover:bg-white hover:text-black"
             >
               Login
-            </Link>
+            </Link>)
+          }
+            
           </motion.div>
         </div>
       </motion.header>

@@ -1,16 +1,38 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Footer from "../components/Footer";
-import { Link, useNavigate } from "react-router-dom";
+import ExperienceDetails from "./EXPERIENCES/ExperienceDetails";
+import { Link, useNavigate } from "react-router-dom"; // Added useNavigate for back functionality
+import GJlogo from "../assets/images/GJlogo.svg";
+import axios from "axios";
 
-const AllTripsPage = ({ trips: allTrips }) => {
-  const [visibleTrips, setVisibleTrips] = useState(8); // Display 8 trips initially
+const AllTripsPage = () => {
+  const [visibleTrips, setVisibleTrips] = useState(8);
+  const [selectedTrip, setSelectedTrip] = useState(null);
+  const [allTrips,setAllTrips] = useState([])
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate(); // Hook to handle back navigation
   const [searchTerm, setSearchTerm] = useState(""); // State for search term
-  const navigate = useNavigate();
 
   useEffect(() => {
     window.scrollTo(0, 0); // Scroll to the top when the component mounts
   }, []);
+
+  useEffect(() => {
+    const fetchExperiences = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/api/all-experiences');
+        console.log("trips",response.data)
+        setAllTrips(response.data.data);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching experiences:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchExperiences();
+  }, [allTrips]);
 
   // Load all trips when "Load More" is clicked
   const loadMore = () => {
@@ -117,6 +139,75 @@ const AllTripsPage = ({ trips: allTrips }) => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ type: "spring", stiffness: 150, damping: 20 }}
           >
+            <AnimatePresence>
+              {allTrips.slice(0, visibleTrips).map((trip) => (
+                <motion.div
+                  key={trip._id}
+                  className="bg-white rounded-xl overflow-hidden shadow-md flex flex-col justify-between"
+                  style={{ minHeight: "450px" }} // Fixed height for uniformity
+                  variants={itemVariants}
+                  layout
+                  whileHover={{
+                    scale: 1.05,
+                    boxShadow:
+                      "0 20px 35px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+                  }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <motion.img
+                    src={trip.images[0]}
+                    alt={trip.name}
+                    className="w-full h-56 object-cover"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.5 }}
+                  />
+                  <motion.div className="p-6 flex-1 flex flex-col justify-between">
+                    <motion.div>
+                      <motion.h2
+                        className="text-2xl font-bold text-gray-900 mb-2"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2 }}
+                      >
+                        {trip.name}
+                      </motion.h2>
+                      <motion.p
+                        className="text-gray-600 mb-4 line-clamp-2" // Limiting to 2 lines and ellipsis
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.3 }}
+                        style={{ minHeight: "48px" }} // Ensuring consistent height for descriptions
+                      >
+                        {trip.description}
+                      </motion.p>
+                    </motion.div>
+                    <div>
+                      <motion.p
+                        className="text-2xl font-bold text-black mb-4"
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{
+                          delay: 0.4,
+                          type: "spring",
+                          stiffness: 200,
+                        }}
+                      >
+                        ${trip.price}
+                      </motion.p>
+                      <motion.button
+                        className="w-full bg-black text-white py-3 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
+                        whileHover={{ scale: 1.05, backgroundColor: "#333" }}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={() => openTripCard(trip)}
+                      >
+                        Book Now
+                      </motion.button>
+                    </div>
+                  </motion.div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
             <div className="relative w-[60%] transform transition-transform duration-300 ease-in-out focus-within:scale-110">
               <input
                 type="text"

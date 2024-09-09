@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import backgroundVideo from "/src/assets/images/bgvid.mp4";
 import { toast, ToastContainer } from "react-toastify";
+import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 
 const Button = ({ children, className, ...props }) => (
@@ -30,6 +31,7 @@ const SignUpOne = () => {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const videoRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (videoRef.current) {
@@ -38,6 +40,10 @@ const SignUpOne = () => {
       });
     }
   }, []);
+
+  const loginwithgoogle = ()=>{
+        window.open("/auth/google/callback","_self")
+    }
 
   const validateEmail = (email) => {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
@@ -50,7 +56,7 @@ const SignUpOne = () => {
     return passwordRegex.test(password);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     setEmailError("");
     setPasswordError("");
@@ -61,9 +67,24 @@ const SignUpOne = () => {
         "Password must include at least 7 characters, a symbol, a number, and an uppercase letter."
       );
     } else {
-      toast.success("Verification email sent");
-      setEmail("");
-      setPassword("");
+
+        try {
+      // Make a POST request to your backend API to send a verification email
+      const response = await axios.post(`http://localhost:8080/api/signupone`,{email,password});
+      console.log(response.data)
+      if (response.data.sucess) {
+        toast.success(response.data.message || "Verification email sent. Please check your inbox.");
+        setEmail("");
+        setPassword("");
+
+        const email = response.data.data.email;
+        localStorage.setItem("email", email);
+  }
+    } catch (error) {
+      console.error("Error sending email:", error);
+      toast.error(error.response.data.message || "Error sending verification email. Please try again later.");
+    }
+
     }
   };
 
@@ -104,6 +125,7 @@ const SignUpOne = () => {
             <Input
               id="email"
               type="email"
+              name="email"
               placeholder="Enter Your Email Address"
               value={email}
               required
@@ -128,6 +150,7 @@ const SignUpOne = () => {
               type="password"
               placeholder="Enter Your Password"
               required
+              name="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className={`bg-black bg-opacity-50 text-white placeholder-gray-400 border border-white rounded-md focus:outline-none focus:ring-1 focus:ring-white hover:bg-opacity-75 ${
@@ -152,7 +175,7 @@ const SignUpOne = () => {
           <div className="flex-grow border-t border-gray-600"></div>
         </div>
 
-        <Button className="bg-black bg-opacity-50 text-white border border-white rounded-md hover:bg-opacity-75 active:bg-opacity-100 flex items-center justify-center transition-all duration-300">
+        <Button onClick={loginwithgoogle} className="bg-black bg-opacity-50 text-white border border-white rounded-md hover:bg-opacity-75 active:bg-opacity-100 flex items-center justify-center transition-all duration-300">
           <svg className="w-4 h-4 sm:w-5 sm:h-5 mr-2" viewBox="0 0 24 24">
             <path
               fill="currentColor"

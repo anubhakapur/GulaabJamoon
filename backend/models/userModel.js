@@ -1,11 +1,7 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    trim: true
-  },
+
   email: {
     type: String,
     required: true,
@@ -13,21 +9,40 @@ const userSchema = new mongoose.Schema({
     trim: true,
     lowercase: true
   },
-  phoneNumber: {
-    type: Number,
-    required: true,
+  password: {
+    type: String,
+    // required: true,
+  },
+  isVerified: {
+    type: Boolean,
+    default: false
+  },
+   googleId: {
+    type: String,
     unique: true,
+    sparse: true, // Allows multiple users without googleId
+  },
+  verificationToken: String,
+  verificationTokenExpiry: Date,
+  name: {
+    type: String,
     trim: true
   },
-  dateOfBirth: {
-    type: Date,
-    required: true
+  phoneNumber: {
+    type: String,
+    trim: true
   },
+  dateOfBirth: Date,
   gender: {
     type: String,
-    required: true,
-    enum: ['male', 'female', 'other']
-  }
+    // lowercase: true,
+    enum: ['Male', 'Female', 'Other']
+  },
+  occupation: {
+    type: String,
+    trim: true
+  },
+  role : String
 }, {
   timestamps: true
 });

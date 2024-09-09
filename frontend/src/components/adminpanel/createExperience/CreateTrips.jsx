@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import ExperienceForm from './ExperienceForm';
 import VariantForm from './VariantForm';
 import VariantPreview from './VariantPreview';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const CreateExperience = ({ setPendingExperiences, setIsCreatingExperience }) => {
   const initialExperience = {
@@ -23,10 +25,21 @@ const CreateExperience = ({ setPendingExperiences, setIsCreatingExperience }) =>
   const [isCreatingVariant, setIsCreatingVariant] = useState(false);
   const [editingVariantIndex, setEditingVariantIndex] = useState(null);
 
-  const handleSaveExperience = (e) => {
+  const handleSaveExperience = async(e) => {
     e.preventDefault();
     setPendingExperiences(prevExperiences => [...prevExperiences, { ...experience, id: Date.now(), status: 'Pending' }]);
     setIsCreatingExperience(false);
+try{
+     const response = await axios.post('http://localhost:8080/api/experiences', experience)
+     if(response.data.success){
+       toast.success("Experience created successfully")
+     }
+
+}
+catch(err){
+  console.log(err)
+  toast.error(err.response.data.message || 'Something went wrong')
+}
   };
 
   const handleSaveVariant = (variant) => {

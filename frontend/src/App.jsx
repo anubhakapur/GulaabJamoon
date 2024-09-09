@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Homepage from "./Pages/Homepage";
 import AllTripsPage from "./Pages/AllTripsPage";
@@ -10,12 +10,39 @@ import SignUpTwo from "./Pages/SignUpTwo";
 import Gallery from "./Pages/Gallery";
 import AdminPanel from "./components/adminpanel/AdminPanel";
 import UserPanel from "./components/userpanel/UserPanel";
+
+import { useDispatch } from "react-redux";
+import { setUserDetails } from "./store/userSlice";
+import axios from "axios";
+import Context from "./context/index";
+
+ axios.defaults.withCredentials = true;
+
 import HostExperience from "./Pages/HostExperience";
 import Corporate from "./Pages/Corporate";
 import ExperienceDetails from "./Pages/EXPERIENCES/ExperienceDetails";
 import Hello from "./Pages/EXPERIENCES/Hello";
 
+
 const App = () => {
+
+  const dispatch = useDispatch()
+
+  const fetchUserDetails = async() => {
+    const dataResponse = await axios.get('http://localhost:8080/api/user-details')
+    
+    
+    if(dataResponse.data.success){
+      console.log("dataresponse",dataResponse.data.data)
+      dispatch(setUserDetails(dataResponse.data.data))
+  }
+}
+
+  useEffect(() => {
+    fetchUserDetails()
+  },[])
+
+
   const images = [
     {
       url: "/src/assets/images/bg-main.jpg",
@@ -45,6 +72,8 @@ const App = () => {
   ];
 
   return (
+
+    <Context.Provider value={{ fetchUserDetails }}>
     <div className="te">
       <BrowserRouter>
         <Routes>
@@ -66,6 +95,7 @@ const App = () => {
         </Routes>
       </BrowserRouter>
     </div>
+    </Context.Provider>
   );
 };
 
