@@ -6,7 +6,7 @@ const Footer = () => {
   const teamMembers = [
     { name: "Mohin", linkedIn: "https://www.linkedin.com/in/johndoe" },
     { name: "Simran", linkedIn: "https://www.linkedin.com/in/janesmith" },
-    { name: "Anubha", linkedIn: "https://www.linkedin.com/in/alexjohnson" },
+    { name: "Anubha", linkedIn: "https://www.linkedin.com/in/anubha-kapur-378b7a24b/" },
     { name: "Madhav", linkedIn: "https://www.linkedin.com/in/emilybrown" },
     { name: "Navish", linkedIn: "https://www.linkedin.com/in/chrislee" }
   ];
@@ -31,11 +31,11 @@ const Footer = () => {
             <p className="text-sm text-gray-300 leading-relaxed">
               GJ Experiences is a subsidiary registered under ROSANISA XPERIENCES LLP (Bangalore, India)
             </p>
-            <div className="flex flex-wrap gap-2 mt-2">
+            <div className="flex flex-wrap gap-2 mt-2 lg:hidden">
               <img src="/src/assets/images/tourism.jpg" alt="Ministry of Tourism" className="h-16 transition-transform duration-300 hover:scale-110" />
               <img src="/src/assets/images/karnataka.jpg" alt="Karnataka Tourism" className="h-16 transition-transform duration-300 hover:scale-110" />
             </div>
-            <img src="/src/assets/images/kstdc.png" alt="KSTDC" className="h-16 mt-2 transition-transform duration-300 hover:scale-110" />
+            <img src="/src/assets/images/kstdc.png" alt="KSTDC" className="h-16 mt-2 lg:hidden transition-transform duration-300 hover:scale-110" />
           </motion.div>
 
           {/* Contacts, Timings, and Address */}
@@ -137,6 +137,14 @@ const Footer = () => {
               >
                 <Twitter size={28} />
               </motion.a>
+            </div>
+            <div className="hidden lg:flex flex-col mt-8">
+              <h3 className="text-xl font-bold text-yellow-400 mb-4">Our Partners</h3>
+              <div className="flex flex-wrap gap-4">
+                <img src="/src/assets/images/tourism.jpg" alt="Ministry of Tourism" className="h-16 transition-transform duration-300 hover:scale-110" />
+                <img src="/src/assets/images/karnataka.jpg" alt="Karnataka Tourism" className="h-16 transition-transform duration-300 hover:scale-110" />
+                <img src="/src/assets/images/kstdc.png" alt="KSTDC" className="h-16 transition-transform duration-300 hover:scale-110" />
+              </div>
             </div>
           </motion.div>
         </div>
