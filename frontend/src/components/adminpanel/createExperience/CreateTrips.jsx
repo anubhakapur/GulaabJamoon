@@ -27,7 +27,9 @@ const CreateExperience = () => {
     cancellationPolicy: '',
     knowBeforeYouGo: [''],
     faqs: [{ question: '', answer: '' }],
-    variants: []
+    basePrice: '',
+    taxes: '',
+    convenienceFee: '',
   };
 
   const [experience, setExperience] = useState(initialExperience);
