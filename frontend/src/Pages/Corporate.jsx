@@ -23,7 +23,7 @@ const Corporate = () => {
       <Meet />
       <ManageRetreat />
       <WhatHelp scrollToForm={scrollToForm}  />
-      <PastExamples />
+      {/* <PastExamples /> */}
       <Complimentary scrollToForm={scrollToForm}/>
       <Services />
       <Process />

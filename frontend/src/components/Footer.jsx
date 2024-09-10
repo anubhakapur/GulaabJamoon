@@ -4,8 +4,8 @@ import { motion } from 'framer-motion';
 
 const Footer = () => {
   const teamMembers = [
-    { name: "Mohin", linkedIn: "https://www.linkedin.com/in/johndoe" },
-    { name: "Simran", linkedIn: "https://www.linkedin.com/in/janesmith" },
+    { name: "Mohin", linkedIn: "https://www.linkedin.com/in/mohin-gupta-3bb267305" },
+    { name: "Simran", linkedIn: "https://www.linkedin.com/in/simran-arora-9900b6328" },
     { name: "Anubha", linkedIn: "https://www.linkedin.com/in/anubha-kapur-378b7a24b/" },
     { name: "Madhav", linkedIn: "https://www.linkedin.com/in/emilybrown" },
     { name: "Navish", linkedIn: "https://www.linkedin.com/in/chrislee" }
