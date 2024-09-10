@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import Header from '../components/Header.jsx';
-import backgroundImage from "/src/assets/images/bg-main-test2.jpg";
+import backgroundImage from "/src/assets/images/corporate.jpg";
 import HeroCorporate from '../components/corporate/HeroCorporate.jsx';
 import Meet from '../components/corporate/Meet';
 import ManageRetreat from '../components/corporate/ManageRetreat';
@@ -13,21 +13,18 @@ import Process from '../components/corporate/Process';
 
 const Corporate = () => {
   const formRef = useRef(null); // Ref for the Form component
-  const formRef2 = useRef(null); // Another ref for something else if needed
-
   const scrollToForm = () => {
-    formRef.current.scrollIntoView({ behavior: 'smooth' }); // Scroll to Form on trigger
+    formRef.current.scrollIntoView({ behavior: 'smooth' }); // Scroll to Form component
   };
-
   return (
     <div>
       <Header />
       <HeroCorporate backgroundImage={backgroundImage} formRef={formRef} /> {/* Pass formRef if needed in HeroCorporate */}
       <Meet />
       <ManageRetreat />
-      <WhatHelp scrollToForm={scrollToForm} />
+      <WhatHelp scrollToForm={scrollToForm}  />
       <PastExamples />
-      <Complimentary />
+      <Complimentary scrollToForm={scrollToForm}/>
       <Services />
       <Process />
       {/* Use formRef only for the Form */}
