@@ -4,6 +4,7 @@ import axios from 'axios';
 
 const AdventurePopup = ({ onClose }) => {
   const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [message, setMessage] = useState('');
   const [expectingCallback, setExpectingCallback] = useState(true);
@@ -22,6 +23,7 @@ const AdventurePopup = ({ onClose }) => {
     const response = await axios.post('http://localhost:8080/api/popup',{name,phoneNumber,message,expectingCallback});
     console.log(response.data)
 
+    console.log({ name, email, phoneNumber, message, expectingCallback });
     setIsSubmitted(true);
     setTimeout(() => {
       onClose();
@@ -109,6 +111,16 @@ const AdventurePopup = ({ onClose }) => {
                     className="w-full p-3 bg-white bg-opacity-20 text-white placeholder-gray-300 border border-white border-opacity-30 rounded-lg focus:outline-none focus:border-yellow-500"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
+                    required
+                    variants={inputVariants}
+                    whileFocus="focus"
+                  />
+                  <motion.input
+                    type="email"
+                    placeholder="Enter your Email"
+                    className="w-full p-3 bg-white bg-opacity-20 text-white placeholder-gray-300 border border-white border-opacity-30 rounded-lg focus:outline-none focus:border-yellow-500"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     required
                     variants={inputVariants}
                     whileFocus="focus"

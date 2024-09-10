@@ -37,7 +37,7 @@ const VideoSection = () => {
       />
 
       {/* Animated gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 opacity-50 z-10 animate-gradient-x"></div>
+      <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-orange-600 opacity-50 z-10 animate-gradient-x"></div>
 
       {/* Content overlay with fade-in animation */}
       <div className={`absolute inset-0 flex flex-col items-center justify-center z-20 transition-opacity duration-300 ${isPlaying ? 'opacity-0' : 'opacity-100 animate-fade-in'}`}>
@@ -46,7 +46,7 @@ const VideoSection = () => {
         </h2>
         <button 
           onClick={handlePlay}
-          className="bg-white text-purple-600 rounded-full p-3 sm:p-4 w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center transition-all duration-300 transform hover:scale-110 hover:rotate-180 active:scale-95 focus:outline-none hover:bg-purple-600 hover:text-white"
+          className="bg-white text-orange-600 rounded-full p-3 sm:p-4 w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center transition-all duration-300 transform hover:scale-110 hover:rotate-180 active:scale-95 focus:outline-none hover:bg-orange-600 hover:text-white"
           aria-label="Play video"
         >
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6 sm:w-8 sm:h-8">

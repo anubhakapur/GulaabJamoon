@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import {toast, ToastContainer} from 'react-toastify';
+import riverraft from '../../assets/images/riverraft.jpg';
+import parasailing from '../../assets/images/parasailing.jpg';
 
 const Form = () => {
   const [formData, setFormData] = useState({
@@ -76,79 +78,32 @@ const Form = () => {
 
   return (
     <div className="bg-teal-950 text-white min-h-screen flex flex-col lg:flex-row">
+      {/* Form Section */}
       <div className="lg:w-1/2 p-8 lg:p-16">
         <h2 className="text-xs uppercase tracking-wide mb-2">START PLANNING YOUR CORPORATE RETREAT</h2>
         <h1 className="text-2xl lg:text-3xl font-bold mb-4">Request a Complimentary Retreat Proposal</h1>
         <div className="w-16 h-1 bg-yellow-500 mb-6"></div>
-        <p className="mb-8 text-xs">We'll provide you with an array of hand-selected destinations, potential team activities as well as the corresponding budgets and flights costs for each proposed location.</p>
+        <p className="mb-8 text-xs">
+          We'll provide you with an array of hand-selected destinations, potential team activities as well as the corresponding budgets and flights costs for each proposed location.
+        </p>
         
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <input 
-              type="text" 
-              name="name" 
-              value={formData.name} 
-              onChange={handleChange}
-              placeholder="Your Name" 
-              className="w-full bg-transparent border-b border-gray-300 py-2 focus:outline-none focus:border-yellow-500"
-            />
-            {errors.name && <p className="text-red-400 text-sm mt-1">{errors.name}</p>}
-          </div>
-          <div>
-            <input 
-              type="email" 
-              name="email" 
-              value={formData.email} 
-              onChange={handleChange}
-              placeholder="Your Email" 
-              className="w-full bg-transparent border-b border-gray-300 py-2 focus:outline-none focus:border-yellow-500"
-            />
-            {errors.email && <p className="text-red-400 text-sm mt-1">{errors.email}</p>}
-          </div>
-          <div>
-            <input 
-              type="text" 
-              name="companyName" 
-              value={formData.companyName} 
-              onChange={handleChange}
-              placeholder="Company Name" 
-              className="w-full bg-transparent border-b border-gray-300 py-2 focus:outline-none focus:border-yellow-500"
-            />
-            {errors.companyName && <p className="text-red-400 text-sm mt-1">{errors.companyName}</p>}
-          </div>
-          <div>
-            <input 
-              type="text" 
-              name="participants" 
-              value={formData.participants} 
-              onChange={handleChange}
-              placeholder="Number of Participants" 
-              className="w-full bg-transparent border-b border-gray-300 py-2 focus:outline-none focus:border-yellow-500"
-            />
-            {errors.participants && <p className="text-red-400 text-sm mt-1">{errors.participants}</p>}
-          </div>
-          <div>
-            <input 
-              type="text" 
-              name="budget" 
-              value={formData.budget} 
-              onChange={handleChange}
-              placeholder="Trip Budget (Min. $250K)" 
-              className="w-full bg-transparent border-b border-gray-300 py-2 focus:outline-none focus:border-yellow-500"
-            />
-            {errors.budget && <p className="text-red-400 text-sm mt-1">{errors.budget}</p>}
-          </div>
-          <div>
-            <input 
-              type="text" 
-              name="tripDates" 
-              value={formData.tripDates} 
-              onChange={handleChange}
-              placeholder="Trip Dates (Exact or Time of Year)" 
-              className="w-full bg-transparent border-b border-gray-300 py-2 focus:outline-none focus:border-yellow-500"
-            />
-            {errors.tripDates && <p className="text-red-400 text-sm mt-1">{errors.tripDates}</p>}
-          </div>
+          {/* Form Inputs */}
+          {['name', 'email', 'companyName', 'participants', 'budget', 'tripDates'].map((field) => (
+            <div key={field}>
+              <input 
+                type={field === 'email' ? 'email' : 'text'} 
+                name={field} 
+                value={formData[field]} 
+                onChange={handleChange}
+                placeholder={field === 'budget' ? "Trip Budget (Min. $250K)" : field.charAt(0).toUpperCase() + field.slice(1).replace(/([A-Z])/g, ' $1')} 
+                className="w-full bg-transparent border-b border-gray-300 py-2 focus:outline-none focus:border-yellow-500"
+              />
+              {errors[field] && <p className="text-red-400 text-sm mt-1">{errors[field]}</p>}
+            </div>
+          ))}
+
+          {/* Dropdown */}
           <div>
             <select 
               name="findUs" 
@@ -157,34 +112,39 @@ const Form = () => {
               className="w-full bg-transparent border-b border-gray-300 py-2 focus:outline-none focus:border-yellow-500"
             >
               <option value="">Where did you find us?</option>
-              <option value="google">Google</option>
-              <option value="article">Article</option>
-              <option value="advertisement">Advertisement</option>
-              <option value="referral">Referral</option>
-              <option value="social">Social Media</option>
-              <option value="other">Other</option>
+              <option value="google" className=' bg-black bg-opacity-50'>Google</option>
+              <option value="article" className=' bg-black bg-opacity-50'>Article</option>
+              <option value="advertisement" className=' bg-black bg-opacity-50'>Advertisement</option>
+              <option value="referral" className=' bg-black bg-opacity-50'>Referral</option>
+              <option value="social"className=' bg-black bg-opacity-50'>Social Media</option>
+              <option value="other" className=' bg-black bg-opacity-50'>Other</option>
             </select>
             {errors.findUs && <p className="text-red-400 text-sm mt-1">{errors.findUs}</p>}
           </div>
+
+          {/* Textarea */}
           <div>
             <textarea
               name="moreInfo" 
               value={formData.moreInfo} 
               onChange={handleChange}
-              placeholder="Tell us a bit more about what you're looking to plan (type of experience, locations, etc.) Please note that Moniker is unable to assist with retreats with budgets under $250K at this time." 
+              placeholder="Tell us a bit more about what you're looking to plan (type of experience, locations, etc.)" 
               className="w-full text-sm bg-transparent border-b border-gray-300 py-2 focus:outline-none focus:border-yellow-500 h-16"
             ></textarea>
           </div>
+
+          {/* Submit Button */}
           <button type="submit" className="bg-yellow-500 text-black font-bold py-3 px-6 rounded hover:bg-yellow-600 transition duration-300">
             Submit
           </button>
         </form>
       </div>
+
+      {/* Image Section */}
       <div className="lg:w-1/2 bg-gray-200">
         <div className="h-full flex flex-col">
-          <img src="/api/placeholder/800/400?text=Camel+Riding" alt="Camel Riding" className="object-cover flex-1" />
-          <img src="/api/placeholder/800/400?text=Lake+Activities" alt="Lake Activities" className="object-cover flex-1" />
-          <img src="/api/placeholder/800/400?text=Mountain+View" alt="Mountain View" className="object-cover flex-1" />
+          <img src={riverraft} alt="River Rafting" className="object-cover flex-1" />
+          <img src={parasailing} alt="Parasailing" className="object-cover flex-1" />
         </div>
       </div>
     </div>

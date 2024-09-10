@@ -1,11 +1,66 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+
+const CursorTrail = () => {
+  const [trail, setTrail] = useState([]);
+  const requestRef = useRef();
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      setTrail((prevTrail) => [...prevTrail, { x: e.clientX, y: e.clientY, timestamp: Date.now() }].slice(-20));
+    };
+
+    const animateTrail = () => {
+      setTrail((prevTrail) => prevTrail.filter((dot) => Date.now() - dot.timestamp < 500));
+      requestRef.current = requestAnimationFrame(animateTrail);
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    requestRef.current = requestAnimationFrame(animateTrail);
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      cancelAnimationFrame(requestRef.current);
+    };
+  }, []);
+
+  return (
+    <>
+      {trail.map((dot, index) => (
+        <motion.div
+          key={index}
+          className="fixed pointer-events-none w-4 h-4 rounded-full bg-gradient-radial from-white to-transparent z-50"
+          style={{ left: dot.x - 8, top: dot.y - 8 }}
+          initial={{ scale: 0, opacity: 0.5 }}
+          animate={{ scale: 1, opacity: 0 }}
+          transition={{ duration: 0.5 }}
+        />
+      ))}
+    </>
+  );
+};
 
 const Gallery = () => {
   const [showOverlay, setShowOverlay] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
 
   const images = [
+    { src: '/src/assets/images/bg-main.jpg', alt: 'WAYANAD', caption: 'WAYANAD' },
+    { src: '/src/assets/images/about2.jpg', alt: 'GOKARNA', caption: 'GOKARNA' },
+    { src: '/src/assets/images/bg-main-test.jpg', alt: 'KODAIKANAL', caption: 'KODAIKANAL' },
+    { src: '/src/assets/images/bg-main-test-3.png', alt: 'MUNNAR', caption: 'MUNNAR' },
+    { src: '/src/assets/images/bg-main-test2.jpg', alt: 'SRINAGAR', caption: 'SRINAGAR' },
+    { src: '/src/assets/images/bg-main-test4.jpg', alt: 'CHIKMAGALUR', caption: 'CHIKMAGALUR' },
+    { src: '/src/assets/images/test.jpg', alt: 'NEW DESTINATION', caption: 'NEW DESTINATION' },
+    { src: '/src/assets/images/bg-main.jpg', alt: 'WAYANAD', caption: 'WAYANAD' },
+    { src: '/src/assets/images/about2.jpg', alt: 'GOKARNA', caption: 'GOKARNA' },
+    { src: '/src/assets/images/bg-main-test.jpg', alt: 'KODAIKANAL', caption: 'KODAIKANAL' },
+    { src: '/src/assets/images/bg-main-test-3.png', alt: 'MUNNAR', caption: 'MUNNAR' },
+    { src: '/src/assets/images/bg-main-test2.jpg', alt: 'SRINAGAR', caption: 'SRINAGAR' },
+    { src: '/src/assets/images/bg-main-test4.jpg', alt: 'CHIKMAGALUR', caption: 'CHIKMAGALUR' },
+    { src: '/src/assets/images/test.jpg', alt: 'NEW DESTINATION', caption: 'NEW DESTINATION' },
     { src: '/src/assets/images/bg-main.jpg', alt: 'WAYANAD', caption: 'WAYANAD' },
     { src: '/src/assets/images/about2.jpg', alt: 'GOKARNA', caption: 'GOKARNA' },
     { src: '/src/assets/images/bg-main-test.jpg', alt: 'KODAIKANAL', caption: 'KODAIKANAL' },
@@ -25,31 +80,47 @@ const Gallery = () => {
     setSelectedImage(null);
   };
 
+  const renderGalleryGrid = () => (
+    <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
+      {images.map((image, index) => (
+        <div key={index} className={`
+          ${(index % 7 === 0) ? 'sm:col-span-2 sm:row-span-2' : ''}
+          ${(index % 7 === 1) ? 'sm:col-span-2 sm:row-span-1' : ''}
+          ${(index % 7 === 4) ? 'sm:col-span-2 sm:row-span-1' : ''}
+        `}>
+          <GalleryImage image={image} onClick={handleImageClick} />
+        </div>
+      ))}
+    </div>
+  );
+
   return (
-    <div className="bg-black w-full h-screen overflow-hidden">
-      <div className="grid grid-cols-4 grid-rows-3 gap-3 h-full">
-        <div className="col-span-2 row-span-2">
-          <GalleryImage image={images[0]} onClick={handleImageClick} />
+    <div className="min-h-screen flex flex-col bg-black">
+      <Header />
+      <CursorTrail />
+      <main className="flex-grow mt-20">
+        <div className="container mx-auto px-4 py-16">
+          <motion.h1 
+            className="text-4xl font-bold text-yellow-400 mb-4 text-center relative cursor-pointer"
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            whileHover={{ scale: 1.1, rotate: [0, -2, 2, -2, 0], transition: { duration: 0.5 } }}
+          >
+            Our Moments of Joy
+            <motion.div 
+              className="h-0.5 bg-yellow-400 mt-2 mx-auto"
+              initial={{ width: 0 }}
+              whileHover={{ width: '100%' }}
+              transition={{ duration: 0.3 }}
+            />
+          </motion.h1>
+          <p className="text-white text-center mb-12 max-w-2xl mx-auto">
+            Embark on a visual journey through our most cherished experiences. Each image captures a unique moment of joy, adventure, and discovery from our travels across breathtaking destinations.
+          </p>
+          {renderGalleryGrid()}
         </div>
-        <div className="col-span-2 row-span-1">
-          <GalleryImage image={images[1]} onClick={handleImageClick} />
-        </div>
-        <div className="col-span-1 row-span-1">
-          <GalleryImage image={images[2]} onClick={handleImageClick} />
-        </div>
-        <div className="col-span-1 row-span-1">
-          <GalleryImage image={images[3]} onClick={handleImageClick} />
-        </div>
-        <div className="col-span-2 row-span-1">
-          <GalleryImage image={images[4]} onClick={handleImageClick} />
-        </div>
-        <div className="col-span-1 row-span-1">
-          <GalleryImage image={images[5]} onClick={handleImageClick} />
-        </div>
-        <div className="col-span-1 row-span-1">
-          <GalleryImage image={images[6]} onClick={handleImageClick} />
-        </div>
-      </div>
+      </main>
+      <Footer />
       {showOverlay && selectedImage && (
         <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50">
           <button
@@ -71,21 +142,31 @@ const Gallery = () => {
 
 const GalleryImage = ({ image, onClick }) => {
   return (
-    <motion.div
-      className="relative w-full h-full overflow-hidden cursor-pointer group"
-      whileHover={{ scale: 1.02 }}
-      transition={{ duration: 0.2 }}
-      onClick={() => onClick(image)}
-    >
-      <img
-        className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-105"
+    <div className="relative w-full h-64 sm:h-full overflow-hidden cursor-pointer group">
+      <motion.img
+        className="w-full h-full object-cover transition-transform duration-200"
         src={image.src}
         alt={image.alt}
+        whileHover={{ scale: 1.1 }}
+        transition={{ duration: 0.2 }}
       />
-      <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
-        <p className="text-white text-base font-semibold">{image.caption}</p>
-      </div>
-    </motion.div>
+      <motion.div 
+        className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center"
+        initial={{ opacity: 0 }}
+        whileHover={{ opacity: 1 }}
+        transition={{ duration: 0.3 }}
+        onClick={() => onClick(image)}
+      >
+        <motion.p 
+          className="text-white text-base font-semibold"
+          initial={{ y: 20, opacity: 0 }}
+          whileHover={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.3, delay: 0.1 }}
+        >
+          {image.caption}
+        </motion.p>
+      </motion.div>
+    </div>
   );
 };
 

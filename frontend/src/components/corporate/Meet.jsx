@@ -20,9 +20,9 @@ const Meet = () => {
       const interval = setInterval(() => {
         if (count <= target) {
           setter(count);
-          count += increment;  // Increment by specified value
+          count += increment; // Increment by specified value
         } else {
-          setter(target);  // Ensure the final number is set correctly
+          setter(target); // Ensure the final number is set correctly
           clearInterval(interval);
         }
       }, intervalDuration);
@@ -50,7 +50,7 @@ const Meet = () => {
   }, []);
 
   return (
-    <div className="h-screen flex items-center justify-center bg-white px-4 font-serif">
+    <div className="h-auto md:h-screen flex items-center justify-center bg-white px-4 py-8 md:py-0 font-serif">
       <div className="text-center max-w-3xl">
         <h2 className="text-2xl md:text-4xl font-bold mb-4">Meet Gulaab Jamoon.</h2>
         <div className="w-16 h-1 bg-yellow-500 mx-auto mb-6"></div>
@@ -68,10 +68,13 @@ const Meet = () => {
           So far, so good.
         </p>
 
-        <div className="mt-12 flex flex-col md:flex-row justify-center items-center space-y-8 md:space-y-0 md:space-x-12">
+        {/* Stats Section */}
+        <div className="mt-12 flex flex-col sm:flex-row justify-center items-center space-y-8 sm:space-y-0 sm:space-x-12">
           <div className="text-center">
             <h3 className="text-4xl md:text-5xl font-bold text-gray-900">{years}</h3>
-            <p className="text-sm md:text-base text-gray-600">Years in Business <br />(Est. 2013)</p>
+            <p className="text-sm md:text-base text-gray-600">
+              Years in Business <br />(Est. 2013)
+            </p>
           </div>
           <div className="text-center">
             <h3 className="text-4xl md:text-5xl font-bold text-gray-900">{staff}</h3>
@@ -83,7 +86,9 @@ const Meet = () => {
           </div>
           <div className="text-center">
             <h3 className="text-4xl md:text-5xl font-bold text-gray-900">{campers}</h3>
-            <p className="text-sm md:text-base text-gray-600">Happy Campers <br />(And Counting!)</p>
+            <p className="text-sm md:text-base text-gray-600">
+              Happy Campers <br />(And Counting!)
+            </p>
           </div>
         </div>
       </div>

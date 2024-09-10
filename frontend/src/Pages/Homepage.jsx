@@ -34,7 +34,7 @@ const Homepage = () => {
       <Header home={true} />
       <Hero backgroundImage={backgroundImage} />
       <TripCarousel trips={trips} />
-      <VideoSection /> {/* Add this line to include the VideoSection */}
+      <VideoSection />
       <TestimonialPage id="testimonials-section" />
       <Footer />
       {showPopup && <AdventurePopup onClose={handleClosePopup} />}

@@ -296,6 +296,46 @@ const ExperienceForm = ({ experience, setExperience, isVariant }) => {
           Add FAQ
         </button>
       </div>
+
+      {/* New fields for Base Price, Taxes, and Convenience Fee */}
+      <div className="mb-4">
+        <label className={labelClass} htmlFor="basePrice">Base Price</label>
+        <input
+          className={inputClass}
+          id="basePrice"
+          type="number"
+          placeholder="Base Price"
+          value={experience.basePrice}
+          onChange={(e) => handleChange('basePrice', e.target.value)}
+          required
+        />
+      </div>
+
+      <div className="mb-4">
+        <label className={labelClass} htmlFor="taxes">Taxes</label>
+        <input
+          className={inputClass}
+          id="taxes"
+          type="number"
+          placeholder="Taxes"
+          value={experience.taxes}
+          onChange={(e) => handleChange('taxes', e.target.value)}
+          required
+        />
+      </div>
+
+      <div className="mb-4">
+        <label className={labelClass} htmlFor="convenienceFee">Convenience Fee</label>
+        <input
+          className={inputClass}
+          id="convenienceFee"
+          type="number"
+          placeholder="Convenience Fee"
+          value={experience.convenienceFee}
+          onChange={(e) => handleChange('convenienceFee', e.target.value)}
+          required
+        />
+      </div>
     </div>
   );
 };

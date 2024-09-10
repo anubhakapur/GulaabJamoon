@@ -22,8 +22,12 @@ import HostExperience from "./Pages/HostExperience";
 import Corporate from "./Pages/Corporate";
 import ExperienceDetails from "./Pages/EXPERIENCES/ExperienceDetails";
 import Hello from "./Pages/EXPERIENCES/Hello";
-
-
+import TnC from "./Pages/legal/t&c"
+import Privacy from "./Pages/legal/PrivacyPolicy"
+import Refund from "./Pages/legal/RefundPolicy"
+import Antislavery from "./Pages/legal/AntiSlavery"
+import AntiCorruption from "./Pages/legal/AntiCorruption"
+import Responsibletravel from "./Pages/legal/ResponsibleTravel"
 const App = () => {
 
   const dispatch = useDispatch()
@@ -90,6 +94,12 @@ const App = () => {
           <Route path="corporate" element={<Corporate />} />
           <Route path="test" element={<Test />} />
           <Route path="/create-trip" element={<CreateTrip />} />
+          <Route path="/terms-and-conditions" element={<TnC />} />
+          <Route path="/privacy-policy" element={<Privacy />} />
+          <Route path="/refund-policy" element={<Refund />} />
+          <Route path="/anti-slavery-and-human-trafficking-policy" element={<Antislavery />} />
+          <Route path="/anti-corruption-and-bribery-policy" element={<AntiCorruption />} />
+          <Route path="/responsible-travel-policy" element={<Responsibletravel />} />
           <Route
             path="/experiences/:tripName"
             element={<ExperienceDetails />}
