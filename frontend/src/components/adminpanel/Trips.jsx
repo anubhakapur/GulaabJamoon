@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FaEye, FaLink, FaEdit, FaPauseCircle, FaPlayCircle, FaPlus } from 'react-icons/fa';
-import CreateExperience from './createExperience/CreateTrips';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -8,9 +8,7 @@ const Trips = () => {
   const [experiences, setExperiences] = useState([]);
   const navigate = useNavigate()
 
-  useEffect(() => {
-
-    const fetchExperiences = async () => {
+  const fetchExperiences = async () => {
       try {
         const response = await axios.get('http://localhost:8080/api/all-experiences');
         console.log("create trip",response.data)
@@ -19,8 +17,8 @@ const Trips = () => {
           const enrichedExperiences = response.data.data.map(exp => ({
             id: exp._id,
             name: exp.name,
-            status: 'Live', // Default status
-            bookings: 0 // Random booking number for demonstration
+            status: exp.status,
+            bookings: 0
           }));
           setExperiences(enrichedExperiences);
         }
@@ -29,31 +27,53 @@ const Trips = () => {
       }
     };
 
+  useEffect(() => {
     fetchExperiences();
   }, []);
 
-  const [isCreatingExperience, setIsCreatingExperience] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [editingName, setEditingName] = useState('');
 
-  const handleAction = (action, id) => {
-    setExperiences(experiences.map(exp => {
-      if (exp.id === id) {
-        if (action === 'edit') {
-          setEditingId(id);
-          setEditingName(exp.name);
-          navigate('/create-trip?id='+id)
-        } else if (action === 'save') {
-          exp.name = editingName;
-          setEditingId(null);
-        } else if (action === 'hold') {
-          return { ...exp, status: 'Inactive' };
-        } else if (action === 'goLive') {
-          return { ...exp, status: 'Live' };
-        }
+  // const handleAction = async(action, id) => {
+  //   setExperiences(experiences.map(exp => {
+  //     if (exp.id === id) {
+  //       if (action === 'edit') {
+  //         setEditingId(id);
+  //         setEditingName(exp.name);
+  //         navigate('/create-trip?id='+id)
+  //       } else if (action === 'save') {
+  //         exp.name = editingName;
+  //         setEditingId(null);
+  //       } else if (action === 'hold' || action === 'goLive') {
+  //         exp.status = action === 'hold' ? 'Hold' : 'Live';
+  //         const response = await axios.put(`http://localhost:8080/api/change-status`, { id : id,status: exp.status});
+
+  //         fetchExperiences()
+  //       }
+  //     }
+  //     return exp;
+  //   }));
+  // };
+
+    const handleAction = async (action, id) => {
+    try {
+      if (action === 'edit') {
+        setEditingId(id);
+        setEditingName(experiences.find(exp => exp.id === id).name);
+        navigate('/create-trip?id=' + id);
+      } else if (action === 'save') {
+        // Implement save logic if needed
+        setEditingId(null);
+      } else if (action === 'hold' || action === 'goLive') {
+        const newStatus = action === 'hold' ? 'Hold' : 'Live';
+        const response = await axios.put(`http://localhost:8080/api/change-status`, { id:id,status: newStatus });
+        console.log("status",response)
+        // Refresh experiences after status change
+        fetchExperiences();
       }
-      return exp;
-    }));
+    } catch (error) {
+      console.error("Error updating experience:", error);
+    }
   };
 
   const handleCreateExperience = (newExperience) => {
@@ -149,24 +169,12 @@ const Trips = () => {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h2 className="text-3xl font-bold text-gray-800">Trips</h2>
-        {!isCreatingExperience && (
-          <button
-            className="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800 transition-colors duration-200 flex items-center"
-            onClick={() => setIsCreatingExperience(true)}
-          >
-            <FaPlus className="mr-2" /> Create new trip
-          </button>
-        )}
+        <Link to="/create-trip" className="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800 transition-colors duration-200 flex items-center">
+          <FaPlus className="mr-2" /> Create new trip
+        </Link>
       </div>
       
-      {isCreatingExperience ? (
-        <CreateExperience 
-          setPendingExperiences={handleCreateExperience}
-          setIsCreatingExperience={setIsCreatingExperience}
-        />
-      ) : (
-        <ExperienceTable experiences={experiences} />
-      )}
+      <ExperienceTable experiences={experiences} />
     </div>
   );
 };

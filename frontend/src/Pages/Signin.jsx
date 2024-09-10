@@ -10,6 +10,7 @@ import ROLE from '../common/role';
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../firebase";
 
+
 const Button = ({ children, className, ...props }) => (
   <motion.button
     whileHover={{ scale: 1.05 }}
@@ -44,32 +45,37 @@ const SignIn = () => {
     }
   }, []);
 
-//  useEffect(() => {
-//     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-//       if (currentUser) {
-//         setUser(currentUser);
-//         currentUser.getIdToken(true).then(setToken);
-//       } else {
-//         setUser(null);
-//         setToken(null);
-//       }
-//     });
-
-//       // Cleanup subscription on unmount
-//     return () => unsubscribe();
-//   }, []);
-
-
-  const googleLogin = () => {
+ const googleLogin = async() => {
     const provider = new GoogleAuthProvider()
-    signInWithPopup(auth, provider).then(async(result) => {
+    try{
+      const result = await signInWithPopup(auth, provider)
       console.log("result",result)
-      if(result.user){
-        toast.success("Sign in successful")
-        window.location.href = '/'
+      try{
+        const response = await axios.post('http://localhost:8080/api/loginGoogle',{email:result.user.email})
+        console.log(response)
+        if(response.data.success){
+          toast.success(response.data.message)
+          if(response.data.role === ROLE.ADMIN){
+            navigate('/admin')
+            fetchUserDetails()
+          }
+          else{
+            navigate('/')
+            fetchUserDetails()
+          }
+        }
       }
-    })
-  }  
+      catch(err){
+        console.log(err);
+        toast.error(err.response.data.message || "Server error")
+      }
+      
+    }
+    catch(err){
+      console.log(err);
+      toast.error(err.response.data.message || "Server error")
+    }
+} 
 
   const handleSubmit = async(e) => {
     e.preventDefault();
@@ -80,14 +86,16 @@ const SignIn = () => {
 
     if(response.data.success){
       console.log(response.data)
+      localStorage.setItem('userToken', response.data.token);
+      localStorage.setItem('userRole', response.data.role);
       toast.success("Sign in successful")
       if(response.data.role === ROLE.ADMIN){
         navigate('/admin')
-        fetchUserDetails()
+        await fetchUserDetails()
       }
       else{
       navigate('/')
-      fetchUserDetails()
+      await fetchUserDetails()
       }
     }
 

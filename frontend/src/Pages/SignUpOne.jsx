@@ -5,6 +5,8 @@ import backgroundVideo from "/src/assets/images/bgvid.mp4";
 import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { auth } from "../firebase";
 
 const Button = ({ children, className, ...props }) => (
   <motion.button
@@ -41,9 +43,9 @@ const SignUpOne = () => {
     }
   }, []);
 
-  const loginwithgoogle = ()=>{
-        window.open("/auth/google/callback","_self")
-    }
+  // const loginwithgoogle = ()=>{
+  //       window.open("/auth/google/callback","_self")
+  //   }
 
   const validateEmail = (email) => {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
@@ -78,6 +80,7 @@ const SignUpOne = () => {
         setPassword("");
 
         const email = response.data.data.email;
+        console.log("one",email)
         localStorage.setItem("email", email);
   }
     } catch (error) {
@@ -87,6 +90,31 @@ const SignUpOne = () => {
 
     }
   };
+
+  const googleLogin = async() => {
+    const provider = new GoogleAuthProvider()
+    try{
+      const result = await signInWithPopup(auth, provider)
+      console.log("result",result)
+      try{
+        const response = await axios.post('http://localhost:8080/api/signUpGoogle',{email:result.user.email})
+        console.log(response.data)
+        if(response.data.success){
+          toast.success(response.data.message)
+          navigate('/signuptwo')
+        }
+      }
+      catch(err){
+        console.error(err);
+        toast.error(err.response.data.message || "Server error")
+      }
+      
+    }
+    catch(err){
+      console.error(err);
+      toast.error(err.response.data.message || "Server error")
+    }
+}
 
   return (
     <div className="relative min-h-screen w-full flex items-center justify-center p-4">
@@ -175,7 +203,7 @@ const SignUpOne = () => {
           <div className="flex-grow border-t border-gray-600"></div>
         </div>
 
-        <Button onClick={loginwithgoogle} className="bg-black bg-opacity-50 text-white border border-white rounded-md hover:bg-opacity-75 active:bg-opacity-100 flex items-center justify-center transition-all duration-300">
+        <Button onClick={googleLogin} className="bg-black bg-opacity-50 text-white border border-white rounded-md hover:bg-opacity-75 active:bg-opacity-100 flex items-center justify-center transition-all duration-300">
           <svg className="w-4 h-4 sm:w-5 sm:h-5 mr-2" viewBox="0 0 24 24">
             <path
               fill="currentColor"

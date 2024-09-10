@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import ExperienceForm from './ExperienceForm';
 import VariantForm from './VariantForm';
 import VariantPreview from './VariantPreview';
@@ -9,10 +10,14 @@ import { useLocation } from 'react-router-dom';
 const CreateExperience = ({ setPendingExperiences, setIsCreatingExperience }) => {
 
   const location = useLocation()
+  const navigate = useNavigate()
   const id = new URLSearchParams(location.search).get('id');
+  console.log("id",id)
   const initialExperience = {
     name: '',
+    url: '',
     description: '',
+    shortDescription: '',
     images: [],
     location: { state: '', city: '', latitude: '', longitude: '' },
     startDate: '',
@@ -21,60 +26,71 @@ const CreateExperience = ({ setPendingExperiences, setIsCreatingExperience }) =>
     duration: '',
     overview: '',
     highlights: [''],
+    itinerary: [''],
+    inclusions: [''],
+    exclusions: [''],
     cancellationPolicy: '',
     knowBeforeYouGo: [''],
+    faqs: [{ question: '', answer: '' }],
+    variants: []
   };
 
   const [experience, setExperience] = useState(initialExperience);
   const [isCreatingVariant, setIsCreatingVariant] = useState(false);
   const [editingVariantIndex, setEditingVariantIndex] = useState(null);
+    console.log("experience",experience)
 
 
-  // useEffect(async() => {
-  //   if(!id){
-  //     return;
-  //   }
+ useEffect(() => {
+  const fetchExperience = async () => {
+    if (!id) {
+      return;
+    }
 
-  //   try{
-  //     const response = await axios.get(`http://localhost:8080/api/experiences/${id}`)
-  //     if(response.data.success){
-  //       setExperience(response.data.data)
-  //     }
-  //   }
-  //   catch(err){
-  //     console.log(err)
-  //     toast.error(err.response.data.message || 'Something went wrong')
-  //   }
+    try {
+      const response = await axios.get(`http://localhost:8080/api/experiences/${id}`);
+      console.log(response.data)
+      if (response.data.success) {
+        setExperience(response.data.data);
+      }
+    } catch (err) {
+      console.log(err);
+      toast.error(err.response.data.message || 'Something went wrong');
+    }
+  };
 
-  // },[id])
+  fetchExperience();
+}, [id]);
 
   const handleSaveExperience = async(e) => {
     e.preventDefault();
-    setPendingExperiences(prevExperiences => [...prevExperiences, { ...experience, id: Date.now(), status: 'Pending' }]);
-    setIsCreatingExperience(false);
-// try{
-//     if(id){
-//       //update place
-//       const response = await axios.put(`http://localhost:8080/api/update-experiences`, {id,...experience})
-//       if(response.data.success){
-//         toast.success("Experience updated successfully")
-//       }
-//     }
-//     else{
-//       // new place
-//       const response = await axios.post('http://localhost:8080/api/experiences', experience)
-//      if(response.data.success){
-//        toast.success("Experience created successfully")
-//      }
+    // setPendingExperiences(prevExperiences => [...prevExperiences, { ...experience, id: Date.now(), status: 'Pending' }]);
+    // setIsCreatingExperience(false);
+try{
+    if(id){
+      //update place
+      console.log("update place")
+      const response = await axios.put(`http://localhost:8080/api/update-experiences`, {id,...experience})
+      if(response.data.success){
+        toast.success("Experience updated successfully")
+      }
+    }
+    else{
+      // new place
+      
+      const response = await axios.post('http://localhost:8080/api/experiences', experience)
+     if(response.data.success){
+       toast.success("Experience created successfully")
+     }
 
-//     }
+    }
      
 
-// }
-// catch(err){
-//   console.log(err)
-//   toast.error(err.response.data.message || 'Something went wrong')
-// }
+}
+catch(err){
+  console.log(err)
+  toast.error(err.response.data.message || 'Something went wrong')
+}
   };
 
   const handleSaveVariant = (variant) => {
@@ -144,13 +160,14 @@ const CreateExperience = ({ setPendingExperiences, setIsCreatingExperience }) =>
             <button
               className="text-white bg-black hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
               type="submit"
+              
             >
               Create Experience
             </button>
             <button
               className="text-white bg-gray-500 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
               type="button"
-              onClick={() => setIsCreatingExperience(false)}
+              onClick={() => navigate('/admin')}
             >
               Cancel
             </button>

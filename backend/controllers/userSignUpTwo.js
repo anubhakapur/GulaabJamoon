@@ -1,8 +1,10 @@
 const userModel = require("../models/userModel");
+const jwt = require('jsonwebtoken');
 
 const userSignUpTwoController = async (req, res) => {
   try {
     const {name, phone,dob, gender,occupation, email } = req.body;
+    console.log("email",email)
 
     let user = await userModel.findOne({email});
     if (!user) {
@@ -13,21 +15,21 @@ const userSignUpTwoController = async (req, res) => {
         });
     }
 
-    let otherUser = await userModel.findOne({phone});
-    if(otherUser){
-      return res.status(400).json({
-        message: 'Phone number already exists',
-        success: false,
-        error: true
-      })
-    }
-
     if (!user.isVerified) {
       return res.status(400).json({ 
             message: 'Email not verified', 
             success: false,
             error: true
         });
+    }
+
+    const phoneExists = await userModel.findOne({ phoneNumber: phone, _id: { $ne: user._id } });
+    if (phoneExists) {
+      return res.status(400).json({
+        message: 'Phone number already exists',
+        success: false,
+        error: true
+      });
     }
 
     user.name = name;
@@ -37,11 +39,28 @@ const userSignUpTwoController = async (req, res) => {
     user.gender = gender;
 
     await user.save();
-    res.status(200).json({ 
-        message: 'User details updated successfully',
-        success: true,
-        error: false 
+
+    const tokenData = {
+        _id : user._id,
+        email : user.email
+    }
+    // Create a JWT token
+    const token = await jwt.sign(tokenData, process.env.JWT_SECRET, {
+      expiresIn: '1d',
     });
+
+    const tokenOptions = {
+        httpOnly: true,
+        secure: true
+    }
+
+    res.cookie("token",token,tokenOptions).json({ 
+        data: token,
+        role: user.role,
+        message: 'Sign Up successful',
+        success: true,
+        error: false
+     });
 
   } catch (err) {
     res.status(500).json({ 

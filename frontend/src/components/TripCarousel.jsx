@@ -20,7 +20,7 @@ const TripCarousel = () => {
   useEffect(() => {
     const fetchExperiences = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/all-experiences');
+        const response = await axios.get('http://localhost:8080/api/user');
         console.log("trips",response.data)
         setTrips(response.data.data);
         setLoading(false);

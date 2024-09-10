@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from 'axios'
+import ROLE from "../common/role";
 
 const Button = ({ children, className, ...props }) => (
   <motion.button
@@ -95,6 +96,7 @@ const SignUpTwo = () => {
         email : email
       })
 
+      console.log(response)
       if (response.data.success) {
       toast.success("SignUp successful!");
       setName("");
@@ -103,6 +105,7 @@ const SignUpTwo = () => {
       setGender("");
       setOccupation("");
       setRedirecting(true);
+     
     }
     else{
       toast.error("SignUp failed. Please try again.")

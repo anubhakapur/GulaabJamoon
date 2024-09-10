@@ -16,6 +16,11 @@ const hostExperienceController = require('../controllers/hostExperience.js');
 const popUpController = require('../controllers/popUp.js');
 const getExperienceController = require('../controllers/getExperience.js');
 const updateExperiencesController = require('../controllers/updateExperiences.js');
+const userAllExperiencesController = require('../controllers/userAllExperiences.js');
+const changingStatusController = require('../controllers/changingStatus.js');
+const loginGoogleController = require('../controllers/loginGoogle.js');
+const signUpGoogleController = require('../controllers/signUpGoogle.js');
+const adminMiddleware = require('../middleware/adminMiddleWare.js');
 
 const router = express.Router();
 
@@ -31,12 +36,16 @@ router.post("/corporate",corporateController)
 router.post("/hostexperience",hostExperienceController)
 router.post("/popup",popUpController)
 router.get("/experiences/:id",getExperienceController)
-router.put("/update-experiences",authToken,updateExperiencesController)
+router.get('/user',userAllExperiencesController)
+router.post('/signUpGoogle',signUpGoogleController)
+router.post('/loginGoogle',loginGoogleController)
 
 
 // admin panel
-router.post('/experiences',authToken,createExperiencesController);
-router.get('/all-experiences',allExperienceController);
-router.get("/all-user",authToken,allUsers)
+router.post('/experiences',authToken,adminMiddleware,createExperiencesController);
+router.get('/all-experiences',authToken,adminMiddleware,allExperienceController);
+router.get("/all-user",authToken,adminMiddleware,allUsers)
+router.put("/update-experiences",authToken,adminMiddleware,updateExperiencesController)
+router.put("/change-status",authToken,adminMiddleware,changingStatusController)
 
 module.exports = router;

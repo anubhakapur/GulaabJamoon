@@ -1,14 +1,23 @@
 const mongoose = require('mongoose');
+const formatDate = require('../utils/formatDate');
 
 const experienceSchema = new mongoose.Schema({
   name: { 
     type: String, 
     required: true 
 },
+url : {
+    type: String, 
+    required: true
+},
   description: { 
     type: String, 
     required: true 
 },
+  shortDescription: {
+    type: String, 
+    required: true
+  },
   images: [{ 
     type: String, 
     required: true 
@@ -34,15 +43,22 @@ location : {
 ,
   startDate: { 
     type: Date, 
-    required: true 
+    required: true,
+    get: function(date) {
+      return formatDate(date);
+    } 
 },
   endDate: { 
     type: Date, 
-    required: true 
+    required: true,
+    get: function(date) {
+      return formatDate(date);
+    } 
 },
   startTime: { 
     type: String, 
-    required: true 
+    required: true,
+     
 },
   duration: { 
     type: String, 
@@ -56,14 +72,45 @@ location : {
     type: String, 
     required: true 
 }],
+  itinerary: [{ 
+    type: String, 
+    required: true
+}],
+inclusions: [{
+    type: String, 
+    required: true
+}],
+exclusions: [{
+    type: String, 
+    required: true
+}],
   cancellationPolicy: { 
     type: String, 
     required: true 
+},
+  faqs: [{ 
+    question: { 
+        type: String, 
+        required: true 
+    },
+    answer: { 
+        type: String, 
+        required: true 
+    }
+}],
+price: {
+    type: Number, 
+    // required: true
 },
   knowBeforeYouGo: [{ 
     type: String, 
     required: true 
 }],
+status : {
+  type : String,
+  enum : ['Live','Inactive','Hold'],
+  default : 'Live'
+}
 
 }, { timestamps: true });
 

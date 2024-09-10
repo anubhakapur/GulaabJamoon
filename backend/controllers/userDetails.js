@@ -3,7 +3,7 @@ const userModel = require("../models/userModel")
 const userDetailsController = async(req,res) => {
     try{
         console.log("userId",req.userId)
-        const user = await userModel.findById(req.userId)
+        const user = await userModel.findById(req.userId).select('-password')
 
         res.status(200).json({
             data : user,
