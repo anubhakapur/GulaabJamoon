@@ -92,6 +92,7 @@ const SignUpOne = () => {
     <div className="relative min-h-screen w-full flex items-center justify-center p-4">
       <video
         ref={videoRef}
+        
         autoPlay
         loop
         muted
