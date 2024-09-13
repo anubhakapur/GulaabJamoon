@@ -4,7 +4,7 @@ import { FaQuoteLeft, FaQuoteRight } from "react-icons/fa";
 import { FiSmile, FiHeart, FiStar, FiSun } from "react-icons/fi";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-import bgvid from "/src/assets/images/bgvid.mp4"
+import bgvid from "/src/assets/images/bgvid.mp4";
 const AboutPage = () => {
   return (
     <div className="flex flex-col min-h-screen">
@@ -72,7 +72,6 @@ const AnimatedTitle = () => {
     </motion.h1>
   );
 };
-
 const AnimatedAboutUs = () => {
   const controls = useAnimation();
   const ref = useRef(null);
@@ -85,59 +84,69 @@ const AnimatedAboutUs = () => {
   }, [controls, inView]);
 
   return (
-    <motion.div
-      ref={ref}
-      initial="hidden"
-      animate={controls}
-      variants={{
-        hidden: { opacity: 0, y: 50 },
-        visible: {
-          opacity: 1,
-          y: 0,
-          transition: {
-            duration: 0.5,
-            when: "beforeChildren",
-            staggerChildren: 0.2,
+    <div className="px-4">
+      <motion.div
+        ref={ref}
+        initial="hidden"
+        animate={controls}
+        variants={{
+          hidden: { opacity: 0, y: 50 },
+          visible: {
+            opacity: 1,
+            y: 0,
+            transition: {
+              duration: 0.5,
+              when: "beforeChildren",
+              staggerChildren: 0.2,
+            },
           },
-        },
-      }}
-      className="bg-black text-white rounded-3xl p-8 shadow-2xl max-w-3xl mx-auto transform hover:scale-105 transition-all duration-300 relative z-10 mb-20"
-    >
-      <motion.div
-        variants={{
-          hidden: { opacity: 0, y: 20 },
-          visible: { opacity: 1, y: 0 },
         }}
-        className="flex flex-col sm:flex-row items-center sm:items-start mb-6"
+        className="bg-black text-white rounded-3xl p-8 shadow-2xl max-w-3xl mx-auto transform hover:scale-105 transition-all duration-300 relative z-10 mb-20"
       >
-        <div className="flex-1 text-center sm:text-left">
-          <h3 className="font-bold text-2xl sm:text-3xl bg-clip-text text-transparent bg-gradient-to-r from-gray-400 to-white">
-            Who is Gulaab Jamoon?
-          </h3>
-        </div>
-      </motion.div>
-      <motion.div
-        variants={{
-          hidden: { opacity: 0, y: 20 },
-          visible: { opacity: 1, y: 0 },
-        }}
-        className="relative"
-      >
-        <FaQuoteLeft className="text-4xl text-gray-400 absolute top-0 left-0" />
-        <p className="text-xl leading-relaxed pl-10 pr-10 italic">
-          <p className="text-lg text-gray-300 transition-colors hover:text-white duration-300">
-            We are a vibrant company, born from the passion of four visionary friends who wanted to spread joy and create unforgettable moments. From exhilarating adventures to heartwarming gatherings, we curate experiences that bring smiles to faces and warmth to hearts. Our mission is simple: if you can dream it, we can turn it into a celebration of life! As innovative joy-makers, we're committed to turning every day into an opportunity for happiness and connection.
-            <br />
-            <br />
-            <span className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-400 to-white">
+        <motion.div
+          variants={{
+            hidden: { opacity: 0, y: 20 },
+            visible: { opacity: 1, y: 0 },
+          }}
+          className="flex flex-col sm:flex-row items-center sm:items-start mb-8"
+        >
+          <div className="flex-1 text-center sm:text-left">
+            <h3 className="font-bold text-3xl sm:text-4xl bg-clip-text text-transparent bg-gradient-to-r from-gray-400 to-white mb-4">
+              Who is Gulaab Jamoon?
+            </h3>
+          </div>
+        </motion.div>
+        <motion.div
+          variants={{
+            hidden: { opacity: 0, y: 20 },
+            visible: { opacity: 1, y: 0 },
+          }}
+          className="relative"
+        >
+          <FaQuoteLeft className="text-4xl text-gray-400 absolute top-0 left-0" />
+          <div className="text-lg text-gray-300 transition-colors hover:text-white duration-300 pl-12 pr-12 mt-4">
+            <p className="mb-4">
+              We are a vibrant company, born from the passion of four visionary
+              friends who wanted to spread joy and create unforgettable moments.
+              From exhilarating adventures to heartwarming gatherings, we curate
+              experiences that bring smiles to faces and warmth to hearts.
+            </p>
+            <p className="mb-4">
+              Our mission is simple: if you can dream it, we can turn it into a
+              celebration of life! As innovative joy-makers, we're committed to
+              turning every day into an opportunity for happiness and
+              connection.
+            </p>
+            <p className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-400 to-white mt-6">
               Ready to infuse your life with moments of pure joy?
-              <br /> Let Gulaab Jamoon sprinkle happiness into your world!
-            </span>
-          </p>
-        </p>
-        <FaQuoteRight className="text-4xl text-gray-400 absolute bottom-0 right-0" />
+              <br />
+              Let Gulaab Jamoon sprinkle happiness into your world!
+            </p>
+          </div>
+          <FaQuoteRight className="text-4xl text-gray-400 absolute bottom-0 right-0" />
+        </motion.div>
       </motion.div>
-    </motion.div>
+    </div>
   );
 };
 
@@ -183,7 +192,10 @@ const AnimatedTeamSection = () => {
           className="h-1 bg-gradient-to-r from-gray-400 to-white mt-4 mx-auto"
           variants={{
             hidden: { width: 0 },
-            visible: { width: "40%", transition: { duration: 1.5, delay: 0.5 } },
+            visible: {
+              width: "40%",
+              transition: { duration: 1.5, delay: 0.5 },
+            },
           }}
         />
       </motion.h2>
@@ -337,12 +349,7 @@ const BackgroundElements = () => {
 const BackgroundVideo = () => {
   return (
     <div className="absolute inset-0 w-full h-full">
-      <video
-        autoPlay
-        loop
-        muted
-        className="w-full h-full object-cover"
-      >
+      <video autoPlay loop muted className="w-full h-full object-cover">
         <source src={bgvid} type="video/mp4" />
         Your browser does not support the video tag.
       </video>
