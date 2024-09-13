@@ -1,55 +1,44 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link, useLocation } from "react-router-dom";
-import GJlogo from "../assets/images/GJlogo.svg";
-import { useSelector } from "react-redux";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
-import { toast,ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { setUserDetails } from "../store/userSlice";
 import { BASE_URL } from "../constants";
+import GJlogo from "../assets/images/GJlogo.svg";
 
-const Header = ({ home }) => {
+const Header = ({ home, scrollToFooter }) => {
   const user = useSelector((state) => state?.user);
   const user_id = user?.user?._id;
-  console.log("user",user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [isAtTop, setIsAtTop] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
-  const location = useLocation();
 
-  const handleLogout = async() => {
-
-    try{
-    const response = await axios.get(`${BASE_URL}/logout`)
-    console.log(response.data)
-    if(response.data.success){
-      toast.success(response.data.message)
-      dispatch(setUserDetails(null))
-      navigate("/")
+  const handleLogout = async () => {
+    try {
+      const response = await axios.get(`${BASE_URL}/logout`);
+      if (response.data.success) {
+        toast.success(response.data.message);
+        dispatch(setUserDetails(null));
+        navigate("/");
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (err) {
+      toast.error(err.response.data.message || "Something went wrong");
     }
-
-    if(response.data.error){
-      toast.error(data.message)
-    }
-  }
-  catch(err){
-    console.log(err)
-    toast.error(err.response.data.message || "Something went wrong")
-  }
-  }
-
+  };
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       setIsAtTop(currentScrollY === 0);
-
-      if (currentScrollY > lastScrollY) {
-        setIsVisible(false);
-      } else {
-        setIsVisible(true);
-      }
+      setIsVisible(currentScrollY <= lastScrollY);
       setLastScrollY(currentScrollY);
     };
 
@@ -57,11 +46,44 @@ const Header = ({ home }) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
 
-  const menuItems = [
+  
+  const handleNavClick = (e, href, id) => {
+    e.preventDefault();
+    setIsMenuOpen(false);
+
+    if (id === "testimonials-section") {
+      if (location.pathname !== "/") {
+        navigate("/");
+        setTimeout(() => {
+          const element = document.getElementById(id);
+          if (element) {
+            element.scrollIntoView({ behavior: "smooth" });
+          }
+        }, 100);
+      } else {
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+    } else if (href === "/contact") {
+      if (location.pathname !== "/") {
+        navigate("/");
+        setTimeout(() => {
+          scrollToFooter();
+        }, 100);
+      } else {
+        scrollToFooter();
+      }
+    } else {
+      navigate(href);
+    }
+  };
+   const menuItems = [
     { label: "About", href: "/about" },
     { label: "Experiences", href: "/experiences" },
     { label: "Gallery", href: "/gallery" },
-    { label: "Testimonials", href: "/", id: "testimonials" }, // Add id for testimonials
+    { label: "Testimonials", href: "/#testimonials-section", id: "testimonials-section" },
     { label: "Contact Us", href: "/contact" },
   ];
 
@@ -75,10 +97,7 @@ const Header = ({ home }) => {
     visible: {
       opacity: 1,
       y: 0,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
-      },
+      transition: { staggerChildren: 0.1, delayChildren: 0.2 },
     },
   };
 
@@ -87,11 +106,7 @@ const Header = ({ home }) => {
     visible: {
       opacity: 1,
       y: 0,
-      transition: {
-        type: "spring",
-        stiffness: 300,
-        damping: 24,
-      },
+      transition: { type: "spring", stiffness: 300, damping: 24 },
     },
   };
 
@@ -100,18 +115,12 @@ const Header = ({ home }) => {
     visible: {
       opacity: 1,
       y: 0,
-      transition: {
-        duration: 0.3,
-        ease: "easeInOut",
-      },
+      transition: { duration: 0.3, ease: "easeInOut" },
     },
     exit: {
       opacity: 0,
       y: "-100%",
-      transition: {
-        duration: 0.3,
-        ease: "easeInOut",
-      },
+      transition: { duration: 0.3, ease: "easeInOut" },
     },
   };
 
@@ -141,7 +150,6 @@ const Header = ({ home }) => {
                 transition={{ type: "spring", stiffness: 400, damping: 10 }}
               />
             </Link>
-
             <h1 className="text-white text-xl font-bold">Gulaab Jamoon</h1>
           </motion.div>
 
@@ -181,10 +189,11 @@ const Header = ({ home }) => {
             animate="visible"
           >
             <ul className="flex gap-6">
-              {menuItems.map(({ label, href }) => (
+              {menuItems.map(({ label, href, id }) => (
                 <motion.li key={label} variants={itemVariants}>
                   <Link
                     to={href}
+                    onClick={(e) => handleNavClick(e, href, id)}
                     className={`text-white relative group transition-colors duration-300 hover:text-gray-300 pb-1 ${
                       location.pathname === href ? "text-gray-300" : ""
                     }`}
@@ -203,29 +212,28 @@ const Header = ({ home }) => {
             initial="hidden"
             animate="visible"
           >
-          {
-            user_id ? (
-               <Link
-              onClick={handleLogout}
-              className="text-white border border-white rounded-full px-4 py-2 transition duration-300 hover:bg-white hover:text-black"
-            >
-              Logout
-            </Link>
-            ) :
-           ( <Link
-              to="/signin"
-              className="text-white border border-white rounded-full px-4 py-2 mx-2 transition duration-300 hover:bg-white hover:text-black"
-            >
-              Login
-            </Link>)
-          }
-            
+            {user_id ? (
+              <Link
+                to="/"
+                onClick={handleLogout}
+                className="text-white border border-white rounded-full px-4 py-2 transition duration-300 hover:bg-white hover:text-black"
+              >
+                Logout
+              </Link>
+            ) : (
+              <Link
+                to="/signin"
+                className="text-white border border-white rounded-full px-4 py-2 mx-2 transition duration-300 hover:bg-white hover:text-black"
+              >
+                Login
+              </Link>
+            )}
           </motion.div>
         </div>
       </motion.header>
 
       <AnimatePresence>
-        {isMenuOpen && (
+      {isMenuOpen && (
           <motion.div
             className="fixed inset-0 bg-black/90 z-50 lg:hidden flex items-center justify-center"
             variants={dropdownVariants}
@@ -254,14 +262,14 @@ const Header = ({ home }) => {
               </svg>
             </button>
             <ul className="text-center">
-              {menuItems.map(({ label, href }) => (
+              {menuItems.map(({ label, href,id }) => (
                 <motion.li key={label} className="mb-6" variants={itemVariants}>
                   <Link
                     to={href}
                     className={`text-white text-2xl relative group transition-colors duration-300 hover:text-gray-300 pb-1 ${
                       location.pathname === href ? "text-gray-300" : ""
                     }`}
-                    onClick={() => setIsMenuOpen(false)}
+                    onClick={(e)=>handleNavClick(e,href,id)}
                   >
                     {label}
                     <span className="absolute left-0 bottom-0 w-full h-0.5 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-in-out"></span>
@@ -269,7 +277,7 @@ const Header = ({ home }) => {
                 </motion.li>
               ))}
               {/* Add Corporate XPs and List with Us for small screen sizes */}
-              {additionalItems.map(({ label, href }) => (
+              {additionalItems.map(({ label, href,id }) => (
                 <motion.li
                   key={label}
                   className="mb-6 lg:hidden md:hidden"
@@ -278,7 +286,7 @@ const Header = ({ home }) => {
                   <Link
                     to={href}
                     className="text-white text-2xl relative group transition-colors duration-300 hover:text-gray-300 pb-1"
-                    onClick={() => setIsMenuOpen(false)}
+                    onClick={(e) => handleNavClick(e, href)}
                   >
                     {label}
                   </Link>

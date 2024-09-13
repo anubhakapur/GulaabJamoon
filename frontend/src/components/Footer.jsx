@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { Instagram, Linkedin, Youtube, Facebook, Twitter } from 'lucide-react';
 import { motion } from 'framer-motion';
 import rs from "/src/assets/images/rosanisa.jpg";
 import tourism from "/src/assets/images/tourism.jpg"
 import kstdc from "/src/assets/images/kstdc.png"
 import kn from "/src/assets/images/karnataka.jpg"
-const Footer = () => {
+
+const Footer = forwardRef((props, ref) => {
   const teamMembers = [
     { name: "Mohin", linkedIn: "https://www.linkedin.com/in/mohin-gupta-3bb267305" },
     { name: "Simran", linkedIn: "https://www.linkedin.com/in/simran-arora-9900b6328" },
@@ -21,6 +22,7 @@ const Footer = () => {
 
   return (
     <motion.footer 
+      ref={ref}
       className="bg-gradient-to-b from-gray-900 to-black text-white"
       initial="hidden"
       animate="visible"
@@ -182,8 +184,8 @@ const Footer = () => {
           </div>
         </motion.div>
       </div>
-    </motion.footer>
+      </motion.footer>
   );
-};
+});
 
 export default Footer;
