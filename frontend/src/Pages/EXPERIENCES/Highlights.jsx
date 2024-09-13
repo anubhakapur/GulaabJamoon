@@ -4,23 +4,28 @@ import { FaStar } from 'react-icons/fa';
 
 function Highlights({ highlights }) {
   return (
-    <motion.div 
-      className="mb-12"
+    <motion.div
+      className="mb-8 p-6 "
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.5 }}
     >
-      <h2 className="text-3xl font-semibold mb-6 text-gray-800">Highlights</h2>
-      <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <h2 className="text-4xl font-bold mb-8 text-gray-900">Highlights</h2>
+      <ul className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {highlights.map((highlight, index) => (
-          <motion.li 
-            key={index} 
-            className="flex items-center bg-white rounded-lg shadow-md p-4"
-            whileHover={{ scale: 1.05 }}
+          <motion.li
+            key={index}
+            className="flex items-center bg-gray-100 rounded-lg shadow-md p-5 t"
+            whileHover={{ scale: 1.03 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            <FaStar className="h-6 w-6 text-yellow-400 mr-3" />
-            <span className="text-gray-700">{highlight}</span>
+            <motion.div
+              className="flex items-center text-yellow-400"
+              whileHover={{ rotate: -10, scale: 1.2 }}
+            >
+              <FaStar className="h-7 w-7 mr-4" />
+            </motion.div>
+            <span className="text-gray-700 text-lg font-medium">{highlight}</span>
           </motion.li>
         ))}
       </ul>

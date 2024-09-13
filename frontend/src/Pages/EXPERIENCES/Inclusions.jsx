@@ -1,29 +1,52 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { AiFillCheckCircle } from 'react-icons/ai';
+import { FaTimesCircle } from 'react-icons/fa'; 
 
-function Inclusions({ inclusions }) {
+function Inclusions({ inclusions, exclusions }) {
+  // Dummy data for exclusions if not provided
+  const dummyExclusions = [
+    "Non-refundable deposit",
+    "Travel insurance",
+    "Meals not mentioned",
+    "Personal expenses",
+  ];
+
   return (
-    <motion.div 
-      className="mb-12"
+    <motion.div
+      className="mb-8 p-6"
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.6 }}
     >
-      <h2 className="text-3xl font-semibold mb-6 text-gray-800">Inclusions</h2>
-      <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {inclusions.map((inclusion, index) => (
-          <motion.li 
-            key={index} 
-            className="flex items-center bg-white rounded-lg shadow-md p-4"
-            whileHover={{ scale: 1.05 }}
-            transition={{ type: "spring", stiffness: 300 }}
-          >
-            <AiFillCheckCircle className="h-6 w-6 text-green-500 mr-3" />
-            <span className="text-gray-700">{inclusion}</span>
-          </motion.li>
-        ))}
-      </ul>
+      <h2 className="text-4xl font-bold mb-8 text-gray-900">Inclusions & Exclusions</h2>
+      <div className="flex flex-col md:flex-row gap-8">
+        {/* Inclusions Section */}
+        <div className="flex-1">
+          <h3 className="text-2xl font-semibold mb-4 text-gray-700 pl-4">Inclusions</h3>
+          <ul className="list-disc list-inside pl-5">
+            {inclusions.map((inclusion, index) => (
+              <li key={index} className="flex items-center mb-2">
+                <AiFillCheckCircle className="text-green-500 h-5 w-5 mr-3" />
+                <span className="text-gray-700 text-lg font-medium">{inclusion}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Exclusions Section */}
+        <div className="flex-1">
+          <h3 className="text-2xl font-semibold mb-4 text-gray-700">Exclusions</h3>
+          <ul className="list-disc list-inside pl-5">
+            {(exclusions || dummyExclusions).map((exclusion, index) => (
+              <li key={index} className="flex items-center mb-2">
+                <FaTimesCircle className="text-red-500 h-5 w-5 mr-3" />
+                <span className="text-gray-700 text-lg font-medium">{exclusion}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
     </motion.div>
   );
 }
