@@ -3,6 +3,7 @@ import { FaEye, FaLink, FaEdit, FaPauseCircle, FaPlayCircle, FaPlus } from 'reac
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import {BASE_URL} from "../../constants";
 
 const Trips = () => {
   const [experiences, setExperiences] = useState([]);
@@ -10,7 +11,7 @@ const Trips = () => {
 
   const fetchExperiences = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/all-experiences');
+        const response = await axios.get(`${BASE_URL}/all-experiences`);
         console.log("create trip",response.data)
         if (response.data.success) {
           // const fetchedExperiences = response.data.data;
@@ -66,7 +67,7 @@ const Trips = () => {
         setEditingId(null);
       } else if (action === 'hold' || action === 'goLive') {
         const newStatus = action === 'hold' ? 'Hold' : 'Live';
-        const response = await axios.put(`http://localhost:8080/api/change-status`, { id:id,status: newStatus });
+        const response = await axios.put(`${BASE_URL}/change-status`, { id:id,status: newStatus });
         console.log("status",response)
         // Refresh experiences after status change
         fetchExperiences();

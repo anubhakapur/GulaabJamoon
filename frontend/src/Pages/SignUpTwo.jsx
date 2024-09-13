@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from 'axios'
+import { BASE_URL } from "../constants";
 import ROLE from "../common/role";
 
 const Button = ({ children, className, ...props }) => (
@@ -87,7 +88,7 @@ const SignUpTwo = () => {
 
     if (name && phone && dob && gender && occupation) {
       try{
-      const response = await axios.post(`http://localhost:8080/api/signuptwo`,{
+      const response = await axios.post(`${BASE_URL}/signuptwo`,{
         name: name,
         phone: phone,
         dob: new Date(dob),

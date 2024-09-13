@@ -4,6 +4,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import {BASE_URL} from "../../constants";
 
 const ResetPassword = () => {
 
@@ -62,7 +63,7 @@ const ResetPassword = () => {
     
     // Add the API call here to send the data to the backend
     try{
-      const response = await axios.post("http://localhost:8080/api/reset-password",{
+      const response = await axios.post(`${BASE_URL}/reset-password`,{
         email,
         oldPassword,
         newPassword

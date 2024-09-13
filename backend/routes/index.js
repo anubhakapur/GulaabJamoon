@@ -42,10 +42,10 @@ router.post('/loginGoogle',loginGoogleController)
 
 
 // admin panel
-router.post('/experiences',authToken,adminMiddleware,createExperiencesController);
-router.get('/all-experiences',authToken,adminMiddleware,allExperienceController);
-router.get("/all-user",authToken,adminMiddleware,allUsers)
-router.put("/update-experiences",authToken,adminMiddleware,updateExperiencesController)
-router.put("/change-status",authToken,adminMiddleware,changingStatusController)
+router.post('/experiences',authToken,createExperiencesController);
+router.get('/all-experiences',authToken,allExperienceController);
+router.get("/all-user",authToken,allUsers)
+router.put("/update-experiences",authToken,updateExperiencesController)
+router.put("/change-status",authToken,changingStatusController)
 
 module.exports = router;

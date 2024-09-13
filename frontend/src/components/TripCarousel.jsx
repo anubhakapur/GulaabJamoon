@@ -9,6 +9,7 @@ import "swiper/css/autoplay";
 import { motion, AnimatePresence } from "framer-motion";
 import ExperienceDetails from "../Pages/EXPERIENCES/ExperienceDetails"; // Import the ExperienceDetails component
 import axios from "axios";
+import {BASE_URL} from "../constants";
 
 const TripCarousel = () => {
   const [activeImage, setActiveImage] = useState("");
@@ -20,7 +21,7 @@ const TripCarousel = () => {
   useEffect(() => {
     const fetchExperiences = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/user');
+        const response = await axios.get(`${BASE_URL}/user`);
         console.log("trips",response.data)
         setTrips(response.data.data);
         setLoading(false);

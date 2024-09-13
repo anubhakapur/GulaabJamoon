@@ -7,6 +7,7 @@ import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../firebase";
+import { BASE_URL } from "../constants";
 
 const Button = ({ children, className, ...props }) => (
   <motion.button
@@ -72,7 +73,7 @@ const SignUpOne = () => {
 
         try {
       // Make a POST request to your backend API to send a verification email
-      const response = await axios.post(`http://localhost:8080/api/signupone`,{email,password});
+      const response = await axios.post(`${BASE_URL}/signupone`,{email,password});
       console.log(response.data)
       if (response.data.sucess) {
         toast.success(response.data.message || "Verification email sent. Please check your inbox.");
@@ -97,7 +98,7 @@ const SignUpOne = () => {
       const result = await signInWithPopup(auth, provider)
       console.log("result",result)
       try{
-        const response = await axios.post('http://localhost:8080/api/signUpGoogle',{email:result.user.email})
+        const response = await axios.post(`${BASE_URL}/signUpGoogle`,{email:result.user.email})
         console.log(response.data)
         if(response.data.success){
           toast.success(response.data.message)

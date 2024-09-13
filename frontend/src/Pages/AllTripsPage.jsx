@@ -3,8 +3,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import Footer from "../components/Footer";
 import ExperienceDetails from "./EXPERIENCES/ExperienceDetails";
 import { Link, useNavigate } from "react-router-dom"; // Added useNavigate for back functionality
-import GJlogo from "../assets/images/GJlogo.svg";
 import axios from "axios";
+import { BASE_URL } from "../constants";
 
 const AllTripsPage = () => {
   const [visibleTrips, setVisibleTrips] = useState(8);
@@ -21,7 +21,7 @@ const AllTripsPage = () => {
   useEffect(() => {
     const fetchExperiences = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/user');
+        const response = await axios.get(`${BASE_URL}/user`);
         console.log("trips",response.data)
         setAllTrips(response.data.data);
         setLoading(false);

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
 import testimg from "/src/assets/images/test.jpg";
+import { BASE_URL } from '../constants';
+
 const AdventurePopup = ({ onClose }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -20,7 +22,7 @@ const AdventurePopup = ({ onClose }) => {
   const handleSubmit = async(e) => {
     e.preventDefault();
     console.log({ name, phoneNumber, message, expectingCallback });
-    const response = await axios.post('http://localhost:8080/api/popup',{name,phoneNumber,message,expectingCallback});
+    const response = await axios.post(`${BASE_URL}/popup`,{name,phoneNumber,message,expectingCallback});
     console.log(response.data)
 
     console.log({ name, email, phoneNumber, message, expectingCallback });

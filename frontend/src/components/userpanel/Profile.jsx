@@ -3,6 +3,7 @@ import { Camera, Save, UserCircle, XCircle, Trash } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import {BASE_URL} from "../../constants";
 
 const Profile = () => {
   const [editMode, setEditMode] = useState('view'); // 'view', 'edit', or 'photo'
@@ -50,7 +51,7 @@ const Profile = () => {
     setEditMode('view');
 
     // Save profile to the database
-    const response = await axios.post('http://localhost:8080/api/update-user-details',{
+    const response = await axios.post(`${BASE_URL}/update-user-details`,{
       name : profile.name,
       mobile : profile.mobile,
       occupation : profile.occupation
