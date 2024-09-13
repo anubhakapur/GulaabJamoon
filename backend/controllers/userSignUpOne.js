@@ -82,7 +82,7 @@ const verifyEmailController = async (req, res) => {
 
     await user.save();
 
-    return res.redirect('http://localhost:8080/api/signuptwo?verified=true');
+    return res.redirect('http://localhost:8080/signuptwo?verified=true');
     
     res.status(200).json({ 
         message: 'Email verified', 

@@ -35,7 +35,7 @@ const App = () => {
   const dispatch = useDispatch();
 
   const fetchUserDetails = async () => {
-    const dataResponse = await axios.get(`${BASE_URL}/api/user-details`);
+    const dataResponse = await axios.get(`${BASE_URL}/user-details`);
 
     if (dataResponse.data.success) {
       console.log("dataresponse", dataResponse.data.data);
