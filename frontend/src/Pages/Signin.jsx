@@ -9,6 +9,7 @@ import Context from "../context/index";
 import ROLE from '../common/role';
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../firebase";
+import { BASE_URL } from "../constants";
 
 
 const Button = ({ children, className, ...props }) => (
@@ -51,7 +52,7 @@ const SignIn = () => {
       const result = await signInWithPopup(auth, provider)
       console.log("result",result)
       try{
-        const response = await axios.post('http://localhost:8080/api/loginGoogle',{email:result.user.email})
+        const response = await axios.post(`${BASE_URL}/loginGoogle`,{email:result.user.email})
         console.log(response)
         if(response.data.success){
           toast.success(response.data.message)
@@ -81,7 +82,7 @@ const SignIn = () => {
     e.preventDefault();
     // Implement your login logic here
     try{
-    const response = await axios.post('http://localhost:8080/api/signin',{email,password})
+    const response = await axios.post(`${BASE_URL}/signin`,{email,password})
      
 
     if(response.data.success){

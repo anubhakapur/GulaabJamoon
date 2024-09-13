@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { setUserDetails } from '../../store/userSlice';
+import {BASE_URL} from "../../constants";
 
 
 const Header = ({ toggleSidebar }) => {
@@ -16,7 +17,7 @@ const Header = ({ toggleSidebar }) => {
   const handleLogout = async() => {
 
     try{
-    const response = await axios.get('http://localhost:8080/api/logout')
+    const response = await axios.get(`${BASE_URL}/logout`)
     console.log(response.data)
     if(response.data.success){
       toast.success(response.data.message)

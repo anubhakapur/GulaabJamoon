@@ -6,6 +6,7 @@ import VariantPreview from './VariantPreview';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useLocation } from 'react-router-dom';
+import {BASE_URL} from "../../../constants";
 
 const CreateExperience = ({ setPendingExperiences, setIsCreatingExperience }) => {
 
@@ -50,7 +51,7 @@ const CreateExperience = ({ setPendingExperiences, setIsCreatingExperience }) =>
     }
 
     try {
-      const response = await axios.get(`http://localhost:8080/api/experiences/${id}`);
+      const response = await axios.get(`${BASE_URL}/experiences/${id}`);
       console.log(response.data)
       if (response.data.success) {
         setExperience(response.data.data);
@@ -72,7 +73,7 @@ try{
     if(id){
       //update place
       console.log("update place")
-      const response = await axios.put(`http://localhost:8080/api/update-experiences`, {id,...experience})
+      const response = await axios.put(`${BASE_URL}/update-experiences`, {id,...experience})
       if(response.data.success){
         toast.success("Experience updated successfully")
       }
@@ -80,7 +81,7 @@ try{
     else{
       // new place
       
-      const response = await axios.post('http://localhost:8080/api/experiences', experience)
+      const response = await axios.post(`${BASE_URL}/experiences`, experience)
      if(response.data.success){
        toast.success("Experience created successfully")
      }

@@ -3,6 +3,7 @@ import axios from 'axios';
 import {toast, ToastContainer} from 'react-toastify';
 import riverraft from '../../assets/images/riverraft.jpg';
 import parasailing from '../../assets/images/parasailing.jpg';
+import {BASE_URL} from '../../constants';
 
 const Form = () => {
   const [formData, setFormData] = useState({
@@ -47,7 +48,7 @@ const Form = () => {
     if (validateForm()) {
       // Here you would typically send the form data to your server
       try{
-      const response = await axios.post('http://localhost:8080/api/corporate',formData);
+      const response = await axios.post(`${BASE_URL}/corporate`,formData);
       
       if(response.data.success){
         toast.success(response.data.message);

@@ -4,6 +4,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { BASE_URL } from "../constants";
 
 const ListWithUs = ({ setShowModal }) => {
   const [userData, setUserData] = useState({
@@ -69,7 +70,7 @@ const ListWithUs = ({ setShowModal }) => {
 
       // Here you would typically send the form data to your server
       try{
-      const response = await axios.post('http://localhost:8080/api/hostexperience',userData);
+      const response = await axios.post(`${BASE_URL}/hostexperience`,userData);
       console.log(response)
 
       // if(response.data.success){
