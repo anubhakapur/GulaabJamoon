@@ -47,33 +47,7 @@ const App = () => {
     fetchUserDetails();
   }, []);
 
-  const images = [
-    {
-      url: "/src/assets/images/bg-main.jpg",
-      alt: "Image 1",
-    },
-    {
-      url: "/src/assets/images/bg-main.jpg",
-      alt: "Image 2",
-    },
-    {
-      url: "/src/assets/images/bg-main.jpg",
-      alt: "Image 3",
-    },
-    {
-      url: "/src/assets/images/bg-main.jpg",
-      alt: "Image 1",
-    },
-    {
-      url: "/src/assets/images/bg-main.jpg",
-      alt: "Image 2",
-    },
-    {
-      url: "/src/assets/images/bg-main.jpg",
-      alt: "Image 3",
-    },
-    // Add more image objects as needed
-  ];
+ 
 
   return (
     <Context.Provider value={{ fetchUserDetails }}>
@@ -89,7 +63,7 @@ const App = () => {
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signupone" element={<SignUpOne />} />
             <Route path="/signuptwo" element={<SignUpTwo />} />
-            <Route path="/gallery" element={<Gallery images={images} />} />
+            <Route path="/gallery" element={<Gallery />} />
             <Route path="/admin" element={<AdminPanel />}></Route>
             <Route path="/user" element={<UserPanel />} />
             <Route path="/hostexperience" element={<HostExperience />} />

@@ -1,7 +1,10 @@
 import React from 'react';
 import { Instagram, Linkedin, Youtube, Facebook, Twitter } from 'lucide-react';
 import { motion } from 'framer-motion';
-
+import rs from "/src/assets/images/rosanisa.jpg";
+import tourism from "/src/assets/images/tourism.jpg"
+import kstdc from "/src/assets/images/kstdc.png"
+import kn from "/src/assets/images/karnataka.jpg"
 const Footer = () => {
   const teamMembers = [
     { name: "Mohin", linkedIn: "https://www.linkedin.com/in/mohin-gupta-3bb267305" },
@@ -27,15 +30,15 @@ const Footer = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info and Logos */}
           <motion.div className="space-y-4" variants={fadeInUp}>
-            <img src="/src/assets/images/rosanisa.jpg" alt="Rosanisa Xperiences LLP" className="h-24 mb-2 transition-transform duration-300 hover:scale-105" />
+            <img src={rs} alt="Rosanisa Xperiences LLP" className="h-24 mb-2 transition-transform duration-300 hover:scale-105" />
             <p className="text-sm text-gray-300 leading-relaxed">
               GJ Experiences is a subsidiary registered under ROSANISA XPERIENCES LLP (Bangalore, India)
             </p>
             <div className="flex flex-wrap gap-2 mt-2 lg:hidden">
-              <img src="/src/assets/images/tourism.jpg" alt="Ministry of Tourism" className="h-16 transition-transform duration-300 hover:scale-110" />
-              <img src="/src/assets/images/karnataka.jpg" alt="Karnataka Tourism" className="h-16 transition-transform duration-300 hover:scale-110" />
+              <img src={tourism} alt="Ministry of Tourism" className="h-16 transition-transform duration-300 hover:scale-110" />
+              <img src={kn} alt="Karnataka Tourism" className="h-16 transition-transform duration-300 hover:scale-110" />
             </div>
-            <img src="/src/assets/images/kstdc.png" alt="KSTDC" className="h-16 mt-2 lg:hidden transition-transform duration-300 hover:scale-110" />
+            <img src={kstdc} alt="KSTDC" className="h-16 mt-2 lg:hidden transition-transform duration-300 hover:scale-110" />
           </motion.div>
 
           {/* Contacts, Timings, and Address */}
@@ -141,9 +144,9 @@ const Footer = () => {
             <div className="hidden lg:flex flex-col mt-8">
               <h3 className="text-xl font-bold text-yellow-400 mb-4">Our Partners</h3>
               <div className="flex flex-wrap gap-4">
-                <img src="/src/assets/images/tourism.jpg" alt="Ministry of Tourism" className="h-16 transition-transform duration-300 hover:scale-110" />
-                <img src="/src/assets/images/karnataka.jpg" alt="Karnataka Tourism" className="h-16 transition-transform duration-300 hover:scale-110" />
-                <img src="/src/assets/images/kstdc.png" alt="KSTDC" className="h-16 transition-transform duration-300 hover:scale-110" />
+                <img src={tourism} alt="Ministry of Tourism" className="h-16 transition-transform duration-300 hover:scale-110" />
+                <img src={kn} alt="Karnataka Tourism" className="h-16 transition-transform duration-300 hover:scale-110" />
+                <img src={kstdc} alt="KSTDC" className="h-16 transition-transform duration-300 hover:scale-110" />
               </div>
             </div>
           </motion.div>

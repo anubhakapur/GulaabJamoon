@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
-
+import testimg from "/src/assets/images/test.jpg";
 const AdventurePopup = ({ onClose }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -56,7 +56,7 @@ const AdventurePopup = ({ onClose }) => {
           transition={{ type: "spring", damping: 25, stiffness: 500 }}
           className="w-full max-w-lg rounded-lg overflow-hidden shadow-xl relative"
           style={{
-            backgroundImage: "url('/src/assets/images/test.jpg')",
+            backgroundImage: `url(${testimg})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center'
           }}

@@ -4,7 +4,7 @@ import { FaQuoteLeft, FaQuoteRight } from "react-icons/fa";
 import { FiSmile, FiHeart, FiStar, FiSun } from "react-icons/fi";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-
+import bgvid from "/src/assets/images/bgvid.mp4"
 const AboutPage = () => {
   return (
     <div className="flex flex-col min-h-screen">
@@ -343,7 +343,7 @@ const BackgroundVideo = () => {
         muted
         className="w-full h-full object-cover"
       >
-        <source src="/src/assets/images/bgvid.mp4" type="video/mp4" />
+        <source src={bgvid} type="video/mp4" />
         Your browser does not support the video tag.
       </video>
       <div className="absolute inset-0 bg-black bg-opacity-50"></div>

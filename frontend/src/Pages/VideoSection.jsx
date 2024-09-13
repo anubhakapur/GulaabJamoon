@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-
+import bgmain from "/src/assets/images/bg-main.jpg"
+import bgvid from "/src/assets/images/bgvid.mp4"
 const VideoSection = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const videoRef = useRef(null);
@@ -31,7 +32,7 @@ const VideoSection = () => {
     <section className="relative w-full h-screen overflow-hidden group">
       {/* Background image with zoom effect */}
       <img 
-        src="/src/assets/images/bg-main.jpg" 
+        src={bgmain} 
         alt="Group of people on a trek" 
         className="absolute inset-0 w-full h-full object-cover transition-transform duration-10000 ease-in-out transform group-hover:scale-110"
       />
@@ -63,7 +64,7 @@ const VideoSection = () => {
         muted
         playsInline
       >
-        <source src="/src/assets/images/bgvid.mp4" type="video/mp4" />
+        <source src={bgvid} type="video/mp4" />
         Your browser does not support the video tag.
       </video>
 

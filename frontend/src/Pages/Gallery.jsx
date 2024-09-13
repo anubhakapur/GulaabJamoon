@@ -2,7 +2,27 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-
+import img1 from "/src/assets/images/GJ1.png";
+import img2 from "/src/assets/images/gallery6.jpg";
+import img3 from "/src/assets/images/8.jpg";
+import img4 from "/src/assets/images/gallery4.jpg";
+import img5 from "/src/assets/images/gallery3.jpg";
+import img6 from "/src/assets/images/gallery2.jpg";
+import img7 from "/src/assets/images/gallery1.jpg";
+import img8 from "/src/assets/images/gallery.jpg";
+import img9 from "/src/assets/images/about2.jpg";
+import img10 from "/src/assets/images/gj4.jpg";
+import img11 from "/src/assets/images/gj2.jpg";
+import img12 from "/src/assets/images/6.jpg";
+import img13 from "/src/assets/images/1.jpg";
+import img14 from "/src/assets/images/GJ8.jpg";
+import img15 from "/src/assets/images/10.jpg";
+import img16 from "/src/assets/images/4.jpg";
+import img17 from "/src/assets/images/GJ5.jpg";
+import img18 from "/src/assets/images/2.jpg";
+import img19 from "/src/assets/images/GJ9.jpg";
+import img20 from "/src/assets/images/GJ2.png";
+import img21 from "/src/assets/images/3.jpg";
 const CursorTrail = () => {
   const [trail, setTrail] = useState([]);
   const requestRef = useRef();
@@ -47,28 +67,29 @@ const Gallery = () => {
   const [selectedImage, setSelectedImage] = useState(null);
 
   const images = [
-    { src: '/src/assets/images/GJ1.png', alt: 'WAYANAD', caption: 'WAYANAD' },
-    { src: '/src/assets/images/gallery6.jpg', alt: 'GOKARNA', caption: 'GOKARNA' },
-    { src: '/src/assets/images/8.jpg', alt: 'KODAIKANAL', caption: 'KODAIKANAL' },
-    { src: '/src/assets/images/gallery4.jpg', alt: 'MUNNAR', caption: 'MUNNAR' },
-    { src: '/src/assets/images/gallery3.jpg', alt: 'SRINAGAR', caption: 'SRINAGAR' },
-    { src: '/src/assets/images/gallery2.jpg', alt: 'CHIKMAGALUR', caption: 'CHIKMAGALUR' },
-    { src: '/src/assets/images/gallery1.jpg', alt: 'NEW DESTINATION', caption: 'NEW DESTINATION' },
-    { src: '/src/assets/images/gallery.jpg', alt: 'WAYANAD', caption: 'WAYANAD' },
-    { src: '/src/assets/images/about2.jpg', alt: 'GOKARNA', caption: 'GOKARNA' },
-    { src: '/src/assets/images/gj4.jpg', alt: 'KODAIKANAL', caption: 'KODAIKANAL' },
-    { src: '/src/assets/images/gj2.jpg', alt: 'MUNNAR', caption: 'MUNNAR' },
-    { src: '/src/assets/images/6.jpg', alt: 'SRINAGAR', caption: 'SRINAGAR' },
-    { src: '/src/assets/images/1.jpg', alt: 'CHIKMAGALUR', caption: 'CHIKMAGALUR' },
-    { src: '/src/assets/images/GJ8.jpg', alt: 'NEW DESTINATION', caption: 'NEW DESTINATION' },
-    { src: '/src/assets/images/10.jpg', alt: 'WAYANAD', caption: 'WAYANAD' },
-    { src: '/src/assets/images/4.jpg', alt: 'GOKARNA', caption: 'GOKARNA' },
-    { src: '/src/assets/images/GJ5.jpg', alt: 'KODAIKANAL', caption: 'KODAIKANAL' },
-    { src: '/src/assets/images/2.jpg', alt: 'MUNNAR', caption: 'MUNNAR' },
-    { src: '/src/assets/images/GJ9.jpg', alt: 'SRINAGAR', caption: 'SRINAGAR' },
-    { src: '/src/assets/images/GJ2.png', alt: 'CHIKMAGALUR', caption: 'CHIKMAGALUR' },
-    { src: '/src/assets/images/3.jpg', alt: 'NEW DESTINATION', caption: 'NEW DESTINATION' },
+    { src: img1, alt: 'WAYANAD', caption: 'WAYANAD' },
+    { src: img2, alt: 'GOKARNA', caption: 'GOKARNA' },
+    { src: img3, alt: 'KODAIKANAL', caption: 'KODAIKANAL' },
+    { src: img4, alt: 'MUNNAR', caption: 'MUNNAR' },
+    { src: img5, alt: 'SRINAGAR', caption: 'SRINAGAR' },
+    { src: img6, alt: 'CHIKMAGALUR', caption: 'CHIKMAGALUR' },
+    { src: img7, alt: 'NEW DESTINATION', caption: 'NEW DESTINATION' },
+    { src: img8, alt: 'WAYANAD', caption: 'WAYANAD' },
+    { src: img9, alt: 'GOKARNA', caption: 'GOKARNA' },
+    { src: img10, alt: 'KODAIKANAL', caption: 'KODAIKANAL' },
+    { src: img11, alt: 'MUNNAR', caption: 'MUNNAR' },
+    { src: img12, alt: 'SRINAGAR', caption: 'SRINAGAR' },
+    { src: img13, alt: 'CHIKMAGALUR', caption: 'CHIKMAGALUR' },
+    { src: img14, alt: 'NEW DESTINATION', caption: 'NEW DESTINATION' },
+    { src: img15, alt: 'WAYANAD', caption: 'WAYANAD' },
+    { src: img16, alt: 'GOKARNA', caption: 'GOKARNA' },
+    { src: img17, alt: 'KODAIKANAL', caption: 'KODAIKANAL' },
+    { src: img18, alt: 'MUNNAR', caption: 'MUNNAR' },
+    { src: img19, alt: 'SRINAGAR', caption: 'SRINAGAR' },
+    { src: img20, alt: 'CHIKMAGALUR', caption: 'CHIKMAGALUR' },
+    { src: img21, alt: 'NEW DESTINATION', caption: 'NEW DESTINATION' },
   ];
+  
 
   const handleImageClick = (image) => {
     setSelectedImage(image);
