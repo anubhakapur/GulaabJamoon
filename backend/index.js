@@ -33,7 +33,7 @@ app.use(passport.session());
 app.use("/api", router);
 app.use("/auth", authRoutes);
 
-PORT = 8080 || process.env.PORT;
+PORT = 80 || process.env.PORT;
 
 app.get("/", (req, res) => {
   res.send("Server is ready");
