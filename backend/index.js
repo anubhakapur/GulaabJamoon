@@ -12,7 +12,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: process.env.FRONTNED_URL,
+    origin: process.env.FRONTEND_URL,
     credentials: true,
   })
 );
@@ -26,7 +26,9 @@ app.use(
     saveUninitialized: true,
   })
 );
-app.use(express.static(path.join(__dirname, "dist")));
+
+app.use(express.json())
+// app.use(express.static(path.join(__dirname, "dist")));
 app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
