@@ -1,6 +1,5 @@
-// Gallery.jsx
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 function Gallery({ gallery, name }) {
   const [showAllPhotos, setShowAllPhotos] = useState(false);
@@ -12,41 +11,47 @@ function Gallery({ gallery, name }) {
   const toggleShowAllPhotos = () => setShowAllPhotos(!showAllPhotos);
 
   return (
-    <motion.div 
-      className="mb-12"
+    <motion.div
+      className="w-[100%] bg-white  sm:px-8 py-4"
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        {/* Mobile view: Show only the first image */}
-        <motion.div
-          className="md:hidden overflow-hidden rounded-lg shadow-lg"
-          whileHover={{ scale: 1.05 }}
-          transition={{ type: "spring", stiffness: 300 }}
-        >
-          <img 
-            src={gallery[0]} 
-            alt={`${name} - 1`} 
-            className="w-full h-64 object-cover"
-          />
-        </motion.div>
-
-        {/* Desktop view: Show grid layout */}
-        {gallery.slice(0, 5).map((image, index) => (
+      {/* Gallery container */}
+      <div className="flex flex-col sm:flex-row gap-4">
+        {/* Main large image */}
+        <div className="w-full sm:w-2/3 h-[300px] lg:h-[520px] relative">
           <motion.div
-            key={index}
-            className={`hidden md:block overflow-hidden rounded-lg shadow-lg ${index === 0 ? 'col-span-2 row-span-2' : ''}`}
-            whileHover={{ scale: 1.05 }}
-            transition={{ type: "spring", stiffness: 300 }}
+            className="overflow-hidden rounded-lg shadow-lg h-full"
+            whileHover={{ scale: 1.02 }}
+            transition={{ type: "spring", stiffness: 150 }}
           >
-            <img 
-              src={image} 
-              alt={`${name} - ${index + 1}`} 
-              className={`w-full h-full object-cover ${index === 0 ? 'h-[400px]' : 'h-[200px]'}`}
+            <img
+              src={gallery[0]}
+              alt={`${name} - Main`}
+              className="w-full h-full object-cover"
             />
           </motion.div>
-        ))}
+        </div>
+
+        {/* Grid of smaller images */}
+        <div className="w-full sm:w-1/3 grid grid-cols-2 gap-4">
+          {gallery.slice(1, 5).map((image, index) => (
+            <motion.div
+              key={index}
+              className="overflow-hidden rounded-lg shadow-lg relative w-full pb-[100%]" // Maintain aspect ratio
+              whileHover={{ scale: 1.03 }}
+              transition={{ type: "spring", stiffness: 150 }}
+              style={{ display: image ? "block" : "none" }}
+            >
+              <img
+                src={image}
+                alt={`${name} - ${index + 2}`}
+                className="absolute top-0 left-0 bottom-0 right-0 w-full h-full object-cover" // Ensures image covers entire div
+              />
+            </motion.div>
+          ))}
+        </div>
       </div>
 
       {/* Show all photos button */}
@@ -68,7 +73,7 @@ function Gallery({ gallery, name }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
-            <div className="container mx-auto py-8">
+            <div className="container mx-auto py-8 px-4 sm:px-6 lg:px-8">
               <motion.button
                 className="mb-4 bg-black text-white py-2 px-4 rounded-lg font-semibold hover:bg-gray-800 transition duration-300"
                 whileHover={{ scale: 1.05 }}
@@ -77,7 +82,7 @@ function Gallery({ gallery, name }) {
               >
                 Close Gallery
               </motion.button>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {gallery.map((image, index) => (
                   <motion.div
                     key={index}
@@ -86,11 +91,13 @@ function Gallery({ gallery, name }) {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1 }}
                   >
-                    <img 
-                      src={image} 
-                      alt={`${name} - ${index + 1}`} 
-                      className="w-full h-64 object-cover"
-                    />
+                    <div className="relative pb-[66.66%]">
+                      <img
+                        src={image}
+                        alt={`${name} - ${index + 1}`}
+                        className="absolute top-0 left-0 w-full h-full object-cover"
+                      />
+                    </div>
                   </motion.div>
                 ))}
               </div>

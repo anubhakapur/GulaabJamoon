@@ -4,8 +4,12 @@ const trips = [
     name: "Jaipur Bike Tour",
     description: "Explore the Pink City of India",
     price: 149.99,
-    image: "https://www.tourmyindia.com/blog//wp-content/uploads/2018/05/Hawa-Mahal-Jaipur2.jpg",
+    image:
+      "https://www.tourmyindia.com/blog//wp-content/uploads/2018/05/Hawa-Mahal-Jaipur2.jpg",
     gallery: [
+      "https://expatlifeinthailand.com//assets/media/2019/10/IMG_0833-01.jpeg",
+      "https://static.toiimg.com/photo/msid-97799920,width-96,height-65.cms",
+      "https://static.toiimg.com/photo/msid-24476893,width-96,height-65.cms",
       "https://expatlifeinthailand.com//assets/media/2019/10/IMG_0833-01.jpeg",
       "https://static.toiimg.com/photo/msid-97799920,width-96,height-65.cms",
       "https://static.toiimg.com/photo/msid-24476893,width-96,height-65.cms",
@@ -13,14 +17,14 @@ const trips = [
     location: "Rajasthan, India",
     duration: "2 days",
     itinerary: ["Visit Amber Fort", "Explore City Palace"],
+    cancellationPolicy: "Free cancellation up to 24 hours before the start",
     highlights: ["Rich cultural heritage", "Magnificent architecture"],
     inclusions: ["Hotel accommodation", "Local guide"],
     boardingLocation: { lat: 26.9124, lng: 75.7873 },
+    faq: [{ question: "Best time to visit?", answer: "October to March" }],
     similarExperiences: [
       {
-        name: "Udaipur Lake Tour",
-        image: "/src/assets/outliers/udaipur.jpg",
-        description: "Explore the City of Lakes",
+        name: "Kerala Backwater Cruise",
       },
     ],
     variants: [
@@ -54,9 +58,11 @@ const trips = [
     location: "Kerala, India",
     duration: "3 days",
     itinerary: ["Houseboat cruise", "Explore Alleppey", "Visit Vembanad Lake"],
+    cancellationPolicy: "Free cancellation up to 24 hours before the start",
     highlights: ["Relaxing backwaters", "Scenic beauty"],
     inclusions: ["Houseboat stay", "Meals on board"],
     boardingLocation: { lat: 9.4981, lng: 76.3388 },
+    faq: [{ question: "Best time to visit?", answer: "October to March" }],
     similarExperiences: [
       {
         name: "Kumarakom Bird Sanctuary Visit",
@@ -95,9 +101,11 @@ const trips = [
     location: "Himachal Pradesh, India",
     duration: "4 days",
     itinerary: ["Trek to Solang Valley", "Visit Hidimba Temple"],
+    cancellationPolicy: "Free cancellation up to 24 hours before the start",
     highlights: ["Mountain views", "Adventure activities"],
     inclusions: ["Guide", "Trekking gear"],
     boardingLocation: { lat: 32.2396, lng: 77.1887 },
+    faq: [{ question: "Best time to visit?", answer: "October to March" }],
     similarExperiences: [
       {
         name: "Shimla Toy Train Ride",
@@ -136,9 +144,11 @@ const trips = [
     location: "Goa, India",
     duration: "3 days",
     itinerary: ["Beach relaxation", "Visit Old Goa", "Water sports"],
+    cancellationPolicy: "Free cancellation up to 24 hours before the start",
     highlights: ["Pristine beaches", "Goan cuisine"],
     inclusions: ["Resort stay", "Beach activities"],
     boardingLocation: { lat: 15.2993, lng: 74.124 },
+    faq: [{ question: "Best time to visit?", answer: "October to March" }],
     similarExperiences: [
       {
         name: "Andaman Beach Holiday",
@@ -177,9 +187,11 @@ const trips = [
     location: "Ladakh, India",
     duration: "7 days",
     itinerary: ["Drive through Khardung La", "Visit Pangong Lake"],
+    cancellationPolicy: "Free cancellation up to 24 hours before the start",
     highlights: ["Mountain passes", "Breathtaking landscapes"],
     inclusions: ["Vehicle", "Accommodation"],
     boardingLocation: { lat: 34.1526, lng: 77.5771 },
+    faq: [{ question: "Best time to visit?", answer: "October to March" }],
     similarExperiences: [
       {
         name: "Spiti Valley Road Trip",
@@ -218,9 +230,11 @@ const trips = [
     location: "Rajasthan, India",
     duration: "3 days",
     itinerary: ["Camel safari", "Visit Jaisalmer Fort"],
+    cancellationPolicy: "Free cancellation up to 24 hours before the start",
     highlights: ["Desert landscapes", "Cultural performances"],
     inclusions: ["Desert camp stay", "Meals"],
     boardingLocation: { lat: 26.9157, lng: 70.9083 },
+    faq: [{ question: "Best time to visit?", answer: "October to March" }],
     similarExperiences: [
       {
         name: "Kutch Desert Safari",
@@ -259,9 +273,11 @@ const trips = [
     location: "Sikkim, India",
     duration: "5 days",
     itinerary: ["Visit Gurudongmar Lake", "Explore Yumthang Valley"],
+    cancellationPolicy: "Free cancellation up to 24 hours before the start",
     highlights: ["Stunning valleys", "Snow-capped peaks"],
     inclusions: ["Guide", "Trekking equipment"],
     boardingLocation: { lat: 27.533, lng: 88.5122 },
+    faq: [{ question: "Best time to visit?", answer: "October to March" }],
     similarExperiences: [
       {
         name: "Darjeeling Hill Tour",
@@ -300,9 +316,11 @@ const trips = [
     location: "Andaman & Nicobar Islands, India",
     duration: "4 days",
     itinerary: ["Scuba diving", "Explore Havelock Island"],
+    cancellationPolicy: "Free cancellation up to 24 hours before the start",
     highlights: ["Coral reefs", "Marine life"],
     inclusions: ["Diving gear", "Accommodation"],
     boardingLocation: { lat: 11.6234, lng: 92.7265 },
+    faq: [{ question: "Best time to visit?", answer: "October to March" }],
     similarExperiences: [
       {
         name: "Lakshadweep Scuba Adventure",
@@ -341,9 +359,11 @@ const trips = [
     location: "Kashmir, India",
     duration: "3 days",
     itinerary: ["Shikara ride", "Explore Mughal gardens"],
+    cancellationPolicy: "Free cancellation up to 24 hours before the start",
     highlights: ["Scenic lake views", "Traditional Kashmiri food"],
     inclusions: ["Houseboat stay", "Meals"],
     boardingLocation: { lat: 34.0837, lng: 74.7973 },
+    faq: [{ question: "Best time to visit?", answer: "October to March" }],
     similarExperiences: [
       {
         name: "Gulmarg Snow Adventure",
@@ -382,9 +402,11 @@ const trips = [
     location: "Gujarat, India",
     duration: "3 days",
     itinerary: ["Full moon safari", "Visit local villages"],
+    cancellationPolicy: "Free cancellation up to 24 hours before the start",
     highlights: ["White desert", "Local culture"],
     inclusions: ["Tent accommodation", "Meals"],
     boardingLocation: { lat: 23.7334, lng: 69.8597 },
+    faq: [{ question: "Best time to visit?", answer: "October to March" }],
     similarExperiences: [
       {
         name: "Rajasthan Desert Adventure",
@@ -423,9 +445,11 @@ const trips = [
     location: "Karnataka, India",
     duration: "3 days",
     itinerary: ["Coffee plantation tour", "Explore Coorg wildlife"],
+    cancellationPolicy: "Free cancellation up to 24 hours before the start",
     highlights: ["Serene plantation", "Breathtaking views"],
     inclusions: ["Stay in plantation cottages", "Meals"],
     boardingLocation: { lat: 12.3375, lng: 75.8064 },
+    faq: [{ question: "Best time to visit?", answer: "October to March" }],
     similarExperiences: [
       {
         name: "Wayanad Plantation Retreat",
@@ -464,9 +488,11 @@ const trips = [
     location: "Uttarakhand, India",
     duration: "2 days",
     itinerary: ["Boating on Naini Lake", "Visit Naina Devi Temple"],
+    cancellationPolicy: "Free cancellation up to 24 hours before the start",
     highlights: ["Scenic hill views", "Relaxing getaway"],
     inclusions: ["Hotel accommodation", "Meals"],
     boardingLocation: { lat: 29.3919, lng: 79.4542 },
+    faq: [{ question: "Best time to visit?", answer: "October to March" }],
     similarExperiences: [
       {
         name: "Mussoorie Hill Retreat",
@@ -505,9 +531,11 @@ const trips = [
     location: "Meghalaya, India",
     duration: "4 days",
     itinerary: ["Visit living root bridges", "Explore Cherrapunji"],
+    cancellationPolicy: "Free cancellation up to 24 hours before the start",
     highlights: ["Unique bridges", "Rainforest adventure"],
     inclusions: ["Guide", "Accommodation"],
     boardingLocation: { lat: 25.5702, lng: 91.8832 },
+    faq: [{ question: "Best time to visit?", answer: "October to March" }],
     similarExperiences: [
       {
         name: "Assam Tea Estate Tour",
@@ -546,9 +574,11 @@ const trips = [
     location: "Kerala, India",
     duration: "3 days",
     itinerary: ["Houseboat cruise", "Explore Alleppey"],
+    cancellationPolicy: "Free cancellation up to 24 hours before the start",
     highlights: ["Scenic backwaters", "Traditional Kerala food"],
     inclusions: ["Houseboat stay", "Meals"],
     boardingLocation: { lat: 9.4968, lng: 76.3398 },
+    faq: [{ question: "Best time to visit?", answer: "October to March" }],
     similarExperiences: [
       {
         name: "Goa Beachfront Stay",
@@ -587,9 +617,11 @@ const trips = [
     location: "Ladakh, India",
     duration: "7 days",
     itinerary: ["Bike through high-altitude passes", "Explore Pangong Lake"],
+    cancellationPolicy: "Free cancellation up to 24 hours before the start",
     highlights: ["Breathtaking landscapes", "Adventure-filled rides"],
     inclusions: ["Bike rental", "Accommodation"],
     boardingLocation: { lat: 34.1526, lng: 77.5771 },
+    faq: [{ question: "Best time to visit?", answer: "October to March" }],
     similarExperiences: [
       {
         name: "Spiti Valley Bike Tour",
@@ -628,9 +660,11 @@ const trips = [
     location: "Rajasthan, India",
     duration: "5 days",
     itinerary: ["Visit Udaipur", "Explore Jodhpur and Jaipur"],
+    cancellationPolicy: "Free cancellation up to 24 hours before the start",
     highlights: ["Royal palaces", "Cultural experiences"],
     inclusions: ["Accommodation", "Guide"],
     boardingLocation: { lat: 26.9124, lng: 75.7873 },
+    faq: [{ question: "Best time to visit?", answer: "October to March" }],
     similarExperiences: [
       {
         name: "Mysore Palace Experience",
