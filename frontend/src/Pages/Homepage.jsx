@@ -35,7 +35,7 @@ const Homepage = () => {
       <Header home={true} scrollToFooter={scrollToFooter} />
       <Hero backgroundImage={backgroundImage} />
       <TripCarousel trips={trips} />
-      <VideoSection />
+      {/* <VideoSection /> */}
       <div id="testimonials-section">
         <TestimonialPage />
       </div>

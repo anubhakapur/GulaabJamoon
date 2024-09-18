@@ -1,6 +1,7 @@
 import React from 'react';
 import ImageUpload from './ImageUpload';
 import ArrayInput from './ArrayInput';
+import AddonInput from './AddonInput';
 
 const ExperienceForm = ({ experience, setExperience, isVariant }) => {
   const handleChange = (field, value) => {
@@ -84,6 +85,32 @@ const ExperienceForm = ({ experience, setExperience, isVariant }) => {
           placeholder="Short description for trip cards"
           value={experience.shortDescription}
           onChange={(e) => handleChange('shortDescription', e.target.value)}
+          required
+        />
+      </div>
+
+      <div className="mb-4">
+        <label className={labelClass} htmlFor="tourCaptain">Tour Captain</label>
+        <input
+          className={inputClass}
+          id="tourCaptain"
+          type="text"
+          placeholder="Tour Captain Name"
+          value={experience.tourCaptain}
+          onChange={(e) => handleChange('tourCaptain', e.target.value)}
+          required
+        />
+      </div>
+
+      <div className="mb-4">
+        <label className={labelClass} htmlFor="experienceType">Experience Type</label>
+        <input
+          className={inputClass}
+          id="experienceType"
+          type="text"
+          placeholder="Eg: Motorcycling, Water Sports etc."
+          value={experience.experienceType}
+          onChange={(e) => handleChange('experienceType', e.target.value)}
           required
         />
       </div>
@@ -181,6 +208,11 @@ const ExperienceForm = ({ experience, setExperience, isVariant }) => {
           required
         />
       </div>
+
+      <AddonInput
+        addons={experience.addons || []}
+        setAddons={(addons) => handleChange('addons', addons)}
+      />
 
       <ArrayInput
         label="Highlights"
@@ -297,7 +329,6 @@ const ExperienceForm = ({ experience, setExperience, isVariant }) => {
         </button>
       </div>
 
-      {/* New fields for Base Price, Taxes, and Convenience Fee */}
       <div className="mb-4">
         <label className={labelClass} htmlFor="basePrice">Base Price</label>
         <input
