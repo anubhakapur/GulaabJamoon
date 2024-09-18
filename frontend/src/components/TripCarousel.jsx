@@ -100,12 +100,12 @@ const TripCarousel = () => {
         transition={{ duration: 0.5 }}
         className="text-4xl md:text-6xl font-extrabold text-center mb-12 text-black"
       >
-        Discover Our Trips
+        Most Popular XPs
       </motion.h1>
 
       <div className="flex justify-between items-center mb-6 px-4 md:px-8 lg:px-16">
         <h2 className="text-lg md:text-2xl font-bold text-black">
-          Featured Trips
+          Featured Experiences
         </h2>
         <Link
           to="/experiences"

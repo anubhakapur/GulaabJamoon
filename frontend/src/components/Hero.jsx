@@ -4,18 +4,18 @@ import { motion, AnimatePresence } from "framer-motion";
 import { BsPeople } from "react-icons/bs";
 import { FaStar, FaMapMarkerAlt } from "react-icons/fa";
 import { GiCaptainHatProfile } from "react-icons/gi";
+import backgroundVideo from '/src/assets/images/SampleVideo.mp4';
+import './Hero.css';
 
 const AnimatedNumber = ({ value, decimals = 0, shouldAnimate }) => {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
     if (!shouldAnimate) return;
-
     const duration = 2000;
     const steps = 60;
     const stepValue = value / steps;
     let current = 0;
-
     const timer = setInterval(() => {
       current += stepValue;
       if (current > value) {
@@ -25,7 +25,6 @@ const AnimatedNumber = ({ value, decimals = 0, shouldAnimate }) => {
         setCount(Number(current.toFixed(decimals)));
       }
     }, duration / steps);
-
     return () => clearInterval(timer);
   }, [value, decimals, shouldAnimate]);
 
@@ -55,7 +54,7 @@ const StatCard = ({ icon, title, value, decimals = 0, shouldAnimate }) => (
   </motion.div>
 );
 
-const Hero = ({ backgroundImage }) => {
+const Hero = () => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [shouldAnimateStats, setShouldAnimateStats] = useState(false);
   const heroRef = useRef(null);
@@ -65,7 +64,6 @@ const Hero = ({ backgroundImage }) => {
     const handleScroll = () => {
       const position = window.pageYOffset;
       setScrollPosition(position);
-
       if (statsRef.current && window.innerWidth < 768) {
         const rect = statsRef.current.getBoundingClientRect();
         if (rect.top <= window.innerHeight * 0.75 && rect.bottom >= 0) {
@@ -73,7 +71,6 @@ const Hero = ({ backgroundImage }) => {
         }
       }
     };
-
     window.addEventListener("scroll", handleScroll);
     handleScroll();
     return () => {
@@ -81,9 +78,7 @@ const Hero = ({ backgroundImage }) => {
     };
   }, []);
 
-  const scale = Math.max(0.5, 1 - scrollPosition / 1000);
   const opacity = Math.max(0, 1 - scrollPosition / 500);
-  const brightness = Math.max(0.5, 1 - scrollPosition / 1000);
 
   const sidebarVariants = {
     hidden: { opacity: 0, x: "-100%", transition: { duration: 0.5 } },
@@ -103,30 +98,36 @@ const Hero = ({ backgroundImage }) => {
   return (
     <>
       <div ref={heroRef} className="relative w-full h-screen overflow-hidden">
-        <div
-          className="absolute top-0 left-0 w-full h-full bg-cover bg-center"
-          style={{
-            backgroundImage: `url(${backgroundImage})`,
-            filter: `brightness(${brightness})`,
-            transform: `scale(${1 + scrollPosition / 2000})`,
-            transition: "filter 0.3s ease-out, transform 0.3s ease-out",
-          }}
-        />
+        <video
+          className="absolute top-0 left-0 w-full h-full object-cover"
+          autoPlay
+          loop
+          muted
+          playsInline
+        >
+          <source src={backgroundVideo} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+
+        <div className="absolute inset-0 bg-black opacity-50"></div>
 
         <div
           className="absolute inset-0 flex flex-col items-center justify-center"
           style={{
-            transform: `scale(${scale}) translateY(${scrollPosition / 10}px)`,
             opacity,
-            transition: "transform 0.3s ease-out, opacity 0.3s ease-out",
+            transition: "opacity 0.3s ease-out",
           }}
         >
-          <h1 className="text-4xl md:text-6xl lg:text-8xl font-bold text-white text-center px-4">
-            <span className="block font-serif tracking-wide">Do it the</span>
-            <span className="block font-sans uppercase tracking-widest text-yellow-400 mt-4">
+          <h1 className="text-center px-4">
+            <span className="block text-4xl md:text-6xl lg:text-7xl font-cursive text-white leading-tight">
+              Do it the
+            </span>
+            <span className="block text-5xl md:text-7xl lg:text-8xl font-bold uppercase tracking-wider text-yellow-400 mt-2 neon-text">
               GULAAB JAMOON
             </span>
-            <span className="block font-serif tracking-wide">way</span>
+            <span className="block text-4xl md:text-6xl lg:text-7xl font-cursive text-white leading-tight mt-2">
+              Way
+            </span>
           </h1>
         </div>
 
@@ -180,7 +181,7 @@ const Hero = ({ backgroundImage }) => {
           variants={sidebarVariants}
         >
           <Link
-            to="corporate"
+            to="gallery"
             className="bg-white/75 hover:bg-white hover:text-black text-black font-bold rounded-full rounded-l-none
             shadow-xl transition-all duration-300 transform hover:scale-110 flex items-center justify-center"
             style={{
@@ -191,7 +192,7 @@ const Hero = ({ backgroundImage }) => {
             }}
           >
             <span className="text-sm leading-none tracking-wide text-center">
-              CORPORATE XPs
+              Gallery
             </span>
           </Link>
         </motion.div>

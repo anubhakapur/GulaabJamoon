@@ -23,7 +23,7 @@ const Footer = forwardRef((props, ref) => {
   return (
     <motion.footer 
       ref={ref}
-      className="bg-gradient-to-b from-gray-900 to-black text-white"
+      className="bg-cyan-950 to-black text-white"
       initial="hidden"
       animate="visible"
       variants={fadeInUp}

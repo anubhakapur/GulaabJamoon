@@ -5,6 +5,7 @@ import TripCarousel from "../components/TripCarousel";
 import VideoSection from "./VideoSection";
 import TestimonialPage from "../components/TestimonialPage";
 import Footer from "../components/Footer";
+import GJforYou from "../components/GJforYou";
 import AdventurePopup from "../Pages/Popup";
 import backgroundImage from "/src/assets/images/bg-main-test2.jpg";
 import trips from "../assets/data/trips";
@@ -34,6 +35,7 @@ const Homepage = () => {
     <div className="bg-white min-h-screen">
       <Header home={true} scrollToFooter={scrollToFooter} />
       <Hero backgroundImage={backgroundImage} />
+      <GJforYou />
       <TripCarousel trips={trips} />
       {/* <VideoSection /> */}
       <div id="testimonials-section">
