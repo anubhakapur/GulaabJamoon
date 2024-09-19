@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { BsPeople } from "react-icons/bs";
 import { FaStar, FaMapMarkerAlt } from "react-icons/fa";
 import { GiCaptainHatProfile } from "react-icons/gi";
-import backgroundVideo from '../assets/images/SampleVideo.mp4';
+import backgroundVideo from '../assets/images/bgvid.mp4';
 import './Hero.css';
 
 const AnimatedNumber = ({ value, decimals = 0, shouldAnimate }) => {
