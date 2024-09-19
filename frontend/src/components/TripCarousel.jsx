@@ -143,7 +143,7 @@ const TripCarousel = () => {
       <div className="flex justify-between items-center mb-6 px-4 md:px-8 lg:px-16">
         <h2 className=" font-bold mb-2 flex items-center justify-start">
           <motion.span
-            className="text-blue-400 ml-3"
+            className="text-slate-600 ml-3"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1 }}
@@ -151,7 +151,7 @@ const TripCarousel = () => {
             Featured
           </motion.span>
           <motion.span
-            className=" text-blue-400 ml-3"
+            className=" text-slate-600 ml-3"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1, delay: 0.5 }}
@@ -164,7 +164,7 @@ const TripCarousel = () => {
           className="text-black font-semibold relative group transition-colors duration-300 hover:text-gray-700 pb-1 flex items-center"
         >
           <motion.span
-            className="text-blue-400 py-2"
+            className="text-slate-600 py-2"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, delay: 0.2 }}
