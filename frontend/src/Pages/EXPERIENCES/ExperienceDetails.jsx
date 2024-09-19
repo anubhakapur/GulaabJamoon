@@ -137,10 +137,10 @@ function ExperienceDetails() {
     <>
       <div className="w-full bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <h1 className="text-4xl font-bold mb-4 text-gray-900">
+          <h1 className="text-4xl font-bold mb-4 text-blue-400">
             {experience.name}
           </h1>
-          <p className="text-lg text-gray-500">{experience.location}</p>
+          <p className="text-lg text-yellow-400">{experience.location}</p>
         </div>
 
         <div className="w-full px-4 sm:px-8 lg:px-12">
