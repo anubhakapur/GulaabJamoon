@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Footer from "../components/Footer";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import trips from "../assets/data/trips";
-import axios from "axios";
-import { BASE_URL } from "../constants";
+import WhyGJExperiences from "./WhyGJExperiences";
 
 const AllTripsPage = () => {
   const [visibleTrips, setVisibleTrips] = useState(8);
   const [allTrips, setAllTrips] = useState(trips);
   const [searchTerm, setSearchTerm] = useState("");
-  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -48,37 +46,32 @@ const AllTripsPage = () => {
   const clearSearch = () => setSearchTerm("");
 
   const navigateToTrip = (trip, event) => {
-    // Prevent the event from bubbling up to the card
     event.stopPropagation();
     const formattedTripName = trip.name.replace(/\s+/g, "-").toLowerCase();
     navigate(`/experiences/${formattedTripName}`);
   };
 
   return (
-    <>
+    <div className="flex flex-col min-h-screen bg-gray-100">
       <Header home={false} />
-      <div className="bg-gray-100 select-none py-[5rem]">
+      <main className="flex-grow pt-24"> {/* Added pt-24 for top padding */}
         <motion.div
-          className="min-h-screen bg-gray-100 py-8 px-4 sm:px-6 lg:px-8"
+          className="py-8 px-4 sm:px-6 lg:px-8"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
           <div className="max-w-7xl mx-auto">
             <motion.h1
-              className="lg:text-6xl md:text-6xl sm:text-4xl font-extrabold text-center text-blue-400 mb-[2.5rem]"
+              className="lg:text-6xl md:text-6xl sm:text-4xl font-extrabold text-center mb-[2.5rem]"
               initial={{ y: -50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ type: "spring", stiffness: 100, damping: 10 }}
             >
-              <span className="text-blue-400 px-2">
-              Discover
-              </span>
+              <span className="text-blue-400 px-2">Discover</span>
               <span className="text-yellow-400 border-yellow-400 border-t-4 border-b-4 px-2">
-              XPs
+                XPs
               </span>
-               
-
             </motion.h1>
 
             <motion.div
@@ -91,7 +84,7 @@ const AllTripsPage = () => {
                 <input
                   type="text"
                   placeholder="Search for a trip..."
-                  className="w-full px-4 py-3 text-lg text-slate-700 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-400 shadow-md "
+                  className="w-full px-4 py-3 text-lg text-slate-700 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-400 shadow-md"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
@@ -222,7 +215,7 @@ const AllTripsPage = () => {
                 <motion.button
                   onClick={loadMore}
                   className="bg-yellow-400 text-white py-3 px-8 rounded-full text-xl font-bold active:outline-none active:ring-2 active:ring-offset-2 active:ring-yellow-400"
-                  whileHover={{ scale: 1.05}}
+                  whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
                   Load More
@@ -231,9 +224,10 @@ const AllTripsPage = () => {
             )}
           </div>
         </motion.div>
-        <Footer />
-      </div>
-    </>
+      </main>
+      <WhyGJExperiences />
+      <Footer />
+    </div>
   );
 };
 
