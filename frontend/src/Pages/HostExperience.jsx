@@ -41,7 +41,7 @@ const HostExperience = () => {
           {/* Button */}
           <motion.button
             onClick={() => setShowModal(true)}
-            className="bg-black hover:bg-gray-900 active:bg-gray-800 text-white font-bold py-3 px-6 rounded-full transition duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
+            className="bg-blue-400 hover:bg-yellow-400 active:bg-gray-800 text-white font-bold py-3 px-6 rounded-full transition duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}

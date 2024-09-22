@@ -19,7 +19,7 @@ const Complimentary = ({ scrollToForm }) => {
             let us do some of the heavy-lifting first, and put together a complimentary proposal that will provide you with ideal locations, activities, and costs for your upcoming offsite.
           </p>
           <button
-            className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-3 px-6 rounded-md transition duration-300 w-full md:w-auto"
+            className="bg-blue-400 hover:bg-yellow-400 text-black font-bold py-3 px-6 rounded-md transition duration-300 w-full md:w-auto"
             onClick={scrollToForm}
           >
             Get a Complimentary Proposal

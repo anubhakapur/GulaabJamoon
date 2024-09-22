@@ -3,6 +3,7 @@ import localExpertImage from '../assets/images/img1.webp';
 import sustainableImage from '../assets/images/img2.webp';
 import uniqueCurationsImage from '../assets/images/img3.webp';
 import communityServiceImage from '../assets/images/img4.webp';
+import headerImage from '../assets/images/whygj.png'; // Make sure to import your header image
 
 const WhyGJExperiences = () => {
   const features = [
@@ -31,9 +32,13 @@ const WhyGJExperiences = () => {
   return (
     <div className="bg-cyan-600 py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-4xl font-bold text-center text-white mb-12">
-          WHY <span className="text-yellow-400 border-t-2 border-b-2 border-yellow-400 px-2 hover:text-white hover:border-white transition-colors duration-300">GJ</span> EXPERIENCES
-        </h2>
+        <div className="mb-12">
+          <img 
+            src={headerImage} 
+            alt="GJ Experiences" 
+            className="w-full max-w-md mx-auto"
+          />
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {features.map((feature, index) => (
             <div key={index} className="text-center group">

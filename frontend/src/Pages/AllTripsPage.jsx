@@ -41,6 +41,12 @@ const AllTripsPage = () => {
       opacity: 1,
       transition: { type: "spring", stiffness: 100, damping: 12 },
     },
+    hover: {
+      scale: 1.05,
+      boxShadow:
+        "0 20px 35px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+    },
+    tap: { scale: 0.98 },
   };
 
   const clearSearch = () => setSearchTerm("");
@@ -54,7 +60,7 @@ const AllTripsPage = () => {
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
       <Header home={false} />
-      <main className="flex-grow pt-24"> {/* Added pt-24 for top padding */}
+      <main className="flex-grow pt-24">
         <motion.div
           className="py-8 px-4 sm:px-6 lg:px-8"
           initial={{ opacity: 0 }}
@@ -125,71 +131,51 @@ const AllTripsPage = () => {
                   {filteredTrips.slice(0, visibleTrips).map((trip) => (
                     <motion.div
                       key={trip.id}
-                      className="bg-white rounded-xl overflow-hidden shadow-md flex flex-col justify-between cursor-pointer"
-                      style={{ minHeight: "450px" }}
-                      variants={itemVariants}
-                      layout
-                      whileHover={{
-                        scale: 1.05,
-                        boxShadow:
-                          "0 20px 35px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+                      className="bg-white rounded-xl overflow-hidden shadow-2xl flex flex-col justify-between cursor-pointer"
+                      style={{
+                        minHeight: "450px",
+                        width: "100%",
+                        maxWidth: "350px",
+                        margin: "0 auto",
+                        background: "#0284c7"
                       }}
-                      whileTap={{ scale: 0.98 }}
+                      variants={itemVariants}
+                      whileHover="hover"
+                      whileTap="tap"
                       onClick={(e) => navigateToTrip(trip, e)}
                     >
-                      <motion.img
+                      <img
                         src={trip.image}
                         alt={trip.name}
                         className="w-full h-56 object-cover"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 0.5 }}
                       />
-                      <motion.div className="p-6 flex-1 flex flex-col justify-between">
-                        <motion.div>
-                          <motion.h2
-                            className="text-2xl font-bold text-slate-700 mb-2"
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.2 }}
-                          >
+                      <div className="p-6 flex-1 flex flex-col justify-between text-slate-700">
+                        <div>
+                          <h2 className="text-2xl font-bold mb-2 text-yellow-400">
                             {trip.name}
-                          </motion.h2>
-                          <motion.p
-                            className="text-slate-500 mb-4 line-clamp-2"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 0.3 }}
+                          </h2>
+                          <p className="text-yellow-300 text-sm mb-2">
+                            {trip.location} | {trip.date}
+                          </p>
+                          <p
+                            className="mb-4 line-clamp-2 text-yellow-300"
                             style={{ minHeight: "48px" }}
                           >
                             {trip.description}
-                          </motion.p>
-                        </motion.div>
+                          </p>
+                        </div>
                         <div>
-                          <motion.p
-                            className="text-2xl font-bold text-black mb-4"
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{
-                              delay: 0.4,
-                              type: "spring",
-                              stiffness: 200,
-                            }}
-                          >
-                            ${trip.price}
-                          </motion.p>
+                          <p className="text-2xl font-bold text-yellow-400 mb-4">${trip.price}</p>
                           <motion.button
-                            className="w-full bg-blue-400 text-white py-3 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-400 transition-all hover:bg-yellow-400 duration-300"
-                            whileHover={{
-                              scale: 1.05,
-                            }}
+                            className="w-full bg-blue-400 text-white py-3 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-400 transition-all hover:bg-yellow-400"
+                            whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                             onClick={(e) => navigateToTrip(trip, e)}
                           >
                             Book Now
                           </motion.button>
                         </div>
-                      </motion.div>
+                      </div>
                     </motion.div>
                   ))}
                 </AnimatePresence>

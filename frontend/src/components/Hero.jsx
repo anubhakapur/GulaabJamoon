@@ -4,7 +4,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { BsPeople } from "react-icons/bs";
 import { FaStar, FaMapMarkerAlt } from "react-icons/fa";
 import { GiCaptainHatProfile } from "react-icons/gi";
-import backgroundVideo from '../assets/images/bgvid.mp4';
+import backgroundVideo from '../assets/images/file.mp4';
+import heroImage from '../assets/images/herotxt.webp';
 import './Hero.css';
 
 const AnimatedNumber = ({ value, decimals = 0, shouldAnimate }) => {
@@ -95,6 +96,25 @@ const Hero = () => {
     slideOutRight: { opacity: 0, x: "150%", transition: { duration: 0.5 } },
   };
 
+  const heroImageVariants = {
+    hidden: { 
+      opacity: 0, 
+      scale: 2,
+      y: -50,
+    },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        damping: 15,
+        stiffness: 50,
+        duration: 1.2,
+      },
+    },
+  };
+
   return (
     <>
       <div ref={heroRef} className="relative w-full h-screen overflow-hidden">
@@ -111,25 +131,22 @@ const Hero = () => {
 
         <div className="absolute inset-0 bg-black opacity-50"></div>
 
-        <div
-          className="absolute inset-0 flex flex-col items-center justify-center"
+        <motion.div
+          className="absolute inset-0 flex items-center justify-center"
+          initial="hidden"
+          animate="visible"
+          variants={heroImageVariants}
           style={{
             opacity,
             transition: "opacity 0.3s ease-out",
           }}
         >
-          <h1 className="text-center px-4">
-            <span className="block text-4xl md:text-6xl lg:text-7xl font-cursive text-white leading-tight">
-              Do it the
-            </span>
-            <span className="block text-5xl md:text-7xl lg:text-8xl font-bold uppercase tracking-wider text-yellow-400 mt-2 neon-text">
-              GULAAB JAMOON
-            </span>
-            <span className="block text-4xl md:text-6xl lg:text-7xl font-cursive text-white leading-tight mt-2">
-              Way
-            </span>
-          </h1>
-        </div>
+          <img
+            src={heroImage}
+            alt="Hero"
+            className="max-w-full max-h-full object-contain"
+          />
+        </motion.div>
 
         <AnimatePresence>
           {scrollPosition < 200 && (

@@ -8,6 +8,7 @@ import "swiper/css/pagination";
 import "swiper/css/autoplay";
 import { motion, AnimatePresence } from "framer-motion";
 import trips from "../assets/data/trips";
+import popularExperiencesImage from "../assets/images/mostpopular.png"; // Import the image
 
 const TripCarousel = () => {
   const [activeImage, setActiveImage] = useState("");
@@ -57,9 +58,7 @@ const TripCarousel = () => {
     return name.toLowerCase().replace(/\s+/g, "-");
   };
 
-  const navigateToTrip = (trip) => {
-    // You can define your navigation logic here, using a router for example
-  };
+  const navigateToTrip = (trip) => {};
 
   const itemVariants = {
     hover: {
@@ -79,6 +78,7 @@ const TripCarousel = () => {
           width: "100%",
           maxWidth: "350px",
           margin: "0 auto",
+          background: "#0284c7",
         }}
         variants={itemVariants}
         whileHover={itemVariants.hover}
@@ -91,20 +91,23 @@ const TripCarousel = () => {
           alt={trip.name}
           className="w-full h-56 object-cover"
         />
-        <div className="p-6 flex-1 flex flex-col justify-between  text-slate-700">
+        <div className="p-6 flex-1 flex flex-col justify-between text-slate-700">
           <div>
-            <h2 className="text-2xl font-bold mb-2  text-slate-700">
+            <h2 className="text-2xl font-bold mb-2 text-yellow-400">
               {trip.name}
             </h2>
+            <p className="text-yellow-300 text-sm mb-2">
+              {trip.location} | {trip.date}
+            </p>
             <p
-              className="mb-4 line-clamp-2  text-slate-500"
+              className="mb-4 line-clamp-2 text-yellow-300"
               style={{ minHeight: "48px" }}
             >
               {trip.description}
             </p>
           </div>
           <div>
-            <p className="text-2xl font-bold text-black mb-4">${trip.price}</p>
+            <p className="text-2xl font-bold text-yellow-400 mb-4">${trip.price}</p>
             <motion.button
               className="w-full bg-blue-400 text-white py-3 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-400 transition-all hover:bg-yellow-400"
               whileHover={{ scale: 1.05 }}
@@ -121,27 +124,17 @@ const TripCarousel = () => {
 
   return (
     <div className="w-full min-h-screen py-16 flex flex-col justify-center relative overflow-hidden">
-      <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-2 flex items-center justify-center">
-        <motion.span
-          className=" text-blue-400 ml-3"
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1 }}
-        >
-          Most Popular
-        </motion.span>
-        <motion.span
-          className="text-yellow-400 border-t-4 border-b-4 border-yellow-400 py-2"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.5 }}
-        >
-          XPs
-        </motion.span>
-      </h2>
+      <img
+        src={popularExperiencesImage}
+        alt="Most Popular Experiences"
+        className="w-full h-auto mb-8 mx-auto
+                   md:max-w-3xl   /* Medium screens - tablets */
+                   lg:max-w-2xl   /* Large screens - laptops */
+                   xl:max-w-xl    /* Extra large screens - desktops */"
+      />
 
       <div className="flex justify-between items-center mb-6 px-4 md:px-8 lg:px-16">
-        <h2 className=" font-bold mb-2 flex items-center justify-start">
+        <h2 className="font-bold mb-2 flex items-center justify-start">
           <motion.span
             className="text-slate-600 ml-3"
             initial={{ opacity: 0, scale: 0.8 }}
@@ -151,7 +144,7 @@ const TripCarousel = () => {
             Featured
           </motion.span>
           <motion.span
-            className=" text-slate-600 ml-3"
+            className="text-slate-600 ml-3"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1, delay: 0.5 }}
@@ -177,9 +170,7 @@ const TripCarousel = () => {
 
       <div className="w-full relative select-none">
         <AnimatePresence>
-          {activeImage && (
-            <BackgroundImage image={activeImage} key={activeImage} />
-          )}
+          {activeImage && <BackgroundImage image={activeImage} key={activeImage} />}
         </AnimatePresence>
 
         <div className="relative z-10 container mx-auto px-4 md:px-8 lg:px-16 py-8">
