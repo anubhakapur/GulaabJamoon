@@ -86,7 +86,8 @@ function ExperienceDetails() {
   const scrollToSectionWithOffset = (index) => {
     const targetSection = sectionRefs.current[index];
     if (targetSection) {
-      const targetTop = targetSection.getBoundingClientRect().top + window.pageYOffset;
+      const targetTop =
+        targetSection.getBoundingClientRect().top + window.pageYOffset;
       window.scrollTo({
         top: targetTop - navbarHeight - padding,
         behavior: "smooth",
