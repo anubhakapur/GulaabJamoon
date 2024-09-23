@@ -7,25 +7,6 @@ const CursorTrail = () => {
   const [trail, setTrail] = useState([]);
   const requestRef = useRef();
 
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      setTrail((prevTrail) => [...prevTrail, { x: e.clientX, y: e.clientY, timestamp: Date.now() }].slice(-20));
-    };
-
-    const animateTrail = () => {
-      setTrail((prevTrail) => prevTrail.filter((dot) => Date.now() - dot.timestamp < 500));
-      requestRef.current = requestAnimationFrame(animateTrail);
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    requestRef.current = requestAnimationFrame(animateTrail);
-
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      cancelAnimationFrame(requestRef.current);
-    };
-  }, []);
-
   return (
     <>
       {trail.map((dot, index) => (
@@ -46,21 +27,23 @@ const Gallery = () => {
   const [showOverlay, setShowOverlay] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const importImages = async () => {
-      const imageModules = import.meta.glob('/src/assets/images/*.(png|jpg|jpeg|JPG)');
+      const imageModules = import.meta.glob('/src/assets/images/*.{png,jpg,jpeg,JPG}');
       const loadedImages = await Promise.all(
         Object.entries(imageModules).map(async ([path, loader]) => {
           const module = await loader();
           return {
-            src: module.default,
+            src: module.default || module,
             alt: path.split('/').pop().split('.')[0],
-            caption: path.split('/').pop().split('.')[0].toUpperCase()
+            caption: path.split('/').pop().split('.')[0].toUpperCase(),
           };
         })
       );
       setImages(loadedImages);
+      setLoading(false);
     };
 
     importImages();
@@ -68,9 +51,9 @@ const Gallery = () => {
 
   useEffect(() => {
     if (showOverlay) {
-      document.body.style.overflow = 'hidden'; // Disable scrolling
+      document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = 'auto'; // Restore scrolling
+      document.body.style.overflow = 'auto';
     }
   }, [showOverlay]);
 
@@ -88,20 +71,20 @@ const Gallery = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.3,
+        staggerChildren: 0.15,
+        delayChildren: 0.2,
       },
     },
   };
 
   const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
+    hidden: { scale: 0.8, opacity: 0 },
     visible: {
-      y: 0,
+      scale: 1,
       opacity: 1,
       transition: {
         type: 'spring',
-        damping: 12,
+        damping: 15,
         stiffness: 100,
       },
     },
@@ -109,7 +92,7 @@ const Gallery = () => {
 
   const renderGalleryGrid = () => (
     <motion.div
-      className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+      className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-3 md:gap-4"
       variants={containerVariants}
       initial="hidden"
       animate="visible"
@@ -118,8 +101,9 @@ const Gallery = () => {
         <motion.div
           key={index}
           className={`
-            ${index % 7 === 0 ? 'sm:col-span-2 sm:row-span-2' : ''}
-            ${index % 7 === 3 ? 'lg:col-span-2 lg:row-span-2' : ''}
+            ${index % 10 === 0 ? 'col-span-2 row-span-2' : ''}
+            ${index % 10 === 5 ? 'sm:col-span-2 sm:row-span-2' : ''}
+            ${index % 10 === 7 ? 'md:col-span-2 md:row-span-2' : ''}
           `}
           variants={itemVariants}
         >
@@ -128,14 +112,13 @@ const Gallery = () => {
       ))}
     </motion.div>
   );
-  
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-gray-900 to-black">
       <Header />
       <CursorTrail />
       <main className="flex-grow mt-20">
-        <div className="container mx-auto px-4 lg:px-12 py-16">
+        <div className="container mx-auto px-4 lg:px-16 py-16">
           <motion.h1 
             className="text-5xl font-bold text-yellow-400 mb-6 text-center relative cursor-pointer"
             initial={{ scale: 0.9, opacity: 0 }}
@@ -162,10 +145,18 @@ const Gallery = () => {
           >
             Embark on a visual journey through our most cherished experiences. Each image captures a unique moment of joy, adventure, and discovery from our travels across breathtaking destinations.
           </motion.p>
-          {renderGalleryGrid()}
+
+          {loading ? (
+            <div className="flex justify-center items-center h-64">
+              <div className="loader">Loading...</div>
+            </div>
+          ) : (
+            renderGalleryGrid()
+          )}
         </div>
       </main>
       <Footer />
+
       <AnimatePresence>
         {showOverlay && selectedImage && (
           <motion.div
@@ -173,6 +164,7 @@ const Gallery = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
             onClick={handleCloseOverlay}
           >
             <motion.button
@@ -187,10 +179,13 @@ const Gallery = () => {
               className="max-w-[85vw] max-h-[85vh] object-contain"
               src={selectedImage.src}
               alt={selectedImage.alt}
-              initial={{ scale: 0.8, opacity: 0 }}
+              initial={{ scale: 0.85, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.8, opacity: 0 }}
-              transition={{ duration: 0.3 }}
+              exit={{ scale: 0.85, opacity: 0 }}
+              transition={{ 
+                duration: 0.4, 
+                ease: [0.25, 0.46, 0.45, 0.94]  // Smooth easing for image
+              }}
             />
           </motion.div>
         )}
@@ -222,7 +217,7 @@ const GalleryImage = ({ image, onClick }) => {
         onClick={() => onClick(image)}
       >
         <motion.p 
-          className="text-white text-base font-semibold text-center px-2"
+          className="text-white text-sm sm:text-base font-semibold text-center px-2"
           initial={{ y: 10, opacity: 0 }}
           whileHover={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.3, delay: 0.1 }}
