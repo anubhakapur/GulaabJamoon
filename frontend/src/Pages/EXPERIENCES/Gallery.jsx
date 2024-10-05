@@ -56,7 +56,7 @@ function Gallery({ gallery, name }) {
 
       {/* Show all photos button */}
       <motion.button
-        className="mt-4 bg-black text-white py-2 px-4 rounded-lg font-semibold hover:bg-gray-800 transition duration-300"
+        className="mt-4 bg-blue-400 text-white py-2 px-4 rounded-lg font-semibold hover:bg-yellow-400 transition duration-300"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={toggleShowAllPhotos}
@@ -75,7 +75,7 @@ function Gallery({ gallery, name }) {
           >
             <div className="container mx-auto py-8 px-4 sm:px-6 lg:px-8">
               <motion.button
-                className="mb-4 bg-black text-white py-2 px-4 rounded-lg font-semibold hover:bg-gray-800 transition duration-300"
+                className="mb-4 bg-blue-400 text-white py-2 px-4 rounded-lg font-semibold hover:bg-yellow-400 transition duration-300"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={toggleShowAllPhotos}

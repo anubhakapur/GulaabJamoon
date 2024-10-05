@@ -2,10 +2,17 @@
 export default {
   content: ["./src/**/*.{html,js,jsx}"],
   theme: {
-    extend: {fontFamily: {
-      serif: ['Georgia', 'Cambria', 'Times New Roman', 'Times', 'serif'],
-      sans: ['Arial', 'Helvetica', 'sans-serif'],
-    },},
+    extend: {
+      fontFamily: {
+        sans: ['Roboto', 'Arial', 'Helvetica', 'sans-serif'], // Roboto for base content
+        heading: ['Anton', 'sans-serif'], // Anton for headings
+        footer: ['Oswald', 'sans-serif'], // Oswald for footer headers
+      },
+      fontWeight: {
+        regular: 400,
+        medium: 500, // Medium weight for headings
+      },
+    },
   },
   plugins: [],
 };

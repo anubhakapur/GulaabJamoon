@@ -3,6 +3,7 @@ const trips = [
     id: 1,
     name: "jai",
     description: "Explore the Pink City of India",
+    date: "24 September 2024",
     price: 149.99,
     image:
       "https://www.tourmyindia.com/blog//wp-content/uploads/2018/05/Hawa-Mahal-Jaipur2.jpg",

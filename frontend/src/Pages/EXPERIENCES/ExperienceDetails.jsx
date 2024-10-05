@@ -166,9 +166,11 @@ function ExperienceDetails() {
       <div className="w-full bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <h1 className="text-4xl font-bold mb-4 text-blue-400">
+
             {tripdata.name}
           </h1>
           <p className="text-lg text-yellow-400">{tripdata.location}</p>
+
         </div>
 
         <div className="w-full px-4 sm:px-8 lg:px-12">
