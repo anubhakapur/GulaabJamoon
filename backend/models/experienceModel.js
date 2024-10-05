@@ -22,38 +22,39 @@ url : {
     type: String, 
     required: true 
 }],
-location : {
-    state: { 
-        type: String, 
-        required: true 
-    },
-    city: { 
-        type: String, 
-        required: true 
-    },
-    latitude: { 
-        type: Number, 
-        required: true 
-    },
-    longitude: { 
-        type: Number, 
-        required: true 
-    }
-}
-,
+state : {
+    type: String, 
+    required: true
+},
+city:{
+    type: String,
+    required: true
+},
+boardingLocation : {
+  lat: {
+    type: Number,
+    required: true
+  },
+  lng: {
+    type: Number,
+    required: true
+  }
+  }
+, 
+
   startDate: { 
     type: Date, 
     required: true,
-    get: function(date) {
-      return formatDate(date);
-    } 
+    // get: function(date) {
+    //   return formatDate(date);
+    // } 
 },
   endDate: { 
     type: Date, 
     required: true,
-    get: function(date) {
-      return formatDate(date);
-    } 
+    // get: function(date) {
+    //   return formatDate(date);
+    // } 
 },
   startTime: { 
     type: String, 
@@ -102,6 +103,15 @@ price: {
     type: Number, 
     // required: true
 },
+taxes: {
+    type: Number, 
+    // required: true
+},
+fees : {
+    type: Number, 
+    // required: true
+}
+,
   knowBeforeYouGo: [{ 
     type: String, 
     required: true 

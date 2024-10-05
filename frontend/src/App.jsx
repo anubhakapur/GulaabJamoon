@@ -85,10 +85,10 @@ const App = () => {
               path="/responsible-travel-policy"
               element={<Responsibletravel />}
             />
-            <Route
+             <Route 
               path="/experiences/:tripName"
               element={<ExperienceDetails />}
-            />
+            /> 
           </Routes>
         </BrowserRouter>
       </div>

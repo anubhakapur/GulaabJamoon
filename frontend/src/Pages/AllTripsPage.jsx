@@ -3,13 +3,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import Footer from "../components/Footer";
 import { Link, useNavigate } from "react-router-dom";
 import Header from "../components/Header";
-import trips from "../assets/data/trips";
+// import trips from "../assets/data/trips";
 import axios from "axios";
 import { BASE_URL } from "../constants";
 
 const AllTripsPage = () => {
   const [visibleTrips, setVisibleTrips] = useState(8); // Display 8 trips initially
-  const [allTrips, setAllTrips] = useState(trips);
+  const [allTrips, setAllTrips] = useState([]);
   const [searchTerm, setSearchTerm] = useState(""); // State for search term
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -18,31 +18,45 @@ const AllTripsPage = () => {
     window.scrollTo(0, 0); // Scroll to the top when the component mounts
   }, []);
 
-  // useEffect(() => {
-  //   const fetchExperiences = async () => {
-  //     try {
-  //       const response = await axios.get(`${BASE_URL}/user`);
-  //       console.log("trips",response.data)
-  //       setAllTrips(response.data.data);
-  //       setLoading(false);
-  //     } catch (error) {
-  //       console.error('Error fetching experiences:', error);
-  //       setLoading(false);
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchExperiences = async () => {
+      try {
+        const response = await axios.get(`${BASE_URL}/user`);
+        console.log("trips",response.data)
+        setAllTrips(response.data.data);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching experiences:', error);
+        setLoading(false);
+      }
+    };
 
-  //   fetchExperiences();
-  // }, [allTrips]);
+    fetchExperiences();
+  }, []);
+
+  useEffect(() => {
+    if (allTrips.length > 0) {
+      console.log("effect",allTrips);
+      console.log("length",allTrips.length)
+      setLoading(false);
+    }
+  },[allTrips]);
 
   // Load all trips when "Load More" is clicked
   const loadMore = () => {
     setVisibleTrips(allTrips.length); // Show all trips when the button is clicked
   };
 
+  console.log("visibleTrips",visibleTrips)
+
+  // console.log("ALLTRIPS", allTrips);
+
   // Filter trips based on the search term
   const filteredTrips = allTrips.filter((trip) =>
     trip.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  console.log("FILTEREDTRIPS", filteredTrips);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -67,7 +81,7 @@ const AllTripsPage = () => {
 
   // Function to handle navigation to the trip details page
   const navigateToTrip = (trip) => {
-    const formattedTripName = trip.name.replace(/\s+/g, "-").toLowerCase(); // Create a URL-friendly trip name
+    const formattedTripName = trip.url.replace(/\s+/g, "-").toLowerCase(); // Create a URL-friendly trip name
     navigate(`/experiences/${formattedTripName}`);
   };
 
@@ -186,7 +200,7 @@ const AllTripsPage = () => {
                 <AnimatePresence>
                   {filteredTrips.slice(0, visibleTrips).map((trip) => (
                     <motion.div
-                      key={trip.id}
+                      key={trip._id}
                       className="bg-white rounded-xl overflow-hidden shadow-md flex flex-col justify-between cursor-pointer"
                       style={{ minHeight: "450px" }}
                       variants={itemVariants}
@@ -200,7 +214,7 @@ const AllTripsPage = () => {
                       onClick={() => navigateToTrip(trip)} // Navigate to trip details
                     >
                       <motion.img
-                        src={trip.image}
+                        src={trip.images[0]}
                         alt={trip.name}
                         className="w-full h-56 object-cover"
                         initial={{ opacity: 0 }}

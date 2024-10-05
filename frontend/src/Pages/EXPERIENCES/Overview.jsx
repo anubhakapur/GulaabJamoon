@@ -14,11 +14,7 @@ function Overview({ overview }) {
 
       {/* Overview Content */}
       <div className="text-gray-600 leading-relaxed text-lg">
-        {overview.split('\n').map((paragraph, index) => (
-          <p key={index} className="mb-4">
-            {paragraph}
-          </p>
-        ))}
+        {overview}
       </div>
     </motion.div>
   );

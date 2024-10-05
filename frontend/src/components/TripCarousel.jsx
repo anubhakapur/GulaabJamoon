@@ -7,32 +7,33 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/autoplay";
 import { motion, AnimatePresence } from "framer-motion";
-import trips from "../assets/data/trips";
-// import axios from "axios";
-// import { BASE_URL } from "../constants";
+// import trips from "../assets/data/trips";
+import axios from "axios";
+import { BASE_URL } from "../constants";
 
 const TripCarousel = () => {
   const [activeImage, setActiveImage] = useState("");
   const [prevImage, setPrevImage] = useState("");
   const [isHovering, setIsHovering] = useState(false);
-  //  const [loading, setLoading] = useState(true); // State to track loading state
+  const [trips, setTrips] = useState([]); // State to store trips
+   const [loading, setLoading] = useState(true); // State to track loading state
   const swiperRef = useRef(null);
 
-  // useEffect(() => {
-  //   const fetchExperiences = async () => {
-  //     try {
-  //       const response = await axios.get(`${BASE_URL}/user`);
-  //       console.log("trips", response.data);
-  //       setTrips(response.data.data);
-  //       setLoading(false);
-  //     } catch (error) {
-  //       console.error("Error fetching experiences:", error);
-  //       setLoading(false);
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchExperiences = async () => {
+      try {
+        const response = await axios.get(`${BASE_URL}/user`);
+        console.log("trips", response.data);
+        setTrips(response.data.data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching experiences:", error);
+        setLoading(false);
+      }
+    };
 
-  //   fetchExperiences();
-  // }, []);
+    fetchExperiences();
+  }, []);
 
   useEffect(() => {
     if (activeImage !== prevImage) {
@@ -156,10 +157,10 @@ const TripCarousel = () => {
             ref={swiperRef}
           >
             {limitedTrips.map((trip) => (
-              <SwiperSlide key={trip.id} className="py-8">
-                <Link to={`/experiences/${createSlug(trip.name)}`}>
+              <SwiperSlide key={trip._id} className="py-8">
+                <Link to={`/experiences/${createSlug(trip.url)}`}>
                   <motion.div
-                    key={trip.id}
+                    key={trip._id}
                     className="bg-white rounded-xl overflow-hidden shadow-md flex flex-col justify-between"
                     style={{ minHeight: "450px" }}
                     variants={itemVariants}
@@ -167,7 +168,7 @@ const TripCarousel = () => {
                     whileHover={itemVariants.hover}
                     whileTap={itemVariants.tap}
                     onMouseEnter={() => {
-                      setActiveImage(trip.image);
+                      setActiveImage(trip.images[0]);
                       setIsHovering(true);
                     }}
                     onMouseLeave={() => {
@@ -176,7 +177,7 @@ const TripCarousel = () => {
                     }}
                   >
                     <motion.img
-                      src={trip.image}
+                      src={trip.images[0]}
                       alt={trip.name}
                       className="w-full h-56 object-cover"
                       initial={{ opacity: 0 }}
@@ -200,7 +201,7 @@ const TripCarousel = () => {
                           transition={{ delay: 0.3 }}
                           style={{ minHeight: "48px" }}
                         >
-                          {trip.description}
+                          {trip.shortDescription}
                         </motion.p>
                       </motion.div>
                       <div>

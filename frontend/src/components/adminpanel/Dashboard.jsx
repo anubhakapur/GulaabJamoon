@@ -6,8 +6,8 @@ import ROLE from '../../common/role'
 
 const Dashboard = () => {
 
-  // const user = useSelector(state => state?.user?.user)
-  // console.log("user",user)
+  // const user = useSelector(state => state?.user)
+  // console.log("userAdmin",user)
   // const navigate = useNavigate()
 
 

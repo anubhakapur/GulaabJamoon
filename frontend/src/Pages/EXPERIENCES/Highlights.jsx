@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { FaStar } from 'react-icons/fa';
 
-function Highlights({ highlights }) {
+function Highlights({ highlights=[] }) {
   return (
     <motion.div
       className="mb-8 p-6 "

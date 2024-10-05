@@ -18,7 +18,7 @@ function Faq({ faq }) {
     >
       <h2 className="text-4xl font-bold mb-8 text-gray-900">FAQ</h2>
       <div className="space-y-4">
-        {faq.map((item, index) => (
+        {faq?.map((item, index) => (
           <div>
             <div
               key={index}

@@ -1,7 +1,7 @@
 const trips = [
   {
     id: 1,
-    name: "Jaipur Bike Tour",
+    name: "jai",
     description: "Explore the Pink City of India",
     price: 149.99,
     image:

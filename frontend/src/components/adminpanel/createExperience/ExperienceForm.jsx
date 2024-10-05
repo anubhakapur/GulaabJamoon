@@ -7,9 +7,15 @@ const ExperienceForm = ({ experience, setExperience, isVariant }) => {
     setExperience(prev => ({...prev, [field]: value}));
   };
 
-  const handleLocationChange = (field, value) => {
-    setExperience(prev => ({...prev, location: {...prev.location, [field]: value}}));
-  };
+const handleLocationChange = (field, value) => {
+  setExperience(prev => ({
+    ...prev,
+    boardingLocation: {
+      ...prev.boardingLocation,
+      [field]: value
+    }
+  }));
+};
 
   const handleFaqChange = (index, field, value) => {
     setExperience(prev => {
@@ -100,8 +106,8 @@ const ExperienceForm = ({ experience, setExperience, isVariant }) => {
             className={inputClass}
             type="text"
             placeholder="State"
-            value={experience.location.state}
-            onChange={(e) => handleLocationChange('state', e.target.value)}
+            value={experience.state}
+            onChange={(e) => handleChange('state', e.target.value)}
             required
           />
         </div>
@@ -111,8 +117,8 @@ const ExperienceForm = ({ experience, setExperience, isVariant }) => {
             className={inputClass}
             type="text"
             placeholder="City"
-            value={experience.location.city}
-            onChange={(e) => handleLocationChange('city', e.target.value)}
+            value={experience.city}
+            onChange={(e) => handleChange('city', e.target.value)}
             required
           />
         </div>
@@ -236,8 +242,8 @@ const ExperienceForm = ({ experience, setExperience, isVariant }) => {
             className={inputClass}
             type="text"
             placeholder="Latitude"
-            value={experience.location.latitude}
-            onChange={(e) => handleLocationChange('latitude', e.target.value)}
+            value={experience.boardingLocation.lat}
+            onChange={(e) => handleLocationChange('lat', e.target.value)}
             required
           />
         </div>
@@ -247,8 +253,8 @@ const ExperienceForm = ({ experience, setExperience, isVariant }) => {
             className={inputClass}
             type="text"
             placeholder="Longitude"
-            value={experience.location.longitude}
-            onChange={(e) => handleLocationChange('longitude', e.target.value)}
+            value={experience.boardingLocation.lng}
+            onChange={(e) => handleLocationChange('lng', e.target.value)}
             required
           />
         </div>
@@ -305,8 +311,8 @@ const ExperienceForm = ({ experience, setExperience, isVariant }) => {
           id="basePrice"
           type="number"
           placeholder="Base Price"
-          value={experience.basePrice}
-          onChange={(e) => handleChange('basePrice', e.target.value)}
+          value={experience.price}
+          onChange={(e) => handleChange('price', e.target.value)}
           required
         />
       </div>
@@ -325,14 +331,14 @@ const ExperienceForm = ({ experience, setExperience, isVariant }) => {
       </div>
 
       <div className="mb-4">
-        <label className={labelClass} htmlFor="convenienceFee">Convenience Fee</label>
+        <label className={labelClass} htmlFor="fees">Convenience Fee</label>
         <input
           className={inputClass}
-          id="convenienceFee"
+          id="fees"
           type="number"
           placeholder="Convenience Fee"
-          value={experience.convenienceFee}
-          onChange={(e) => handleChange('convenienceFee', e.target.value)}
+          value={experience.fees}
+          onChange={(e) => handleChange('fees', e.target.value)}
           required
         />
       </div>

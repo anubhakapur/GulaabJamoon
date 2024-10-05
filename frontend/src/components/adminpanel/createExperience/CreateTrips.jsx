@@ -7,6 +7,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useLocation } from 'react-router-dom';
 import {BASE_URL} from "../../../constants";
+import { Link } from 'react-router-dom';
 
 const CreateExperience = ({ setPendingExperiences, setIsCreatingExperience }) => {
 
@@ -20,7 +21,12 @@ const CreateExperience = ({ setPendingExperiences, setIsCreatingExperience }) =>
     description: '',
     shortDescription: '',
     images: [],
-    location: { state: '', city: '', latitude: '', longitude: '' },
+    state: '',
+    city: '',
+    boardingLocation: {
+      lat: '',
+      lng: ''
+    },
     startDate: '',
     endDate: '',
     startTime: '',
@@ -33,9 +39,10 @@ const CreateExperience = ({ setPendingExperiences, setIsCreatingExperience }) =>
     cancellationPolicy: '',
     knowBeforeYouGo: [''],
     faqs: [{ question: '', answer: '' }],
-    basePrice: '',
+    
+    price: '',
     taxes: '',
-    convenienceFee: '',
+    fees: '',
   };
 
   const [experience, setExperience] = useState(initialExperience);
@@ -76,6 +83,7 @@ try{
       const response = await axios.put(`${BASE_URL}/update-experiences`, {id,...experience})
       if(response.data.success){
         toast.success("Experience updated successfully")
+        navigate('/admin')
       }
     }
     else{
@@ -84,6 +92,7 @@ try{
       const response = await axios.post(`${BASE_URL}/experiences`, experience)
      if(response.data.success){
        toast.success("Experience created successfully")
+        navigate('/admin')
      }
 
     }

@@ -3,7 +3,7 @@ import Sidebar from './Sidebar';
 import Header from './Header';
 import Dashboard from './Dashboard';
 import Trips from './Trips';
-import UserManagement from './UserManagement';
+import UserManagement from '../adminpanel/createExperience/UserManagement';
 import RefundManagement from './RefundManagement';
 
 const AdminPanel = () => {
