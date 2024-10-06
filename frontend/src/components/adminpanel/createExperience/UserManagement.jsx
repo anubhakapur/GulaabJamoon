@@ -1,7 +1,9 @@
 // UserManagement.js
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { FaSearch, FaTimesCircle } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { BASE_URL } from '../../../constants';
 
 const UserManagement = () => {
   const [users, setUsers] = useState([
@@ -15,15 +17,28 @@ const UserManagement = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending' });
 
+  // useEffect(() => {
+  //   const fetchUsers = async () => {
+  //     try {
+  //       const response = await axios.get(`${BASE_URL}/user-display-admin`);
+  //       console.log("response",response.data.data);
+  //       setUsers(response.data.data);
+  //     } catch (error) {
+  //       console.error('Error fetching users:', error);
+  //     }
+  //   };
+  //   fetchUsers();
+  // }, []);
+
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
   };
 
   const filteredUsers = users.filter(user =>
-    user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    user.mobile.includes(searchTerm) ||
-    user.experienceBooked.name.toLowerCase().includes(searchTerm.toLowerCase())
+    user?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    user?.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    user?.mobile?.includes(searchTerm) ||
+    user?.experienceBooked?.name?.toLowerCase()?.includes(searchTerm.toLowerCase())
   );
 
   const sortedUsers = [...filteredUsers].sort((a, b) => {

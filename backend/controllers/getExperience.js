@@ -5,6 +5,7 @@ const getExperienceController = async(req,res) => {
     try{
         const {id} = req.params;
         const experience = await experienceModel.find({url:id});
+        console.log("experience",experience)
         if(!experience){
             return res.status(404).json({
                 message:"Experience not found",

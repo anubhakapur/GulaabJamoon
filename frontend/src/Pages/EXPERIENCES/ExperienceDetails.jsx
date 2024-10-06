@@ -15,6 +15,9 @@ import Faq from "./Faq";
 import CancellationPolicy from "./CancellationPolicy";
 import trips from "../../assets/data/trips";
 import axios from "axios";
+import {BASE_URL} from "../../constants"
+
+
 function ExperienceDetails() {
   const { tripName } = useParams();
   const navigate = useNavigate();
@@ -119,7 +122,7 @@ function ExperienceDetails() {
  const [tripdata,setTripData] = useState({});
   useEffect(()=>{
     async function helo(){
-        const testing = await axios.get("http://localhost:8080/api/experiences/"+tripName);
+        const testing = await axios.get(`${BASE_URL}/experiences/`+tripName);
         console.log("testing",testing.data.data[0]);
         setTripData(testing.data.data[0]);
         console.log("tripdata",tripdata);
@@ -258,6 +261,7 @@ function ExperienceDetails() {
                 endDate = {tripdata.endDate}
                 experienceId={tripdata._id}
                 tripName={tripdata.name}
+                startTime = {tripdata.startTime}
               />
             </div>
           </div>

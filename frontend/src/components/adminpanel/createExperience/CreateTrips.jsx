@@ -58,7 +58,7 @@ const CreateExperience = ({ setPendingExperiences, setIsCreatingExperience }) =>
     }
 
     try {
-      const response = await axios.get(`${BASE_URL}/experiences/${id}`);
+      const response = await axios.get(`${BASE_URL}/updates/${id}`);
       console.log(response.data)
       if (response.data.success) {
         setExperience(response.data.data);

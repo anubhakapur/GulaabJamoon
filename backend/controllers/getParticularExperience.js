@@ -5,9 +5,7 @@ const getParticularExperienceController = async (req, res) => {
     console.log("url",tripName)
 
     try{
-        const experience = await experienceModel.findOne({ 
-            url: tripName
-    })
+        const experience = await experienceModel.findById(tripName);
 
     if (!experience) {
         return res.status(404).json({ 

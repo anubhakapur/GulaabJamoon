@@ -291,7 +291,7 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { BASE_URL } from '../../constants';
 
-function Booking({ price, taxes, fees, startDate, endDate, experienceId, tripName }) {
+function Booking({ price, taxes, fees, startDate, endDate, experienceId, tripName,startTime }) {
 
   const user = useSelector(state => state?.user?.user);
   console.log("userBooking",user?.email)
@@ -375,7 +375,7 @@ function Booking({ price, taxes, fees, startDate, endDate, experienceId, tripNam
     }
 
       //Redirect to payment gateway
-      window.location.href = `https://test.payu.in/_payment?${new URLSearchParams(paymentResponse.data).toString()}`;
+      window.location.href = `https://pmny.in/AIUYrtZ78UL3?${new URLSearchParams(paymentResponse.data).toString()}`;
     }
     catch(err){
       console.log("Error in booking",err);
@@ -396,7 +396,7 @@ function Booking({ price, taxes, fees, startDate, endDate, experienceId, tripNam
 
   const fetchAvailableTimeSlots = async (date) => {
     const mockTimeSlots = [
-      '09:00 AM', '11:00 AM', '02:00 PM', '04:00 PM'
+      startTime
     ];
     setAvailableTimeSlots(mockTimeSlots);
   };
@@ -575,7 +575,7 @@ function Booking({ price, taxes, fees, startDate, endDate, experienceId, tripNam
       <div className="space-y-2 mb-4">
         <div className="flex justify-between">
           <span>Price per person:</span>
-          <span>${safePrice.toFixed(2)}</span>
+          <span>₹{safePrice.toFixed(2)}</span>
         </div>
         <div className="flex justify-between">
           <span>Guests:</span>
@@ -583,19 +583,19 @@ function Booking({ price, taxes, fees, startDate, endDate, experienceId, tripNam
         </div>
         <div className="flex justify-between">
           <span>Subtotal:</span>
-          <span>${safePrice.toFixed(2)} x {guests.adults + guests.children}</span>
+          <span>₹{safePrice.toFixed(2)} x {guests.adults + guests.children}</span>
         </div>
         <div className="flex justify-between">
           <span>Taxes:</span>
-          <span>${safeTaxes.toFixed(2)}</span>
+          <span>₹{safeTaxes.toFixed(2)}</span>
         </div>
         <div className="flex justify-between">
           <span>Fees:</span>
-          <span>${safeFees.toFixed(2)}</span>
+          <span>₹{safeFees.toFixed(2)}</span>
         </div>
         <div className="flex justify-between font-semibold text-lg border-t pt-2">
           <span>Total:</span>
-          <span>${total.toFixed(2)}</span>
+          <span>₹{total.toFixed(2)}</span>
         </div>
       </div>
 

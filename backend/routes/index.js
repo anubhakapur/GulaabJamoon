@@ -23,9 +23,12 @@ const signUpGoogleController = require('../controllers/signUpGoogle.js');
 const adminMiddleware = require('../middleware/adminMiddleWare.js');
 const bookingController = require('../controllers/bookings.js');
 const createPaymentController = require('../controllers/createPayment.js');
-// const getParticularExperience = require('../controllers/getParticularExperience.js');
+const getParticularExperienceController = require('../controllers/getParticularExperience.js');
 const verifyPaymentController = require('../controllers/verifyPayment.js');
 const getBookingsController = require('../controllers/getBookings.js');
+const bookingCountController = require('../controllers/bookingsCount.js');
+const activeTripsCountController = require('../controllers/activeTripsCount.js');
+const userDisplayAdminOnlyController = require('../controllers/usersDisplayAdmin.js');
 
 const router = express.Router();
 
@@ -40,7 +43,7 @@ router.get("/logout",userLogoutController)
 router.post("/corporate",corporateController)
 router.post("/hostexperience",hostExperienceController)
 router.post("/popup",popUpController)
-// router.get("/experiences/:id",getParticularExperience)
+router.get("/updates/:tripName",getParticularExperienceController)
 
 router.get("/experiences/:id",getExperienceController)
 router.get('/user',userAllExperiencesController)
@@ -53,10 +56,13 @@ router.get('/user-bookings',authToken,getBookingsController)
 
 
 // admin panel
-router.post('/experiences',authToken,adminMiddleware,createExperiencesController);
-router.get('/all-experiences',authToken,adminMiddleware,allExperienceController);
-router.get("/all-user",authToken,adminMiddleware,allUsers)
-router.put("/update-experiences",authToken,adminMiddleware,updateExperiencesController)
-router.put("/change-status",authToken,adminMiddleware,changingStatusController)
+router.post('/experiences',authToken,createExperiencesController);
+router.get('/all-experiences',authToken,allExperienceController);
+router.get("/all-user",authToken,allUsers)
+router.put("/update-experiences",authToken,updateExperiencesController)
+router.put("/change-status",authToken,changingStatusController)
+router.get("/bookings-count/:experienceId",authToken,bookingCountController)
+router.get("/active-trips-count",authToken,activeTripsCountController)
+router.get('/user-display-admin',authToken,userDisplayAdminOnlyController)
 
 module.exports = router;

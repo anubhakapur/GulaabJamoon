@@ -242,7 +242,7 @@ const handleLocationChange = (field, value) => {
             className={inputClass}
             type="text"
             placeholder="Latitude"
-            value={experience.boardingLocation.lat}
+            value={experience?.boardingLocation?.lat}
             onChange={(e) => handleLocationChange('lat', e.target.value)}
             required
           />
@@ -253,7 +253,7 @@ const handleLocationChange = (field, value) => {
             className={inputClass}
             type="text"
             placeholder="Longitude"
-            value={experience.boardingLocation.lng}
+            value={experience?.boardingLocation?.lng}
             onChange={(e) => handleLocationChange('lng', e.target.value)}
             required
           />

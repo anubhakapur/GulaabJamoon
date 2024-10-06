@@ -15,12 +15,19 @@ const Trips = () => {
         console.log("create trip",response.data)
         if (response.data.success) {
           // const fetchedExperiences = response.data.data;
-          const enrichedExperiences = response.data.data.map(exp => ({
+          const enrichedExperiences = await Promise.all(response.data.data.map(async(exp) => {
+            
+          const bookingsResponse = await axios.get(`${BASE_URL}/bookings-count/${exp._id}`);
+          console.log("bookings",bookingsResponse.data.data.count)
+           return{ 
             id: exp._id,
             name: exp.name,
             status: exp.status,
-            bookings: 0
+            url: exp.url,
+            bookings: bookingsResponse.data.data.count || 0
+           };
           }));
+
           setExperiences(enrichedExperiences);
         }
       } catch (error) {
@@ -109,7 +116,8 @@ const Trips = () => {
       </thead>
       <tbody className="bg-white divide-y divide-gray-200">
         {experiences.map((exp) => (
-          <tr key={exp.id}>
+          console.log("exp",exp),
+          <tr key={exp._id}>
             <td className="px-6 py-4 whitespace-nowrap">
               {editingId === exp.id ? (
                 <input
@@ -124,7 +132,7 @@ const Trips = () => {
             </td>
             <td className="px-6 py-4 whitespace-nowrap">
               <FaEye className="inline mr-2 cursor-pointer text-gray-600 hover:text-gray-900 text-xl" />
-              <FaLink className="inline cursor-pointer text-gray-600 hover:text-gray-900 text-xl" />
+             <FaLink onClick={() => navigate(`/experiences/${exp.url}`)}  className="inline cursor-pointer text-gray-600 hover:text-gray-900 text-xl" />
             </td>
             <td className="px-6 py-4 whitespace-nowrap">
               <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${

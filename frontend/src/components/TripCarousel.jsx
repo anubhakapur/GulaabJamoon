@@ -215,7 +215,7 @@ const TripCarousel = () => {
                             stiffness: 200,
                           }}
                         >
-                          ${trip.price}
+                          ₹{trip.price}
                         </motion.p>
                         <motion.button
                           className="w-full bg-black text-white py-3 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"

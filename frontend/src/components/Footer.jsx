@@ -12,7 +12,7 @@ const Footer = forwardRef((props, ref) => {
     { name: "Simran", linkedIn: "https://www.linkedin.com/in/simran-arora-9900b6328" },
     { name: "Anubha", linkedIn: "https://www.linkedin.com/in/anubha-kapur-378b7a24b/" },
     { name: "Madhav", linkedIn: "https://www.linkedin.com/in/emilybrown" },
-    { name: "Navish", linkedIn: "https://www.linkedin.com/in/chrislee" }
+    { name: "Navish", linkedIn: "https://www.linkedin.com/in/navish-goyal-b40667224/" }
   ];
 
   const fadeInUp = {
