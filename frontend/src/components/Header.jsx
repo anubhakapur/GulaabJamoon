@@ -82,13 +82,13 @@ const Header = ({ home, scrollToFooter }) => {
    const menuItems = [
     { label: "About", href: "/about" },
     { label: "Experiences", href: "/experiences" },
-    { label: "Gallery", href: "/gallery" },
-    { label: "Testimonials", href: "/#testimonials-section", id: "testimonials-section" },
-    { label: "Contact Us", href: "/contact" },
+    { label: "Corporate XPs", href: "/corporate" },
+    { label: "Blogs", href: "/" },
+    
   ];
 
   const additionalItems = [
-    { label: "Corporate XPs", href: "/corporatexps" },
+    { label: "Gallery", href: "/gallery" },
     { label: "List with Us", href: "/hostexperience" },
   ];
 
@@ -150,7 +150,7 @@ const Header = ({ home, scrollToFooter }) => {
                 transition={{ type: "spring", stiffness: 400, damping: 10 }}
               />
             </Link>
-            <h1 className="text-white text-xl font-bold">Gulaab Jamoon</h1>
+            <h1 className="text-yellow-400 text-xl font-bold">Experiences</h1>
           </motion.div>
 
           <div className="lg:hidden z-50">

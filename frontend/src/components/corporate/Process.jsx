@@ -32,7 +32,7 @@ const steps = [
 const backgroundColors = [
   'bg-teal-950',
   'bg-teal-800',
-  'bg-teal-600',
+  'bg-blue-400',
   'bg-teal-400',
   'bg-white'
 ];

@@ -69,7 +69,7 @@ const Testimonial = ({ id }) => {
       <div className="min-h-screen flex items-center justify-center p-4 bg-[#f8f8f8]">
         <div className="max-w-4xl w-full">
           <h1
-            className="text-gray-800 text-3xl sm:text-5xl lg:text-6xl font-bold mb-6 sm:mb-10 relative inline-block
+            className="text-blue-400 text-3xl sm:text-5xl lg:text-6xl font-bold mb-6 sm:mb-10 relative inline-block
                        hover:text-[#eab308] transition-colors duration-300"
           >
             Testimonials

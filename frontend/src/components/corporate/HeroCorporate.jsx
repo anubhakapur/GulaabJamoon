@@ -51,7 +51,7 @@ const HeroCorporate = ({ backgroundImage, formRef }) => {  // Accept formRef as 
           Creative Company Retreats | Luxury Incentive Trips | Unforgettable Experiences
         </p>
         <button
-          className="mt-8 py-2 px-6 bg-yellow-500 text-white font-bold rounded-full hover:bg-yellow-600 transition"
+          className="mt-8 py-2 px-6 bg-blue-400 text-white font-bold rounded-full hover:bg-yellow-400 transition"
           onClick={scrollToForm}  // Scroll to Form component on click
         >
           Get a Proposal

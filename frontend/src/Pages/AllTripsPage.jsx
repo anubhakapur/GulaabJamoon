@@ -1,21 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Footer from "../components/Footer";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 // import trips from "../assets/data/trips";
+import WhyGJExperiences from "./WhyGJExperiences";
 import axios from "axios";
 import { BASE_URL } from "../constants";
+import moment from "moment";
 
 const AllTripsPage = () => {
-  const [visibleTrips, setVisibleTrips] = useState(8); // Display 8 trips initially
+  const [visibleTrips, setVisibleTrips] = useState(8);
   const [allTrips, setAllTrips] = useState([]);
-  const [searchTerm, setSearchTerm] = useState(""); // State for search term
+  const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    window.scrollTo(0, 0); // Scroll to the top when the component mounts
+    window.scrollTo(0, 0);
   }, []);
 
   useEffect(() => {
@@ -44,7 +46,7 @@ const AllTripsPage = () => {
 
   // Load all trips when "Load More" is clicked
   const loadMore = () => {
-    setVisibleTrips(allTrips.length); // Show all trips when the button is clicked
+    setVisibleTrips(allTrips.length);
   };
 
   console.log("visibleTrips",visibleTrips)
@@ -75,9 +77,15 @@ const AllTripsPage = () => {
       opacity: 1,
       transition: { type: "spring", stiffness: 100, damping: 12 },
     },
+    hover: {
+      scale: 1.05,
+      boxShadow:
+        "0 20px 35px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+    },
+    tap: { scale: 0.98 },
   };
 
-  const clearSearch = () => setSearchTerm(""); // Clear search function
+  const clearSearch = () => setSearchTerm("");
 
   // Function to handle navigation to the trip details page
   const navigateToTrip = (trip) => {
@@ -86,70 +94,28 @@ const AllTripsPage = () => {
   };
 
   return (
-    <>
-      {/* <Header home={false} /> */}
-      <div className="bg-gray-100 select-none">
-        <div className="container mx-auto flex items-center justify-between relative py-4 bg-gray-100">
-          <Link
-            to="/"
-            className="flex items-center cursor-pointer group transition-transform"
-          >
-            {/* Icon or Back Arrow */}
-            <motion.div
-              className="flex items-center justify-center p-2 rounded-full bg-gray-100 hover:bg-gray-200"
-              whileHover={{ scale: 1.05 }}
-              transition={{ type: "spring", stiffness: 300, damping: 15 }}
-            >
-              <motion.svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="2"
-                stroke="currentColor"
-                className="w-6 h-6 text-gray-700"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                />
-              </motion.svg>
-            </motion.div>
-
-            {/* Text */}
-            <motion.div
-              className="ml-3 text-gray-700 text-lg font-medium transition-colors duration-200 group-hover:text-gray-900"
-              whileHover={{ scale: 1.05 }}
-              transition={{ type: "spring", stiffness: 300, damping: 15 }}
-            >
-              Back
-            </motion.div>
-          </Link>
-        </div>
-
+    <div className="flex flex-col min-h-screen bg-gray-100">
+      <Header home={false} />
+      <main className="flex-grow pt-24">
         <motion.div
-          className="min-h-screen bg-gray-100 py-8 px-4 sm:px-6 lg:px-8"
+          className="py-8 px-4 sm:px-6 lg:px-8"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
           <div className="max-w-7xl mx-auto">
             <motion.h1
-              className="text-5xl md:text-6xl font-extrabold text-center text-black mb-[2.5rem]"
+              className="lg:text-6xl md:text-6xl sm:text-4xl font-extrabold text-center mb-[2.5rem]"
               initial={{ y: -50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ type: "spring", stiffness: 100, damping: 10 }}
             >
-              Discover Our Trips
-              <motion.div
-                className="h-1 bg-black mt-4 mx-auto"
-                initial={{ width: 0 }}
-                animate={{ width: "45%" }}
-                transition={{ duration: 1.5, delay: 0.5 }}
-              />
+              <span className="text-blue-400 px-2">Discover</span>
+              <span className="text-yellow-400 border-yellow-400 border-t-4 border-b-4 px-2">
+                XPs
+              </span>
             </motion.h1>
 
-            {/* Search Bar */}
             <motion.div
               className="flex justify-center mb-10 relative"
               initial={{ opacity: 0, y: -20 }}
@@ -160,7 +126,7 @@ const AllTripsPage = () => {
                 <input
                   type="text"
                   placeholder="Search for a trip..."
-                  className="w-full px-4 py-3 text-lg border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black shadow-md"
+                  className="w-full px-4 py-3 text-lg text-slate-700 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-400 shadow-md"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
@@ -201,72 +167,51 @@ const AllTripsPage = () => {
                   {filteredTrips.slice(0, visibleTrips).map((trip) => (
                     <motion.div
                       key={trip._id}
-                      className="bg-white rounded-xl overflow-hidden shadow-md flex flex-col justify-between cursor-pointer"
-                      style={{ minHeight: "450px" }}
-                      variants={itemVariants}
-                      layout
-                      whileHover={{
-                        scale: 1.05,
-                        boxShadow:
-                          "0 20px 35px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+                      className="bg-white rounded-xl overflow-hidden shadow-2xl flex flex-col justify-between cursor-pointer"
+                      style={{
+                        minHeight: "450px",
+                        width: "100%",
+                        maxWidth: "350px",
+                        margin: "0 auto",
+                        background: "#0284c7"
                       }}
-                      whileTap={{ scale: 0.98 }}
-                      onClick={() => navigateToTrip(trip)} // Navigate to trip details
+                      variants={itemVariants}
+                      whileHover="hover"
+                      whileTap="tap"
+                      onClick={(e) => navigateToTrip(trip, e)}
                     >
                       <motion.img
                         src={trip.images[0]}
                         alt={trip.name}
                         className="w-full h-56 object-cover"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 0.5 }}
                       />
-                      <motion.div className="p-6 flex-1 flex flex-col justify-between">
-                        <motion.div>
-                          <motion.h2
-                            className="text-2xl font-bold text-gray-900 mb-2"
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.2 }}
-                          >
+                      <div className="p-6 flex-1 flex flex-col justify-between text-slate-700">
+                        <div>
+                          <h2 className="text-2xl font-bold mb-2 text-yellow-400">
                             {trip.name}
-                          </motion.h2>
-                          <motion.p
-                            className="text-gray-600 mb-4 line-clamp-2"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 0.3 }}
+                          </h2>
+                          <p className="text-yellow-300 text-sm mb-2">
+                            {trip.city+','+trip.state} | {moment(trip.startDate).format('DD-MMMM-YYYY')}
+                          </p>
+                          <p
+                            className="mb-4 line-clamp-2 text-yellow-300"
                             style={{ minHeight: "48px" }}
                           >
-                            {trip.description}
-                          </motion.p>
-                        </motion.div>
+                            {trip.shortDescription}
+                          </p>
+                        </div>
                         <div>
-                          <motion.p
-                            className="text-2xl font-bold text-black mb-4"
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{
-                              delay: 0.4,
-                              type: "spring",
-                              stiffness: 200,
-                            }}
-                          >
-                            ${trip.price}
-                          </motion.p>
+                          <p className="text-2xl font-bold text-yellow-400 mb-4">₹{trip.price}</p>
                           <motion.button
-                            className="w-full bg-black text-white py-3 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
-                            whileHover={{
-                              scale: 1.05,
-                              backgroundColor: "#333",
-                            }}
+                            className="w-full bg-blue-400 text-white py-3 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-400 transition-all hover:bg-yellow-400"
+                            whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            onClick={() => navigateToTrip(trip)} // Navigate to trip details on button click
+                            onClick={(e) => navigateToTrip(trip, e)}
                           >
                             Book Now
                           </motion.button>
                         </div>
-                      </motion.div>
+                      </div>
                     </motion.div>
                   ))}
                 </AnimatePresence>
@@ -291,8 +236,8 @@ const AllTripsPage = () => {
               >
                 <motion.button
                   onClick={loadMore}
-                  className="bg-black text-white py-3 px-8 rounded-full text-xl font-bold active:outline-none active:ring-2 active:ring-offset-2 active:ring-black"
-                  whileHover={{ scale: 1.05, backgroundColor: "#333" }}
+                  className="bg-yellow-400 text-white py-3 px-8 rounded-full text-xl font-bold active:outline-none active:ring-2 active:ring-offset-2 active:ring-yellow-400"
+                  whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
                   Load More
@@ -301,9 +246,10 @@ const AllTripsPage = () => {
             )}
           </div>
         </motion.div>
-        <Footer />
-      </div>
-    </>
+      </main>
+      <WhyGJExperiences />
+      <Footer />
+    </div>
   );
 };
 

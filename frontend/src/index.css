@@ -1,3 +1,6 @@
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@500&family=Roboto:wght@400;500&display=swap');
+
 @import "swiper/css";
 @import "swiper/css/navigation";
 @import "swiper/css/pagination";
@@ -6,6 +9,24 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Global Heading Styles */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Anton', sans-serif; /* Anton for headings */
+  font-weight: 500; /* Reduced font weight for headings */
+  line-height: 1.2;
+}
+
+body {
+  font-family: 'Roboto', sans-serif; /* Roboto as the base font for content */
+}
+
+/* Footer Headers */
+.footer-heading {
+  font-family: 'Oswald', sans-serif; /* Oswald for footer headers */
+  font-weight: 500;
+}
+
+/* Swiper customizations */
 .swiper-button-next,
 .swiper-button-prev {
   color: black !important;
@@ -18,11 +39,11 @@
 }
 
 .swiper-pagination-bullet {
-  background-color: #808080 !important; /* Grey color for inactive dots */
+  background-color: #808080 !important;
 }
 
 .swiper-pagination-bullet-active {
-  background-color: #000000 !important; /* Black color for active dot */
+  background-color: #000000 !important;
 }
 
 .testimonial-swiper .swiper-button-next,

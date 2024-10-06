@@ -29,6 +29,7 @@ const getBookingsController = require('../controllers/getBookings.js');
 const bookingCountController = require('../controllers/bookingsCount.js');
 const activeTripsCountController = require('../controllers/activeTripsCount.js');
 const userDisplayAdminOnlyController = require('../controllers/usersDisplayAdmin.js');
+const activeBookingsController = require('../controllers/activeBookings.js');
 
 const router = express.Router();
 
@@ -64,5 +65,6 @@ router.put("/change-status",authToken,changingStatusController)
 router.get("/bookings-count/:experienceId",authToken,bookingCountController)
 router.get("/active-trips-count",authToken,activeTripsCountController)
 router.get('/user-display-admin',authToken,userDisplayAdminOnlyController)
+router.get('/active-bookings',authToken,activeBookingsController)
 
 module.exports = router;

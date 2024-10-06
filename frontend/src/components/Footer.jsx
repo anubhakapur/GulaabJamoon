@@ -1,4 +1,5 @@
 import React, { forwardRef } from 'react';
+import { Link } from 'react-router-dom';
 import { Instagram, Linkedin, Youtube, Facebook, Twitter } from 'lucide-react';
 import { motion } from 'framer-motion';
 import rs from "/src/assets/images/rosanisa.jpg";
@@ -23,14 +24,14 @@ const Footer = forwardRef((props, ref) => {
   return (
     <motion.footer 
       ref={ref}
-      className="bg-gradient-to-b from-gray-900 to-black text-white"
+      className="bg-cyan-950 to-black text-white"
       initial="hidden"
       animate="visible"
       variants={fadeInUp}
     >
       <div className="container mx-auto py-10 px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* Company Info and Logos */}
+          {/* Company Info */}
           <motion.div className="space-y-4" variants={fadeInUp}>
             <img src={rs} alt="Rosanisa Xperiences LLP" className="h-24 mb-2 transition-transform duration-300 hover:scale-105" />
             <p className="text-sm text-gray-300 leading-relaxed">
@@ -43,7 +44,7 @@ const Footer = forwardRef((props, ref) => {
             <img src={kstdc} alt="KSTDC" className="h-16 mt-2 lg:hidden transition-transform duration-300 hover:scale-110" />
           </motion.div>
 
-          {/* Contacts, Timings, and Address */}
+          {/* Contact Info */}
           <motion.div className="space-y-4" variants={fadeInUp}>
             <h3 className="text-xl font-bold text-yellow-400">Contacts and Timings</h3>
             <p className="text-sm">
@@ -68,27 +69,39 @@ const Footer = forwardRef((props, ref) => {
             </p>
           </motion.div>
 
-          {/* About Us and Company Policy */}
+          {/* About Us Links */}
           <motion.div className="space-y-4" variants={fadeInUp}>
             <h3 className="text-xl font-bold text-yellow-400">About Us</h3>
             <ul className="text-sm space-y-1">
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors duration-300 hover:underline">Who is Gulaab Jamoon</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors duration-300 hover:underline">Travel Styles</a></li>
-              <li><a href="#" className="text-gray-300 hover:text-white transition-colors duration-300 hover:underline">Team GJ</a></li>
+              <li>
+                <Link to="/about#who-is-gulaab-jamoon" className="text-gray-300 hover:text-white transition-colors duration-300 hover:underline">
+                  Who is Gulaab Jamoon
+                </Link>
+              </li>
+              <li>
+                <Link to="/about#travel-styles" className="text-gray-300 hover:text-white transition-colors duration-300 hover:underline">
+                  Travel Styles
+                </Link>
+              </li>
+              <li>
+                <Link to="/about#team-gj" className="text-gray-300 hover:text-white transition-colors duration-300 hover:underline">
+                  Team GJ
+                </Link>
+              </li>
             </ul>
 
             <h3 className="text-xl font-bold text-yellow-400 mt-4">GJ Company Policy</h3>
             <ul className="text-sm space-y-1">
-              <li><a href="/privacy-policy" className="text-gray-300 hover:text-white transition-colors duration-300 hover:underline">Privacy Policy</a></li>
-              <li><a href="/terms-and-conditions" className="text-gray-300 hover:text-white transition-colors duration-300 hover:underline">Terms & Conditions</a></li>
-              <li><a href="/refund-policy" className="text-gray-300 hover:text-white transition-colors duration-300 hover:underline">Refund Policy</a></li>
-              <li><a href="/responsible-travel-policy" className="text-gray-300 hover:text-white transition-colors duration-300 hover:underline">Responsible Travel Policy</a></li>
-              <li><a href="/anti-slavery-and-human-trafficking-policy" className="text-gray-300 hover:text-white transition-colors duration-300 hover:underline">Anti-Slavery and Human Trafficking Policy</a></li>
-              <li><a href="/anti-corruption-and-bribery-policy" className="text-gray-300 hover:text-white transition-colors duration-300 hover:underline">Anti-Corruption and Bribery Policy</a></li>
+              <li><Link to="/privacy-policy" className="text-gray-300 hover:text-white transition-colors duration-300 hover:underline">Privacy Policy</Link></li>
+              <li><Link to="/terms-and-conditions" className="text-gray-300 hover:text-white transition-colors duration-300 hover:underline">Terms & Conditions</Link></li>
+              <li><Link to="/refund-policy" className="text-gray-300 hover:text-white transition-colors duration-300 hover:underline">Refund Policy</Link></li>
+              <li><Link to="/responsible-travel-policy" className="text-gray-300 hover:text-white transition-colors duration-300 hover:underline">Responsible Travel Policy</Link></li>
+              <li><Link to="/anti-slavery-and-human-trafficking-policy" className="text-gray-300 hover:text-white transition-colors duration-300 hover:underline">Anti-Slavery and Human Trafficking Policy</Link></li>
+              <li><Link to="/anti-corruption-and-bribery-policy" className="text-gray-300 hover:text-white transition-colors duration-300 hover:underline">Anti-Corruption and Bribery Policy</Link></li>
             </ul>
           </motion.div>
 
-          {/* Follow Us */}
+          {/* Social Media and Partners */}
           <motion.div className="space-y-4" variants={fadeInUp}>
             <h3 className="text-xl font-bold text-yellow-400">Follow Us</h3>
             <div className="flex space-x-4">
@@ -154,7 +167,7 @@ const Footer = forwardRef((props, ref) => {
           </motion.div>
         </div>
 
-        {/* GJ Helpline & Support */}
+        {/* Helpline & Support */}
         <motion.div className="mt-8 pt-6 border-t border-gray-700" variants={fadeInUp}>
           <h3 className="text-xl font-bold text-yellow-400 mb-2">GJ Helpline & Support</h3>
           <div className="flex flex-wrap gap-4">
@@ -163,28 +176,12 @@ const Footer = forwardRef((props, ref) => {
           </div>
         </motion.div>
 
-        {/* Copyright and Website by */}
-        <motion.div className="mt-6 pt-6 border-t border-gray-700 flex flex-col sm:flex-row justify-between items-center text-xs" variants={fadeInUp}>
-          <div className="text-gray-400 mb-2 sm:mb-0">© 2024 ROSANISA XPERIENCES LLP</div>
-          <div className="flex flex-wrap justify-center items-center">
-            <span className="text-gray-400 mr-1">Website by:</span>
-            {teamMembers.map((member, index) => (
-              <React.Fragment key={member.name}>
-                <a
-                  href={member.linkedIn}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-300 hover:text-white transition-colors duration-300 hover:underline"
-                >
-                  {member.name}
-                </a>
-                {index < teamMembers.length - 1 && <span className="mx-1 text-gray-400">|</span>}
-              </React.Fragment>
-            ))}
-          </div>
+        {/* Copyright */}
+        <motion.div className="mt-6 pt-6 border-t border-gray-700 flex justify-center items-center text-xs" variants={fadeInUp}>
+          <div className="text-gray-400">© 2024 ROSANISA XPERIENCES LLP</div>
         </motion.div>
       </div>
-      </motion.footer>
+    </motion.footer>
   );
 });
 

@@ -1,25 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import ExperienceForm from './ExperienceForm';
-import VariantForm from './VariantForm';
-import VariantPreview from './VariantPreview';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { useLocation } from 'react-router-dom';
+// import { useLocation } from 'react-router-dom';
 import {BASE_URL} from "../../../constants";
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
+
 
 const CreateExperience = ({ setPendingExperiences, setIsCreatingExperience }) => {
-
-  const location = useLocation()
-  const navigate = useNavigate()
+  const location = useLocation();
+  const navigate = useNavigate();
   const id = new URLSearchParams(location.search).get('id');
-  console.log("id",id)
+
   const initialExperience = {
     name: '',
     url: '',
     description: '',
     shortDescription: '',
+    tourCaptain: '',
+    experienceType: '',
     images: [],
     state: '',
     city: '',
@@ -46,31 +46,25 @@ const CreateExperience = ({ setPendingExperiences, setIsCreatingExperience }) =>
   };
 
   const [experience, setExperience] = useState(initialExperience);
-  const [isCreatingVariant, setIsCreatingVariant] = useState(false);
-  const [editingVariantIndex, setEditingVariantIndex] = useState(null);
-    console.log("experience",experience)
 
+  useEffect(() => {
+    const fetchExperience = async () => {
+      if (!id) return;
 
- useEffect(() => {
-  const fetchExperience = async () => {
-    if (!id) {
-      return;
-    }
-
-    try {
-      const response = await axios.get(`${BASE_URL}/updates/${id}`);
-      console.log(response.data)
-      if (response.data.success) {
-        setExperience(response.data.data);
+      try {
+        const response = await axios.get(`${BASE_URL}/experiences/${id}`);
+        if (response.data.success) {
+        }
+      } catch (err) {
+        console.error(err);
+        toast.error(err.response?.data?.message || 'Something went wrong');
       }
-    } catch (err) {
-      console.log(err);
-      toast.error(err.response.data.message || 'Something went wrong');
-    }
-  };
+    };
 
-  fetchExperience();
-}, [id]);
+    fetchExperience();
+  }, [id]);
+
+
 
   const handleSaveExperience = async(e) => {
     e.preventDefault();
@@ -138,63 +132,29 @@ catch(err){
 
   return (
     <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-      {!isCreatingVariant ? (
-        <form onSubmit={handleSaveExperience}>
-          <ExperienceForm
-            experience={experience}
-            setExperience={setExperience}
-            isVariant={false}
-          />
-
-          {experience.variants && experience.variants.length > 0 && (
-            <div className="mb-4">
-              <h3 className="text-lg font-semibold mb-2">Saved Variants</h3>
-              {experience.variants.map((variant, index) => (
-                <VariantPreview 
-                  key={index} 
-                  variant={variant} 
-                  index={index} 
-                  onEdit={() => editVariant(index)}
-                  onDelete={() => deleteVariant(index)}
-                />
-              ))}
-              <button
-                type="button"
-                onClick={addVariant}
-                className="text-white bg-black hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-2"
-              >
-                Add Another Variant
-              </button>
-            </div>
-          )}
-
-          <div className="flex items-center justify-between mt-6">
-            <button
-              className="text-white bg-black hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-              type="submit"
-              
-            >
-              Create Experience
-            </button>
-            <button
-              className="text-white bg-gray-500 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-              type="button"
-              onClick={() => navigate('/admin')}
-            >
-              Cancel
-            </button>
-          </div>
-        </form>
-      ) : (
-        <VariantForm 
-          onSave={handleSaveVariant} 
-          onCancel={() => {
-            setIsCreatingVariant(false);
-            setEditingVariantIndex(null);
-          }} 
-          initialVariant={editingVariantIndex !== null ? experience.variants[editingVariantIndex] : null}
+      <form onSubmit={handleSaveExperience}>
+        <ExperienceForm
+          experience={experience}
+          setExperience={setExperience}
+          isVariant={false}
         />
-      )}
+
+        <div className="flex items-center justify-between mt-6">
+          <button
+            className="text-white bg-black hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+            type="submit"
+          >
+            {id ? "Update Experience" : "Create Experience"}
+          </button>
+          <button
+            className="text-white bg-gray-500 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+            type="button"
+            onClick={() => navigate('/admin')}
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
     </div>
   );
 };

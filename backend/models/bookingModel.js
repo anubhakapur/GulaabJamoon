@@ -36,6 +36,11 @@ const bookingSchema = new mongoose.Schema({
   paymentId: {
     type: String,
   },
+  status: {
+        type: String,
+        enum: ['active', 'cancelled','completed'],
+        default: 'active',
+    },
 })
 
 const bookingModel = mongoose.model('Booking', bookingSchema)
