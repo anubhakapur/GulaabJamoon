@@ -43,6 +43,7 @@ const CreateExperience = ({ setPendingExperiences, setIsCreatingExperience }) =>
     price: '',
     taxes: '',
     fees: '',
+
   };
 
   const [experience, setExperience] = useState(initialExperience);
@@ -129,6 +130,8 @@ catch(err){
       variants: prev.variants.filter((_, i) => i !== index)
     }));
   };
+
+
 
   return (
     <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">

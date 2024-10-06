@@ -38,6 +38,10 @@ const TripCarousel = () => {
 
 
   console.log("trips", trips);
+  // const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 1024);
+  // const swiperRef = useRef(null);
+
+
   useEffect(() => {
     const handleResize = () => {
       setIsLargeScreen(window.innerWidth >= 1024);

@@ -8,17 +8,20 @@ import WhyGJExperiences from "./WhyGJExperiences";
 import axios from "axios";
 import { BASE_URL } from "../constants";
 import moment from "moment";
+import WhyGJExperiences from "./WhyGJExperiences"
 
 const AllTripsPage = () => {
   const [visibleTrips, setVisibleTrips] = useState(8);
   const [allTrips, setAllTrips] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
+
   const navigate = useNavigate();
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
 
   useEffect(() => {
     const fetchExperiences = async () => {
@@ -45,15 +48,18 @@ const AllTripsPage = () => {
   },[allTrips]);
 
   // Load all trips when "Load More" is clicked
+
   const loadMore = () => {
     setVisibleTrips(allTrips.length);
   };
+
 
   console.log("visibleTrips",visibleTrips)
 
   // console.log("ALLTRIPS", allTrips);
 
   // Filter trips based on the search term
+
   const filteredTrips = allTrips.filter((trip) =>
     trip.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -87,9 +93,12 @@ const AllTripsPage = () => {
 
   const clearSearch = () => setSearchTerm("");
 
+
   // Function to handle navigation to the trip details page
-  const navigateToTrip = (trip) => {
-    const formattedTripName = trip.url.replace(/\s+/g, "-").toLowerCase(); // Create a URL-friendly trip name
+  const navigateToTrip = (trip, event) => {
+    event.stopPropagation();
+    const formattedTripName = trip.url.replace(/\s+/g, "-").toLowerCase();
+
     navigate(`/experiences/${formattedTripName}`);
   };
 
@@ -174,6 +183,7 @@ const AllTripsPage = () => {
                         maxWidth: "350px",
                         margin: "0 auto",
                         background: "#0284c7"
+
                       }}
                       variants={itemVariants}
                       whileHover="hover"
