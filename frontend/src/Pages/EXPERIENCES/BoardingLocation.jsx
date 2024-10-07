@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import GoogleMapReact from 'google-map-react';
 
-function BoardingLocation({ location }) {
+function BoardingLocation({ location={} }) {
   const Marker = () => <div className="text-red-500 text-4xl">📍</div>;
 
   return (

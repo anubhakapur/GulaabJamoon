@@ -34,6 +34,7 @@ const userSignUpOneController = async (req, res) => {
 
     await user.save();
 
+    
     const verificationUrl = `${process.env.BACKEND_URL}/api/verify-email/${verificationToken}`;
     await sendEmail(email, 'Please verify your email address',
        `<div style="font-family: Arial, sans-serif; color: #333;">
@@ -82,7 +83,7 @@ const verifyEmailController = async (req, res) => {
 
     await user.save();
 
-    return res.redirect(`${process.env.BACKEND_URL}/signuptwo?verified=true`);
+    return res.redirect(`${process.env.FRONTEND_URL}/signuptwo?verified=true`);
     
     res.status(200).json({ 
         message: 'Email verified', 

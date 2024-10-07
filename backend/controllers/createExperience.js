@@ -3,10 +3,8 @@ const experienceModel = require("../models/experienceModel")
 const createExperienceController = async(req,res) => {
     try{
         // const {name,description,images,location,startDate,endDate,startTime,duration,overview,highlights,cancellationPolicy,knowBeforeYouGo} = req.body
-        const experience = new experienceModel({
-            startDate : new Date(req.body.startDate).toISOString().slice(0,10),
-            endDate : new Date(req.body.endDate).toISOString().slice(0,10),
-            ...req.body})
+        // console.log("experience",req.body)
+        const experience = new experienceModel(req.body)
            
         await experience.save()
 

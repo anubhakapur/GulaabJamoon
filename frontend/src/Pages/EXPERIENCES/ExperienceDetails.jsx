@@ -14,6 +14,9 @@ import Footer from "../../components/Footer";
 import Faq from "./Faq";
 import CancellationPolicy from "./CancellationPolicy";
 import trips from "../../assets/data/trips";
+import axios from "axios";
+import {BASE_URL} from "../../constants"
+
 
 function ExperienceDetails() {
   const { tripName } = useParams();
@@ -22,6 +25,7 @@ function ExperienceDetails() {
   const navbarRef = useRef(null);
   const sectionRefs = useRef([]);
 
+  
   // Scroll to top on component mount
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -115,12 +119,38 @@ function ExperienceDetails() {
       });
     }
   }, [activeSection]);
+ const [tripdata,setTripData] = useState({});
+  useEffect(()=>{
+    async function helo(){
+        const testing = await axios.get(`${BASE_URL}/experiences/`+tripName);
+        console.log("testing",testing.data.data[0]);
+        setTripData(testing.data.data[0]);
+        console.log("tripdata",tripdata);
+    // .then((response)=>{return response.data;
+    // })
+    // .then((resp)=>{console.log("Hello",resp.data[0]);setTripData(resp.data[0]);})
+    // // .then((data)=>{setTripData(data);})
+    // .catch((err)=>{console.log(err)})
 
+    }
+    
+
+    helo();
+
+  
+    console.log("data after axios",tripdata);
+    
+  },[tripName]);
+  useEffect(()=>{
+      console.log("tripname",tripdata);
+
+    },[tripdata]);
   const experience = trips.find(
     (trip) => trip.name.toLowerCase().replace(/\s+/g, "-") === tripName
   );
 
-  if (!experience) {
+
+  if (!tripdata) {
     return (
       <div className="text-center py-10">
         <p>Experience not found</p>
@@ -139,13 +169,13 @@ function ExperienceDetails() {
       <div className="w-full bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <h1 className="text-4xl font-bold mb-4 text-blue-400">
-            {experience.name}
+            {tripdata.name}
           </h1>
-          <p className="text-lg text-yellow-400">{experience.location}</p>
+          <p className="text-lg text-yellow-400">{tripdata.location}</p>
         </div>
 
         <div className="w-full px-4 sm:px-8 lg:px-12">
-          <Gallery gallery={experience.gallery} name={experience.name} />
+          <Gallery gallery={tripdata.images} name={tripdata.name} />
         </div>
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -174,27 +204,29 @@ function ExperienceDetails() {
 
               <div ref={(el) => (sectionRefs.current[0] = el)}>
                 <LocationDuration
-                  location={experience.location}
-                  duration={experience.duration}
+                  location={tripdata.city + "," + tripdata.state}
+                  duration={tripdata.duration}
                 />
               </div>
               <div ref={(el) => (sectionRefs.current[1] = el)}>
-                <Overview overview={experience.description} />
+                <Overview overview={tripdata?.description} />
               </div>
               <div ref={(el) => (sectionRefs.current[2] = el)}>
-                <Itinerary itinerary={experience.itinerary} />
+                <Itinerary itinerary={tripdata.itinerary} />
               </div>
               <div ref={(el) => (sectionRefs.current[3] = el)}>
-                <Highlights highlights={experience.highlights} />
+                <Highlights highlights={tripdata.highlights} />
               </div>
               <div ref={(el) => (sectionRefs.current[4] = el)}>
-                <Inclusions inclusions={experience.inclusions} />
+                <Inclusions inclusions={tripdata.inclusions}
+                            exclusions={tripdata.exclusions}
+                   />
               </div>
               <div ref={(el) => (sectionRefs.current[5] = el)}>
-                <Faq faq={experience.faq} />
+                <Faq faq={tripdata.faqs} />
               </div>
               <div ref={(el) => (sectionRefs.current[6] = el)}>
-                <CancellationPolicy policy={experience.cancellationPolicy} />
+                <CancellationPolicy policy={tripdata.cancellationPolicy} />
               </div>
 
               {/* <Variants variants={experience.variants} /> */}
@@ -205,7 +237,7 @@ function ExperienceDetails() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.3 }}
               >
-                <BoardingLocation location={experience.boardingLocation} />
+                <BoardingLocation location={tripdata.boardingLocation} />
               </motion.div>
 
               <motion.div
@@ -214,17 +246,22 @@ function ExperienceDetails() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.3 }}
               >
-                <SimilarExperiences
-                  experiences={experience.similarExperiences}
-                />
+                {/* <SimilarExperiences
+                  experiences={tripdata.similarExperiences}
+                /> */}
               </motion.div>
             </div>
 
             <div className="lg:w-1/3 mt-8 lg:mt-0">
               <Booking
-                price={experience.price || 0}
-                taxes={experience.taxes || 0}
-                fees={experience.fees || 0}
+                price={tripdata.price || 0}
+                taxes={tripdata.taxes || 0}
+                fees={tripdata.fees || 0}
+                startDate={tripdata.startDate}
+                endDate = {tripdata.endDate}
+                experienceId={tripdata._id}
+                tripName={tripdata.name}
+                startTime = {tripdata.startTime}
               />
             </div>
           </div>

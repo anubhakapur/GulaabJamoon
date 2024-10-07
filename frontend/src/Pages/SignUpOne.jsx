@@ -73,7 +73,10 @@ const SignUpOne = () => {
 
         try {
       // Make a POST request to your backend API to send a verification email
-      const response = await axios.post(`${BASE_URL}/signupone`,{email,password});
+      console.log("BASE_URL",BASE_URL)
+      console.log("email",email)
+      console.log("password",password)  
+      const response = await axios.post(`http://localhost:8080/api/signupone`,{email,password});
       console.log(response.data)
       if (response.data.sucess) {
         toast.success(response.data.message || "Verification email sent. Please check your inbox.");

@@ -3,14 +3,14 @@ import { motion } from 'framer-motion';
 import { AiFillCheckCircle } from 'react-icons/ai';
 import { FaTimesCircle } from 'react-icons/fa'; 
 
-function Inclusions({ inclusions, exclusions }) {
-  // Dummy data for exclusions if not provided
-  const dummyExclusions = [
+function Inclusions({ inclusions=[], exclusions=[
     "Non-refundable deposit",
     "Travel insurance",
     "Meals not mentioned",
     "Personal expenses",
-  ];
+  ] }) {
+  // Dummy data for exclusions if not provided
+  
 
   return (
     <motion.div
@@ -38,7 +38,7 @@ function Inclusions({ inclusions, exclusions }) {
         <div className="flex-1">
           <h3 className="text-2xl font-semibold mb-4 text-gray-700">Exclusions</h3>
           <ul className="list-disc list-inside pl-5">
-            {(exclusions || dummyExclusions).map((exclusion, index) => (
+            {exclusions.map((exclusion, index) => (
               <li key={index} className="flex items-center mb-2">
                 <FaTimesCircle className="text-red-500 h-5 w-5 mr-3" />
                 <span className="text-gray-700 text-lg font-medium">{exclusion}</span>

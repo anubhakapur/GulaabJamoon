@@ -214,11 +214,10 @@ const Header = ({ home, scrollToFooter }) => {
           >
             {user_id ? (
               <Link
-                to="/"
-                onClick={handleLogout}
+                to="/user"
                 className="text-white border border-white rounded-full px-4 py-2 transition duration-300 hover:bg-white hover:text-black"
               >
-                Logout
+                My Profile
               </Link>
             ) : (
               <Link
@@ -293,13 +292,25 @@ const Header = ({ home, scrollToFooter }) => {
                 </motion.li>
               ))}
               <motion.li className="mb-6" variants={itemVariants}>
-                <Link
+              {
+                user_id ? (
+                  <Link
+                  to="/user"
+                  className="text-white text-2xl relative group transition-colors duration-300 hover:text-gray-300 pb-1"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  My Profile
+                </Link>)
+                : (
+                  <Link
                   to="/signin"
                   className="text-white text-2xl relative group transition-colors duration-300 hover:text-gray-300 pb-1"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Login
                 </Link>
+                )
+              }
               </motion.li>
             </ul>
           </motion.div>

@@ -3,7 +3,10 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import ExperienceForm from './ExperienceForm';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { BASE_URL } from "../../../constants";
+// import { useLocation } from 'react-router-dom';
+import {BASE_URL} from "../../../constants";
+// import { Link } from 'react-router-dom';
+
 
 const CreateExperience = ({ setPendingExperiences, setIsCreatingExperience }) => {
   const location = useLocation();
@@ -18,7 +21,12 @@ const CreateExperience = ({ setPendingExperiences, setIsCreatingExperience }) =>
     tourCaptain: '',
     experienceType: '',
     images: [],
-    location: { state: '', city: '', latitude: '', longitude: '' },
+    state: '',
+    city: '',
+    boardingLocation: {
+      lat: '',
+      lng: ''
+    },
     startDate: '',
     endDate: '',
     startTime: '',
@@ -31,10 +39,11 @@ const CreateExperience = ({ setPendingExperiences, setIsCreatingExperience }) =>
     cancellationPolicy: '',
     knowBeforeYouGo: [''],
     faqs: [{ question: '', answer: '' }],
-    basePrice: '',
+    
+    price: '',
     taxes: '',
-    convenienceFee: '',
-    addons: []
+    fees: '',
+
   };
 
   const [experience, setExperience] = useState(initialExperience);
@@ -46,7 +55,6 @@ const CreateExperience = ({ setPendingExperiences, setIsCreatingExperience }) =>
       try {
         const response = await axios.get(`${BASE_URL}/experiences/${id}`);
         if (response.data.success) {
-          setExperience(response.data.data);
         }
       } catch (err) {
         console.error(err);
@@ -57,24 +65,73 @@ const CreateExperience = ({ setPendingExperiences, setIsCreatingExperience }) =>
     fetchExperience();
   }, [id]);
 
-  const handleSaveExperience = async (e) => {
+
+
+  const handleSaveExperience = async(e) => {
     e.preventDefault();
-    try {
-      let response;
-      if (id) {
-        response = await axios.put(`${BASE_URL}/update-experiences`, { id, ...experience });
-      } else {
-        response = await axios.post(`${BASE_URL}/experiences`, experience);
+    // setPendingExperiences(prevExperiences => [...prevExperiences, { ...experience, id: Date.now(), status: 'Pending' }]);
+    // setIsCreatingExperience(false);
+try{
+    if(id){
+      //update place
+      console.log("update place")
+      const response = await axios.put(`${BASE_URL}/update-experiences`, {id,...experience})
+      if(response.data.success){
+        toast.success("Experience updated successfully")
+        navigate('/admin')
       }
-      if (response.data.success) {
-        toast.success(id ? "Experience updated successfully" : "Experience created successfully");
-        navigate('/admin');
-      }
-    } catch (err) {
-      console.error(err);
-      toast.error(err.response?.data?.message || 'Something went wrong');
     }
+    else{
+      // new place
+      
+      const response = await axios.post(`${BASE_URL}/experiences`, experience)
+     if(response.data.success){
+       toast.success("Experience created successfully")
+        navigate('/admin')
+     }
+
+    }
+     
+
+}
+catch(err){
+  console.log(err)
+  toast.error(err.response.data.message || 'Something went wrong')
+}
   };
+
+  const handleSaveVariant = (variant) => {
+    setExperience(prev => {
+      const updatedVariants = [...prev.variants];
+      if (editingVariantIndex !== null) {
+        updatedVariants[editingVariantIndex] = variant;
+      } else {
+        updatedVariants.push(variant);
+      }
+      return { ...prev, variants: updatedVariants };
+    });
+    setIsCreatingVariant(false);
+    setEditingVariantIndex(null);
+  };
+
+  const addVariant = () => {
+    setIsCreatingVariant(true);
+    setEditingVariantIndex(null);
+  };
+
+  const editVariant = (index) => {
+    setIsCreatingVariant(true);
+    setEditingVariantIndex(index);
+  };
+
+  const deleteVariant = (index) => {
+    setExperience(prev => ({
+      ...prev,
+      variants: prev.variants.filter((_, i) => i !== index)
+    }));
+  };
+
+
 
   return (
     <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">

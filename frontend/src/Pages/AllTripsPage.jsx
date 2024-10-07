@@ -3,26 +3,68 @@ import { motion, AnimatePresence } from "framer-motion";
 import Footer from "../components/Footer";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
-import trips from "../assets/data/trips";
+// import trips from "../assets/data/trips";
 import WhyGJExperiences from "./WhyGJExperiences";
+import axios from "axios";
+import { BASE_URL } from "../constants";
+import moment from "moment";
+import WhyGJExperiences from "./WhyGJExperiences"
 
 const AllTripsPage = () => {
   const [visibleTrips, setVisibleTrips] = useState(8);
-  const [allTrips, setAllTrips] = useState(trips);
+  const [allTrips, setAllTrips] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [loading, setLoading] = useState(true);
+
   const navigate = useNavigate();
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
+
+  useEffect(() => {
+    const fetchExperiences = async () => {
+      try {
+        const response = await axios.get(`${BASE_URL}/user`);
+        console.log("trips",response.data)
+        setAllTrips(response.data.data);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching experiences:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchExperiences();
+  }, []);
+
+  useEffect(() => {
+    if (allTrips.length > 0) {
+      console.log("effect",allTrips);
+      console.log("length",allTrips.length)
+      setLoading(false);
+    }
+  },[allTrips]);
+
+  // Load all trips when "Load More" is clicked
+
   const loadMore = () => {
     setVisibleTrips(allTrips.length);
   };
 
+
+  console.log("visibleTrips",visibleTrips)
+
+  // console.log("ALLTRIPS", allTrips);
+
+  // Filter trips based on the search term
+
   const filteredTrips = allTrips.filter((trip) =>
     trip.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  console.log("FILTEREDTRIPS", filteredTrips);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -51,9 +93,12 @@ const AllTripsPage = () => {
 
   const clearSearch = () => setSearchTerm("");
 
+
+  // Function to handle navigation to the trip details page
   const navigateToTrip = (trip, event) => {
     event.stopPropagation();
-    const formattedTripName = trip.name.replace(/\s+/g, "-").toLowerCase();
+    const formattedTripName = trip.url.replace(/\s+/g, "-").toLowerCase();
+
     navigate(`/experiences/${formattedTripName}`);
   };
 
@@ -130,7 +175,7 @@ const AllTripsPage = () => {
                 <AnimatePresence>
                   {filteredTrips.slice(0, visibleTrips).map((trip) => (
                     <motion.div
-                      key={trip.id}
+                      key={trip._id}
                       className="bg-white rounded-xl overflow-hidden shadow-2xl flex flex-col justify-between cursor-pointer"
                       style={{
                         minHeight: "450px",
@@ -138,14 +183,15 @@ const AllTripsPage = () => {
                         maxWidth: "350px",
                         margin: "0 auto",
                         background: "#0284c7"
+
                       }}
                       variants={itemVariants}
                       whileHover="hover"
                       whileTap="tap"
                       onClick={(e) => navigateToTrip(trip, e)}
                     >
-                      <img
-                        src={trip.image}
+                      <motion.img
+                        src={trip.images[0]}
                         alt={trip.name}
                         className="w-full h-56 object-cover"
                       />
@@ -155,17 +201,17 @@ const AllTripsPage = () => {
                             {trip.name}
                           </h2>
                           <p className="text-yellow-300 text-sm mb-2">
-                            {trip.location} | {trip.date}
+                            {trip.city+','+trip.state} | {moment(trip.startDate).format('DD-MMMM-YYYY')}
                           </p>
                           <p
                             className="mb-4 line-clamp-2 text-yellow-300"
                             style={{ minHeight: "48px" }}
                           >
-                            {trip.description}
+                            {trip.shortDescription}
                           </p>
                         </div>
                         <div>
-                          <p className="text-2xl font-bold text-yellow-400 mb-4">${trip.price}</p>
+                          <p className="text-2xl font-bold text-yellow-400 mb-4">₹{trip.price}</p>
                           <motion.button
                             className="w-full bg-blue-400 text-white py-3 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-400 transition-all hover:bg-yellow-400"
                             whileHover={{ scale: 1.05 }}

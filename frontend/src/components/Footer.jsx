@@ -8,6 +8,14 @@ import kstdc from "/src/assets/images/kstdc.png"
 import kn from "/src/assets/images/karnataka.jpg"
 
 const Footer = forwardRef((props, ref) => {
+  const teamMembers = [
+    { name: "Mohin", linkedIn: "https://www.linkedin.com/in/mohin-gupta-3bb267305" },
+    { name: "Simran", linkedIn: "https://www.linkedin.com/in/simran-arora-9900b6328" },
+    { name: "Anubha", linkedIn: "https://www.linkedin.com/in/anubha-kapur-378b7a24b/" },
+    { name: "Madhav", linkedIn: "https://www.linkedin.com/in/emilybrown" },
+    { name: "Navish", linkedIn: "https://www.linkedin.com/in/navish-goyal-b40667224/" }
+  ];
+
   const fadeInUp = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 }

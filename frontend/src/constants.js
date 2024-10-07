@@ -1,3 +1,3 @@
-const BASE_URL = "http://16.171.17.82/api";
+const BASE_URL = "http://13.48.25.145";
 
 export { BASE_URL };

@@ -3,25 +3,46 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import ROLE from '../../common/role'
+import axios from 'axios';
+import { useState } from 'react';
+import { BASE_URL } from '../../constants';
 
 const Dashboard = () => {
 
-  // const user = useSelector(state => state?.user?.user)
-  // console.log("user",user)
-  // const navigate = useNavigate()
+  const [activeTripsCount, setActiveTripsCount] = useState(0);
+  const user = useSelector(state => state?.user)
+  console.log("userAdmin",user)
+  const navigate = useNavigate()
 
 
-  //   useEffect(()=>{
-  //       if(user?.role !== ROLE.ADMIN){
-  //           navigate("/")
-  //       }
-  //   },[user])
+    // useEffect(()=>{
+    //     if(user?.role !== ROLE.ADMIN){
+    //         navigate("/")
+    //     }
+    // },[user])
+
+   useEffect(() => {
+    const fetchActiveTripsCount = async () => {
+      try {
+        const response = await axios.get(`${BASE_URL}/active-trips-count`);
+
+        if (response.data.success) {
+          setActiveTripsCount(response.data.data.count);
+        }
+      } catch (error) {
+        console.error('Error fetching active trips count:', error);
+      }
+    };
+
+    fetchActiveTripsCount();
+  }, []);
+
 
   return (
     <div className="space-y-6">
       <h2 className="text-3xl font-bold text-gray-800">Dashboard</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <DashboardCard title="Active Trips" value="40" />
+        <DashboardCard title="Active Trips" value={activeTripsCount} />
         <DashboardCard title="Pending Refunds" value="2" />
       </div>
     </div>

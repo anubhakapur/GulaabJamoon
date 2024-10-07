@@ -7,14 +7,40 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/autoplay";
 import { motion, AnimatePresence } from "framer-motion";
-import trips from "../assets/data/trips";
-import popularExperiencesImage from "../assets/images/mostpopular.png"; // Import the image
+// import trips from "../assets/data/trips";
+import popularExperiencesImage from "../assets/images/mostpopular.png";
+import axios from "axios";
+import { BASE_URL } from "../constants";
 
 const TripCarousel = () => {
   const [activeImage, setActiveImage] = useState("");
+  const [trips, setTrips] = useState([]);
   const [isHovering, setIsHovering] = useState(false);
-  const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 1024);
+  const [isLargeScreen, setIsLargeScreen] = useState(false);
+   const [loading, setLoading] = useState(true); // State to track loading state
   const swiperRef = useRef(null);
+
+  useEffect(() => {
+    const fetchExperiences = async () => {
+      try {
+        const response = await axios.get(`${BASE_URL}/user`);
+        console.log("trips", response.data.data);
+        setTrips(response.data.data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching experiences:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchExperiences();
+  }, []);
+
+
+  console.log("trips", trips);
+  // const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 1024);
+  // const swiperRef = useRef(null);
+
 
   useEffect(() => {
     const handleResize = () => {
@@ -52,7 +78,8 @@ const TripCarousel = () => {
     </motion.div>
   );
 
-  const limitedTrips = useMemo(() => trips.slice(0, 3), []);
+ const limitedTrips = trips.slice(0, 3);
+  console.log("limitedTrips", limitedTrips);
 
   const createSlug = (name) => {
     return name.toLowerCase().replace(/\s+/g, "-");
@@ -70,7 +97,7 @@ const TripCarousel = () => {
   };
 
   const TripCard = React.memo(({ trip, onHover }) => (
-    <Link to={`/experiences/${createSlug(trip.name)}`}>
+    <Link to={`/experiences/${createSlug(trip.url)}`}>
       <motion.div
         className="bg-white rounded-xl overflow-hidden shadow-2xl flex flex-col justify-between"
         style={{
@@ -83,11 +110,11 @@ const TripCarousel = () => {
         variants={itemVariants}
         whileHover={itemVariants.hover}
         whileTap={itemVariants.tap}
-        onMouseEnter={() => onHover(trip.image)}
+        onMouseEnter={() => onHover(trip.images[0])}
         onMouseLeave={() => onHover("")}
       >
         <img
-          src={trip.image}
+          src={trip.images[0]}
           alt={trip.name}
           className="w-full h-56 object-cover"
         />
@@ -97,17 +124,17 @@ const TripCarousel = () => {
               {trip.name}
             </h2>
             <p className="text-yellow-300 text-sm mb-2">
-              {trip.location} | {trip.date}
+              {/* {trip.location} | {trip.date} */}
             </p>
             <p
               className="mb-4 line-clamp-2 text-yellow-300"
               style={{ minHeight: "48px" }}
             >
-              {trip.description}
+              {trip.shortDescription}
             </p>
           </div>
           <div>
-            <p className="text-2xl font-bold text-yellow-400 mb-4">${trip.price}</p>
+            <p className="text-2xl font-bold text-yellow-400 mb-4">₹{trip.price}</p>
             <motion.button
               className="w-full bg-blue-400 text-white py-3 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-400 transition-all hover:bg-yellow-400"
               whileHover={{ scale: 1.05 }}
@@ -177,8 +204,9 @@ const TripCarousel = () => {
           {isLargeScreen ? (
             <div className="flex justify-center items-stretch gap-8">
               {limitedTrips.map((trip) => (
-                <TripCard key={trip.id} trip={trip} onHover={setActiveImage} />
-              ))}
+                
+                <TripCard key={trip._id} trip={trip} onHover={setActiveImage} />
+          ))}
             </div>
           ) : (
             <>
@@ -205,7 +233,8 @@ const TripCarousel = () => {
                 ref={swiperRef}
               >
                 {limitedTrips.map((trip) => (
-                  <SwiperSlide key={trip.id} className="py-8">
+                  <SwiperSlide key={trip._id} className="py-8">
+                    {console.log("trip", trip)}
                     <TripCard trip={trip} onHover={setActiveImage} />
                   </SwiperSlide>
                 ))}

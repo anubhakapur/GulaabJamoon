@@ -5,6 +5,7 @@ const updateExperiencesController = async(req,res) => {
 
     try{
     const updateData = req.body;
+    console.log(updateData)
     const experienceDoc = await experienceModel.findById(updateData.id)
     
     if(!experienceDoc){

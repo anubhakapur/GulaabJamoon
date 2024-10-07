@@ -9,10 +9,11 @@ const passport = require("passport");
 const cookieParser = require("cookie-parser");
 const path = require("path");
 const app = express();
+// const Razorpay = require("razorpay");
 
 app.use(
   cors({
-    origin: process.env.FRONTNED_URL,
+    origin: process.env.FRONTEND_URL,
     credentials: true,
   })
 );
@@ -26,14 +27,22 @@ app.use(
     saveUninitialized: true,
   })
 );
-app.use(express.static(path.join(__dirname, "dist")));
+
+app.use(express.json())
+// app.use(express.static(path.join(__dirname, "dist")));
 app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use("/api", router);
 app.use("/auth", authRoutes);
 
-PORT = 80 || process.env.PORT;
+// const razorpay = new Razorpay({
+//   key_id: process.env.RAZORPAY_KEY_ID,
+//   key_secret: process.env.RAZORPAY_SECRET_KEY,
+// });
+
+
+PORT = 8080 || process.env.PORT;
 
 app.get("/", (req, res) => {
   res.send("Server is ready");

@@ -1,29 +1,58 @@
 // UserManagement.js
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { FaSearch, FaTimesCircle } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { BASE_URL } from '../../../constants';
 
 const UserManagement = () => {
   const [users, setUsers] = useState([
-    { id: 1, name: 'John Doe', email: 'john@example.com', mobile: '+1 123-456-7890', experienceBooked: { name: 'City Tour', id: 101 } },
-    { id: 2, name: 'Jane Smith', email: 'jane@example.com', mobile: '+1 234-567-8901', experienceBooked: { name: 'Mountain Hike', id: 102 } },
-    { id: 3, name: 'Bob Johnson', email: 'bob@example.com', mobile: '+1 345-678-9012', experienceBooked: { name: 'Cooking Class', id: 103 } },
-    { id: 4, name: 'Alice Brown', email: 'alice@example.com', mobile: '+1 456-789-0123', experienceBooked: { name: 'Scuba Diving', id: 104 } },
-    { id: 5, name: 'Charlie Wilson', email: 'charlie@example.com', mobile: '+1 567-890-1234', experienceBooked: { name: 'Wine Tasting', id: 105 } },
+    // { id: 1, name: 'John Doe', email: 'john@example.com', mobile: '+1 123-456-7890', experienceBooked: { name: 'City Tour', id: 101 } },
+    // { id: 2, name: 'Jane Smith', email: 'jane@example.com', mobile: '+1 234-567-8901', experienceBooked: { name: 'Mountain Hike', id: 102 } },
+    // { id: 3, name: 'Bob Johnson', email: 'bob@example.com', mobile: '+1 345-678-9012', experienceBooked: { name: 'Cooking Class', id: 103 } },
+    // { id: 4, name: 'Alice Brown', email: 'alice@example.com', mobile: '+1 456-789-0123', experienceBooked: { name: 'Scuba Diving', id: 104 } },
+    // { id: 5, name: 'Charlie Wilson', email: 'charlie@example.com', mobile: '+1 567-890-1234', experienceBooked: { name: 'Wine Tasting', id: 105 } },
   ]);
 
   const [searchTerm, setSearchTerm] = useState('');
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending' });
+  // const [activeBookings, setActiveBookings] = useState([]);
+ 
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
   };
 
+  const fetchActiveBookings = async() => {
+    try{
+      const response = await axios.get(`${BASE_URL}/active-bookings`);
+      console.log("users",response.data.data);
+      if(response.data.success){
+        const currentDate = new Date();
+        const filteredBookings = response.data.data.filter(booking => new Date(booking.date) >= currentDate);
+        // setActiveBookings(filteredBookings);
+        // active = response.data.data;
+        console.log("users",response.data.data);
+        setUsers(filteredBookings);
+      }
+    }
+    catch(err){
+      console.error('Error fetching active bookings:', error);
+    }
+  }
+
+  useEffect(() => {
+    fetchActiveBookings();
+  },[])
+
+  
+
+console.log("users",users)
   const filteredUsers = users.filter(user =>
-    user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    user.mobile.includes(searchTerm) ||
-    user.experienceBooked.name.toLowerCase().includes(searchTerm.toLowerCase())
+    user?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    user?.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    user?.mobile?.includes(searchTerm) ||
+    user?.experienceBooked?.name?.toLowerCase()?.includes(searchTerm.toLowerCase())
   );
 
   const sortedUsers = [...filteredUsers].sort((a, b) => {
@@ -91,7 +120,7 @@ const UserManagement = () => {
                 <td className="px-6 py-4 whitespace-nowrap">
                   {user.experienceBooked.id ? (
                     <Link 
-                      to={`/experiences/${user.experienceBooked.id}`}
+                      to={`/experiences/${user.experienceBooked.url}`}
                       className="text-blue-600 hover:text-blue-900"
                     >
                       {user.experienceBooked.name}
