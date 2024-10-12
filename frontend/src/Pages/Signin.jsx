@@ -2,15 +2,14 @@ import React, { useState, useRef, useEffect, useContext } from "react";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import backgroundVideo from "/src/assets/images/bgvid.mp4"; // Update this path to your video file
-import axios from 'axios'
+import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Context from "../context/index";
-import ROLE from '../common/role';
+import ROLE from "../common/role";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../firebase";
 import { BASE_URL } from "../constants";
-
 
 const Button = ({ children, className, ...props }) => (
   <motion.button
@@ -36,7 +35,7 @@ const SignIn = () => {
   const [password, setPassword] = useState("");
   const videoRef = useRef(null);
   const navigate = useNavigate();
-  const {fetchUserDetails} = useContext(Context)
+  const { fetchUserDetails } = useContext(Context);
 
   useEffect(() => {
     if (videoRef.current) {
@@ -46,66 +45,64 @@ const SignIn = () => {
     }
   }, []);
 
- const googleLogin = async() => {
-    const provider = new GoogleAuthProvider()
-    try{
-      const result = await signInWithPopup(auth, provider)
-      console.log("result",result)
-      try{
-        const response = await axios.post(`${BASE_URL}/loginGoogle`,{email:result.user.email})
-        console.log(response)
-        if(response.data.success){
-          toast.success(response.data.message)
-          if(response.data.role === ROLE.ADMIN){
-            navigate('/admin')
-            fetchUserDetails()
-          }
-          else{
-            navigate('/')
-            fetchUserDetails()
+  const googleLogin = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      const result = await signInWithPopup(auth, provider);
+      console.log("result", result);
+      try {
+        const response = await axios.post(`${BASE_URL}/api/loginGoogle`, {
+          email: result.user.email,
+        });
+        console.log(response);
+        if (response.data.success) {
+          toast.success(response.data.message);
+          if (response.data.role === ROLE.ADMIN) {
+            navigate("/admin");
+            fetchUserDetails();
+          } else {
+            navigate("/");
+            fetchUserDetails();
           }
         }
-      }
-      catch(err){
+      } catch (err) {
         console.log(err);
-        toast.error(err.response.data.message || "Server error")
+        toast.error(err.response.data.message || "Server error");
       }
-      
-    }
-    catch(err){
+    } catch (err) {
       console.log(err);
-      toast.error(err.response.data.message || "Server error")
+      toast.error(err.response.data.message || "Server error");
     }
-} 
+  };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Implement your login logic here
-    try{
-    const response = await axios.post(`${BASE_URL}/signin`,{email,password})
-     
+    try {
+      const response = await axios.post(`${BASE_URL}/api/signin`, {
+        email,
+        password,
+      });
 
-    if(response.data.success){
-      console.log(response.data)
-      localStorage.setItem('userToken', response.data.token);
-      localStorage.setItem('userRole', response.data.role);
-      toast.success("Sign in successful")
-      if(response.data.role === ROLE.ADMIN){
-        navigate('/admin')
-        await fetchUserDetails()
+      if (response.data.success) {
+        console.log(response.data);
+        localStorage.setItem("userToken", response.data.token);
+        localStorage.setItem("userRole", response.data.role);
+        toast.success("Sign in successful");
+        if (response.data.role === ROLE.ADMIN) {
+          navigate("/admin");
+          await fetchUserDetails();
+        } else {
+          navigate("/");
+          await fetchUserDetails();
+        }
       }
-      else{
-      navigate('/')
-      await fetchUserDetails()
+
+      if (response.data.error) {
+        toast.error(response.data.message);
       }
-    }
-
-    if(response.data.error){
-      toast.error(response.data.message)
-    }
-
-    }catch(err){
-      toast.error(err.response.data.message || 'Something went wrong') 
+    } catch (err) {
+      toast.error(err.response.data.message || "Something went wrong");
     }
   };
 
@@ -185,7 +182,10 @@ const SignIn = () => {
           <div className="flex-grow border-t border-gray-600"></div>
         </div>
 
-        <Button onClick={googleLogin} className="bg-black bg-opacity-50 text-white border border-white rounded-md hover:bg-opacity-75 active:bg-opacity-100 flex items-center justify-center transition-all duration-300">
+        <Button
+          onClick={googleLogin}
+          className="bg-black bg-opacity-50 text-white border border-white rounded-md hover:bg-opacity-75 active:bg-opacity-100 flex items-center justify-center transition-all duration-300"
+        >
           <svg className="w-4 h-4 sm:w-5 sm:h-5 mr-2" viewBox="0 0 24 24">
             <path
               fill="currentColor"
@@ -206,7 +206,7 @@ const SignIn = () => {
         </p>
       </motion.div>
 
-       <ToastContainer
+      <ToastContainer
         position="top-right"
         autoClose={3000}
         hideProgressBar
@@ -215,7 +215,6 @@ const SignIn = () => {
         draggable
         pauseOnHover
       />
-
     </div>
   );
 };

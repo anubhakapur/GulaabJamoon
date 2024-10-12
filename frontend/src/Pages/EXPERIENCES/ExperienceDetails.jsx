@@ -15,8 +15,7 @@ import Faq from "./Faq";
 import CancellationPolicy from "./CancellationPolicy";
 import trips from "../../assets/data/trips";
 import axios from "axios";
-import {BASE_URL} from "../../constants"
-
+import { BASE_URL } from "../../constants";
 
 function ExperienceDetails() {
   const { tripName } = useParams();
@@ -25,7 +24,6 @@ function ExperienceDetails() {
   const navbarRef = useRef(null);
   const sectionRefs = useRef([]);
 
-  
   // Scroll to top on component mount
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -119,36 +117,32 @@ function ExperienceDetails() {
       });
     }
   }, [activeSection]);
- const [tripdata,setTripData] = useState({});
-  useEffect(()=>{
-    async function helo(){
-        const testing = await axios.get(`${BASE_URL}/experiences/`+tripName);
-        console.log("testing",testing.data.data[0]);
-        setTripData(testing.data.data[0]);
-        console.log("tripdata",tripdata);
-    // .then((response)=>{return response.data;
-    // })
-    // .then((resp)=>{console.log("Hello",resp.data[0]);setTripData(resp.data[0]);})
-    // // .then((data)=>{setTripData(data);})
-    // .catch((err)=>{console.log(err)})
-
+  const [tripdata, setTripData] = useState({});
+  useEffect(() => {
+    async function helo() {
+      const testing = await axios.get(
+        `${BASE_URL}/api/experiences/` + tripName
+      );
+      console.log("testing", testing.data.data[0]);
+      setTripData(testing.data.data[0]);
+      console.log("tripdata", tripdata);
+      // .then((response)=>{return response.data;
+      // })
+      // .then((resp)=>{console.log("Hello",resp.data[0]);setTripData(resp.data[0]);})
+      // // .then((data)=>{setTripData(data);})
+      // .catch((err)=>{console.log(err)})
     }
-    
 
     helo();
 
-  
-    console.log("data after axios",tripdata);
-    
-  },[tripName]);
-  useEffect(()=>{
-      console.log("tripname",tripdata);
-
-    },[tripdata]);
+    console.log("data after axios", tripdata);
+  }, [tripName]);
+  useEffect(() => {
+    console.log("tripname", tripdata);
+  }, [tripdata]);
   const experience = trips.find(
     (trip) => trip.name.toLowerCase().replace(/\s+/g, "-") === tripName
   );
-
 
   if (!tripdata) {
     return (
@@ -218,9 +212,10 @@ function ExperienceDetails() {
                 <Highlights highlights={tripdata.highlights} />
               </div>
               <div ref={(el) => (sectionRefs.current[4] = el)}>
-                <Inclusions inclusions={tripdata.inclusions}
-                            exclusions={tripdata.exclusions}
-                   />
+                <Inclusions
+                  inclusions={tripdata.inclusions}
+                  exclusions={tripdata.exclusions}
+                />
               </div>
               <div ref={(el) => (sectionRefs.current[5] = el)}>
                 <Faq faq={tripdata.faqs} />
@@ -258,10 +253,10 @@ function ExperienceDetails() {
                 taxes={tripdata.taxes || 0}
                 fees={tripdata.fees || 0}
                 startDate={tripdata.startDate}
-                endDate = {tripdata.endDate}
+                endDate={tripdata.endDate}
                 experienceId={tripdata._id}
                 tripName={tripdata.name}
-                startTime = {tripdata.startTime}
+                startTime={tripdata.startTime}
               />
             </div>
           </div>

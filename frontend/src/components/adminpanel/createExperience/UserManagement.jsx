@@ -1,9 +1,9 @@
 // UserManagement.js
-import React, { useState,useEffect } from 'react';
-import { FaSearch, FaTimesCircle } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
-import { BASE_URL } from '../../../constants';
+import React, { useState, useEffect } from "react";
+import { FaSearch, FaTimesCircle } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import { BASE_URL } from "../../../constants";
 
 const UserManagement = () => {
   const [users, setUsers] = useState([
@@ -14,69 +14,82 @@ const UserManagement = () => {
     // { id: 5, name: 'Charlie Wilson', email: 'charlie@example.com', mobile: '+1 567-890-1234', experienceBooked: { name: 'Wine Tasting', id: 105 } },
   ]);
 
-  const [searchTerm, setSearchTerm] = useState('');
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending' });
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortConfig, setSortConfig] = useState({
+    key: null,
+    direction: "ascending",
+  });
   // const [activeBookings, setActiveBookings] = useState([]);
- 
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
   };
 
-  const fetchActiveBookings = async() => {
-    try{
-      const response = await axios.get(`${BASE_URL}/active-bookings`);
-      console.log("users",response.data.data);
-      if(response.data.success){
+  const fetchActiveBookings = async () => {
+    try {
+      const response = await axios.get(`${BASE_URL}/api/active-bookings`);
+      console.log("users", response.data.data);
+      if (response.data.success) {
         const currentDate = new Date();
-        const filteredBookings = response.data.data.filter(booking => new Date(booking.date) >= currentDate);
+        const filteredBookings = response.data.data.filter(
+          (booking) => new Date(booking.date) >= currentDate
+        );
         // setActiveBookings(filteredBookings);
         // active = response.data.data;
-        console.log("users",response.data.data);
+        console.log("users", response.data.data);
         setUsers(filteredBookings);
       }
+    } catch (err) {
+      console.error("Error fetching active bookings:", error);
     }
-    catch(err){
-      console.error('Error fetching active bookings:', error);
-    }
-  }
+  };
 
   useEffect(() => {
     fetchActiveBookings();
-  },[])
+  }, []);
 
-  
-
-console.log("users",users)
-  const filteredUsers = users.filter(user =>
-    user?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    user?.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    user?.mobile?.includes(searchTerm) ||
-    user?.experienceBooked?.name?.toLowerCase()?.includes(searchTerm.toLowerCase())
+  console.log("users", users);
+  const filteredUsers = users.filter(
+    (user) =>
+      user?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user?.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user?.mobile?.includes(searchTerm) ||
+      user?.experienceBooked?.name
+        ?.toLowerCase()
+        ?.includes(searchTerm.toLowerCase())
   );
 
   const sortedUsers = [...filteredUsers].sort((a, b) => {
     if (!sortConfig.key) return 0;
-    const direction = sortConfig.direction === 'ascending' ? 1 : -1;
-    if (sortConfig.key === 'experiencebooked') {
-      return a.experienceBooked.name.localeCompare(b.experienceBooked.name) * direction;
+    const direction = sortConfig.direction === "ascending" ? 1 : -1;
+    if (sortConfig.key === "experiencebooked") {
+      return (
+        a.experienceBooked.name.localeCompare(b.experienceBooked.name) *
+        direction
+      );
     }
     return a[sortConfig.key].localeCompare(b[sortConfig.key]) * direction;
   });
 
   const requestSort = (key) => {
-    let direction = 'ascending';
-    if (sortConfig.key === key && sortConfig.direction === 'ascending') {
-      direction = 'descending';
+    let direction = "ascending";
+    if (sortConfig.key === key && sortConfig.direction === "ascending") {
+      direction = "descending";
     }
     setSortConfig({ key, direction });
   };
 
   const handleCancelBooking = (id) => {
-    if (window.confirm('Are you sure you want to cancel this user\'s booking?')) {
-      setUsers(users.map(user =>
-        user.id === id ? { ...user, experienceBooked: { name: 'None', id: null } } : user
-      ));
+    if (
+      window.confirm("Are you sure you want to cancel this user's booking?")
+    ) {
+      setUsers(
+        users.map((user) =>
+          user.id === id
+            ? { ...user, experienceBooked: { name: "None", id: null } }
+            : user
+        )
+      );
     }
   };
 
@@ -97,18 +110,25 @@ console.log("users",users)
         <table className="w-full">
           <thead className="bg-gray-50">
             <tr>
-              {['Name', 'Email', 'Mobile', 'Experience Booked', 'Action'].map((header) => (
-                <th 
-                  key={header}
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
-                  onClick={() => requestSort(header.toLowerCase().replace(' ', ''))}
-                >
-                  {header}
-                  {sortConfig.key === header.toLowerCase().replace(' ', '') && (
-                    <span>{sortConfig.direction === 'ascending' ? ' ▲' : ' ▼'}</span>
-                  )}
-                </th>
-              ))}
+              {["Name", "Email", "Mobile", "Experience Booked", "Action"].map(
+                (header) => (
+                  <th
+                    key={header}
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                    onClick={() =>
+                      requestSort(header.toLowerCase().replace(" ", ""))
+                    }
+                  >
+                    {header}
+                    {sortConfig.key ===
+                      header.toLowerCase().replace(" ", "") && (
+                      <span>
+                        {sortConfig.direction === "ascending" ? " ▲" : " ▼"}
+                      </span>
+                    )}
+                  </th>
+                )
+              )}
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
@@ -119,19 +139,22 @@ console.log("users",users)
                 <td className="px-6 py-4 whitespace-nowrap">{user.mobile}</td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   {user.experienceBooked.id ? (
-                    <Link 
+                    <Link
                       to={`/experiences/${user.experienceBooked.url}`}
                       className="text-blue-600 hover:text-blue-900"
                     >
                       {user.experienceBooked.name}
                     </Link>
                   ) : (
-                    'None'
+                    "None"
                   )}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                   {user.experienceBooked.id && (
-                    <button onClick={() => handleCancelBooking(user.id)} className="text-red-600 hover:text-red-900">
+                    <button
+                      onClick={() => handleCancelBooking(user.id)}
+                      className="text-red-600 hover:text-red-900"
+                    >
                       <FaTimesCircle className="inline mr-1" /> Cancel Booking
                     </button>
                   )}

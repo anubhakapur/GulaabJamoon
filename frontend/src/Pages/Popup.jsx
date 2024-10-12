@@ -1,29 +1,34 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import axios from "axios";
 import testimg from "/src/assets/images/test.jpg";
-import { BASE_URL } from '../constants';
+import { BASE_URL } from "../constants";
 
 const AdventurePopup = ({ onClose }) => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [message, setMessage] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [message, setMessage] = useState("");
   const [expectingCallback, setExpectingCallback] = useState(true);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   useEffect(() => {
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow = "hidden";
     return () => {
-      document.body.style.overflow = 'auto';
+      document.body.style.overflow = "auto";
     };
   }, []);
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log({ name, phoneNumber, message, expectingCallback });
-    const response = await axios.post(`${BASE_URL}/popup`,{name,phoneNumber,message,expectingCallback});
-    console.log(response.data)
+    const response = await axios.post(`${BASE_URL}/api/popup`, {
+      name,
+      phoneNumber,
+      message,
+      expectingCallback,
+    });
+    console.log(response.data);
 
     console.log({ name, email, phoneNumber, message, expectingCallback });
     setIsSubmitted(true);
@@ -59,17 +64,17 @@ const AdventurePopup = ({ onClose }) => {
           className="w-full max-w-lg rounded-lg overflow-hidden shadow-xl relative"
           style={{
             backgroundImage: `url(${testimg})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center'
+            backgroundSize: "cover",
+            backgroundPosition: "center",
           }}
         >
-          <motion.div 
+          <motion.div
             className="absolute inset-0 bg-black bg-opacity-60"
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.6 }}
             transition={{ duration: 0.5 }}
           ></motion.div>
-          
+
           <div className="relative p-6 z-10">
             <motion.button
               whileHover={{ scale: 1.1, rotate: 90 }}
@@ -77,8 +82,19 @@ const AdventurePopup = ({ onClose }) => {
               onClick={onClose}
               className="absolute top-2 right-2 text-white bg-gray-900 bg-opacity-50 rounded-full p-1 hover:bg-opacity-75"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             </motion.button>
 
@@ -98,7 +114,8 @@ const AdventurePopup = ({ onClose }) => {
                   transition={{ delay: 0.4 }}
                   className="mb-6 text-white text-lg"
                 >
-                  Connect with our travel experts for exclusive itineraries and best deals.
+                  Connect with our travel experts for exclusive itineraries and
+                  best deals.
                 </motion.p>
                 <motion.form
                   initial={{ y: 20, opacity: 0 }}
@@ -148,7 +165,7 @@ const AdventurePopup = ({ onClose }) => {
                     variants={inputVariants}
                     whileFocus="focus"
                   ></motion.textarea>
-                  <motion.div 
+                  <motion.div
                     className="flex items-center"
                     whileHover={{ scale: 1.05 }}
                   >
@@ -159,7 +176,12 @@ const AdventurePopup = ({ onClose }) => {
                       onChange={(e) => setExpectingCallback(e.target.checked)}
                       className="mr-2"
                     />
-                    <label htmlFor="expectCallback" className="text-yellow-500 text-sm">Expecting a Callback</label>
+                    <label
+                      htmlFor="expectCallback"
+                      className="text-yellow-500 text-sm"
+                    >
+                      Expecting a Callback
+                    </label>
                   </motion.div>
                   <motion.button
                     whileHover={{ scale: 1.05, backgroundColor: "#fbbf24" }}

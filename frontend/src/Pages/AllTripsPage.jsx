@@ -8,7 +8,7 @@ import WhyGJExperiences from "./WhyGJExperiences";
 import axios from "axios";
 import { BASE_URL } from "../constants";
 import moment from "moment";
-import WhyGJExperiences from "./WhyGJExperiences"
+// import WhyGJExperiences from "./WhyGJExperiences"
 
 const AllTripsPage = () => {
   const [visibleTrips, setVisibleTrips] = useState(8);
@@ -22,16 +22,15 @@ const AllTripsPage = () => {
     window.scrollTo(0, 0);
   }, []);
 
-
   useEffect(() => {
     const fetchExperiences = async () => {
       try {
-        const response = await axios.get(`${BASE_URL}/user`);
-        console.log("trips",response.data)
+        const response = await axios.get(`${BASE_URL}/api/user`);
+        console.log("trips", response.data);
         setAllTrips(response.data.data);
         setLoading(false);
       } catch (error) {
-        console.error('Error fetching experiences:', error);
+        console.error("Error fetching experiences:", error);
         setLoading(false);
       }
     };
@@ -41,11 +40,11 @@ const AllTripsPage = () => {
 
   useEffect(() => {
     if (allTrips.length > 0) {
-      console.log("effect",allTrips);
-      console.log("length",allTrips.length)
+      console.log("effect", allTrips);
+      console.log("length", allTrips.length);
       setLoading(false);
     }
-  },[allTrips]);
+  }, [allTrips]);
 
   // Load all trips when "Load More" is clicked
 
@@ -53,8 +52,7 @@ const AllTripsPage = () => {
     setVisibleTrips(allTrips.length);
   };
 
-
-  console.log("visibleTrips",visibleTrips)
+  console.log("visibleTrips", visibleTrips);
 
   // console.log("ALLTRIPS", allTrips);
 
@@ -92,7 +90,6 @@ const AllTripsPage = () => {
   };
 
   const clearSearch = () => setSearchTerm("");
-
 
   // Function to handle navigation to the trip details page
   const navigateToTrip = (trip, event) => {
@@ -182,8 +179,7 @@ const AllTripsPage = () => {
                         width: "100%",
                         maxWidth: "350px",
                         margin: "0 auto",
-                        background: "#0284c7"
-
+                        background: "#0284c7",
                       }}
                       variants={itemVariants}
                       whileHover="hover"
@@ -201,7 +197,8 @@ const AllTripsPage = () => {
                             {trip.name}
                           </h2>
                           <p className="text-yellow-300 text-sm mb-2">
-                            {trip.city+','+trip.state} | {moment(trip.startDate).format('DD-MMMM-YYYY')}
+                            {trip.city + "," + trip.state} |{" "}
+                            {moment(trip.startDate).format("DD-MMMM-YYYY")}
                           </p>
                           <p
                             className="mb-4 line-clamp-2 text-yellow-300"
@@ -211,7 +208,9 @@ const AllTripsPage = () => {
                           </p>
                         </div>
                         <div>
-                          <p className="text-2xl font-bold text-yellow-400 mb-4">₹{trip.price}</p>
+                          <p className="text-2xl font-bold text-yellow-400 mb-4">
+                            ₹{trip.price}
+                          </p>
                           <motion.button
                             className="w-full bg-blue-400 text-white py-3 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-400 transition-all hover:bg-yellow-400"
                             whileHover={{ scale: 1.05 }}

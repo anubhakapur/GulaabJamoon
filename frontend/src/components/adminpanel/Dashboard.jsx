@@ -1,42 +1,39 @@
-import React from 'react';
-import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import ROLE from '../../common/role'
-import axios from 'axios';
-import { useState } from 'react';
-import { BASE_URL } from '../../constants';
+import React from "react";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import ROLE from "../../common/role";
+import axios from "axios";
+import { useState } from "react";
+import { BASE_URL } from "../../constants";
 
 const Dashboard = () => {
-
   const [activeTripsCount, setActiveTripsCount] = useState(0);
-  const user = useSelector(state => state?.user)
-  console.log("userAdmin",user)
-  const navigate = useNavigate()
+  const user = useSelector((state) => state?.user);
+  console.log("userAdmin", user);
+  const navigate = useNavigate();
 
+  // useEffect(()=>{
+  //     if(user?.role !== ROLE.ADMIN){
+  //         navigate("/")
+  //     }
+  // },[user])
 
-    // useEffect(()=>{
-    //     if(user?.role !== ROLE.ADMIN){
-    //         navigate("/")
-    //     }
-    // },[user])
-
-   useEffect(() => {
+  useEffect(() => {
     const fetchActiveTripsCount = async () => {
       try {
-        const response = await axios.get(`${BASE_URL}/active-trips-count`);
+        const response = await axios.get(`${BASE_URL}/api/active-trips-count`);
 
         if (response.data.success) {
           setActiveTripsCount(response.data.data.count);
         }
       } catch (error) {
-        console.error('Error fetching active trips count:', error);
+        console.error("Error fetching active trips count:", error);
       }
     };
 
     fetchActiveTripsCount();
   }, []);
-
 
   return (
     <div className="space-y-6">

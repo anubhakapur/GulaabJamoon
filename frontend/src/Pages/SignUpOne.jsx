@@ -59,7 +59,7 @@ const SignUpOne = () => {
     return passwordRegex.test(password);
   };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setEmailError("");
     setPasswordError("");
@@ -70,61 +70,66 @@ const SignUpOne = () => {
         "Password must include at least 7 characters, a symbol, a number, and an uppercase letter."
       );
     } else {
+      try {
+        // Make a POST request to your backend API to send a verification email
+        console.log("BASE_URL", BASE_URL);
+        console.log("email", email);
+        console.log("password", password);
+        const response = await axios.post(
+          `http://localhost:8080/api/signupone`,
+          { email, password }
+        );
+        console.log(response.data);
+        if (response.data.sucess) {
+          toast.success(
+            response.data.message ||
+              "Verification email sent. Please check your inbox."
+          );
+          setEmail("");
+          setPassword("");
 
-        try {
-      // Make a POST request to your backend API to send a verification email
-      console.log("BASE_URL",BASE_URL)
-      console.log("email",email)
-      console.log("password",password)  
-      const response = await axios.post(`http://localhost:8080/api/signupone`,{email,password});
-      console.log(response.data)
-      if (response.data.sucess) {
-        toast.success(response.data.message || "Verification email sent. Please check your inbox.");
-        setEmail("");
-        setPassword("");
-
-        const email = response.data.data.email;
-        console.log("one",email)
-        localStorage.setItem("email", email);
-  }
-    } catch (error) {
-      console.error("Error sending email:", error);
-      toast.error(error.response.data.message || "Error sending verification email. Please try again later.");
-    }
-
+          const email = response.data.data.email;
+          console.log("one", email);
+          localStorage.setItem("email", email);
+        }
+      } catch (error) {
+        console.error("Error sending email:", error);
+        toast.error(
+          error.response.data.message ||
+            "Error sending verification email. Please try again later."
+        );
+      }
     }
   };
 
-  const googleLogin = async() => {
-    const provider = new GoogleAuthProvider()
-    try{
-      const result = await signInWithPopup(auth, provider)
-      console.log("result",result)
-      try{
-        const response = await axios.post(`${BASE_URL}/signUpGoogle`,{email:result.user.email})
-        console.log(response.data)
-        if(response.data.success){
-          toast.success(response.data.message)
-          navigate('/signuptwo')
+  const googleLogin = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      const result = await signInWithPopup(auth, provider);
+      console.log("result", result);
+      try {
+        const response = await axios.post(`${BASE_URL}/api/signUpGoogle`, {
+          email: result.user.email,
+        });
+        console.log(response.data);
+        if (response.data.success) {
+          toast.success(response.data.message);
+          navigate("/signuptwo");
         }
-      }
-      catch(err){
+      } catch (err) {
         console.error(err);
-        toast.error(err.response.data.message || "Server error")
+        toast.error(err.response.data.message || "Server error");
       }
-      
-    }
-    catch(err){
+    } catch (err) {
       console.error(err);
-      toast.error(err.response.data.message || "Server error")
+      toast.error(err.response.data.message || "Server error");
     }
-}
+  };
 
   return (
     <div className="relative min-h-screen w-full flex items-center justify-center p-4">
       <video
         ref={videoRef}
-        
         autoPlay
         loop
         muted
@@ -208,7 +213,10 @@ const SignUpOne = () => {
           <div className="flex-grow border-t border-gray-600"></div>
         </div>
 
-        <Button onClick={googleLogin} className="bg-black bg-opacity-50 text-white border border-white rounded-md hover:bg-opacity-75 active:bg-opacity-100 flex items-center justify-center transition-all duration-300">
+        <Button
+          onClick={googleLogin}
+          className="bg-black bg-opacity-50 text-white border border-white rounded-md hover:bg-opacity-75 active:bg-opacity-100 flex items-center justify-center transition-all duration-300"
+        >
           <svg className="w-4 h-4 sm:w-5 sm:h-5 mr-2" viewBox="0 0 24 24">
             <path
               fill="currentColor"

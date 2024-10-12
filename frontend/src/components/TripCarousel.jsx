@@ -17,13 +17,13 @@ const TripCarousel = () => {
   const [trips, setTrips] = useState([]);
   const [isHovering, setIsHovering] = useState(false);
   const [isLargeScreen, setIsLargeScreen] = useState(false);
-   const [loading, setLoading] = useState(true); // State to track loading state
+  const [loading, setLoading] = useState(true); // State to track loading state
   const swiperRef = useRef(null);
 
   useEffect(() => {
     const fetchExperiences = async () => {
       try {
-        const response = await axios.get(`${BASE_URL}/user`);
+        const response = await axios.get(`${BASE_URL}/api/user`);
         console.log("trips", response.data.data);
         setTrips(response.data.data);
         setLoading(false);
@@ -36,11 +36,9 @@ const TripCarousel = () => {
     fetchExperiences();
   }, []);
 
-
   console.log("trips", trips);
   // const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 1024);
   // const swiperRef = useRef(null);
-
 
   useEffect(() => {
     const handleResize = () => {
@@ -78,7 +76,7 @@ const TripCarousel = () => {
     </motion.div>
   );
 
- const limitedTrips = trips.slice(0, 3);
+  const limitedTrips = trips.slice(0, 3);
   console.log("limitedTrips", limitedTrips);
 
   const createSlug = (name) => {
@@ -134,7 +132,9 @@ const TripCarousel = () => {
             </p>
           </div>
           <div>
-            <p className="text-2xl font-bold text-yellow-400 mb-4">₹{trip.price}</p>
+            <p className="text-2xl font-bold text-yellow-400 mb-4">
+              ₹{trip.price}
+            </p>
             <motion.button
               className="w-full bg-blue-400 text-white py-3 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-400 transition-all hover:bg-yellow-400"
               whileHover={{ scale: 1.05 }}
@@ -197,16 +197,17 @@ const TripCarousel = () => {
 
       <div className="w-full relative select-none">
         <AnimatePresence>
-          {activeImage && <BackgroundImage image={activeImage} key={activeImage} />}
+          {activeImage && (
+            <BackgroundImage image={activeImage} key={activeImage} />
+          )}
         </AnimatePresence>
 
         <div className="relative z-10 container mx-auto px-4 md:px-8 lg:px-16 py-8">
           {isLargeScreen ? (
             <div className="flex justify-center items-stretch gap-8">
               {limitedTrips.map((trip) => (
-                
                 <TripCard key={trip._id} trip={trip} onHover={setActiveImage} />
-          ))}
+              ))}
             </div>
           ) : (
             <>

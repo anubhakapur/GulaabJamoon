@@ -23,15 +23,21 @@ const ListWithUs = ({ setShowModal }) => {
       case "name":
         return value ? "" : "Name is required";
       case "email":
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? "" : "Valid email is required";
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+          ? ""
+          : "Valid email is required";
       case "phone":
-        return /^\d{10}$/.test(value) ? "" : "Valid 10-digit phone number is required";
+        return /^\d{10}$/.test(value)
+          ? ""
+          : "Valid 10-digit phone number is required";
       case "experienceIdea":
         return value ? "" : "Experience Idea is required";
       case "experienceDescription":
         return value ? "" : "Experience Description is required";
       case "estPeople":
-        return /^\d+$/.test(value) ? "" : "Estimated number of people must be a number";
+        return /^\d+$/.test(value)
+          ? ""
+          : "Estimated number of people must be a number";
       default:
         return "";
     }
@@ -65,36 +71,37 @@ const ListWithUs = ({ setShowModal }) => {
     setErrors({});
   };
 
-  const handleSubmit = async() => {
+  const handleSubmit = async () => {
     if (validateForm()) {
-
       // Here you would typically send the form data to your server
-      try{
-      const response = await axios.post(`${BASE_URL}/hostexperience`,userData);
-      console.log(response)
+      try {
+        const response = await axios.post(
+          `${BASE_URL}/api/hostexperience`,
+          userData
+        );
+        console.log(response);
 
-      // if(response.data.success){
-      //   toast.success(response.data.message, {
-      //     position: "top-right",
-      //     autoClose: 3000,
-      //   });
-      //   setShowModal(false);
-      // }
+        // if(response.data.success){
+        //   toast.success(response.data.message, {
+        //     position: "top-right",
+        //     autoClose: 3000,
+        //   });
+        //   setShowModal(false);
+        // }
 
-      clearForm();
-      // toast.success("Request Sent!", {
-      //   position: "top-right",
-      //   autoClose: 3000,
-      // });
+        clearForm();
+        // toast.success("Request Sent!", {
+        //   position: "top-right",
+        //   autoClose: 3000,
+        // });
+      } catch (err) {
+        console.error(err);
+        toast.error(err.response.data.message || "Server error", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+      }
     }
-    catch(err){
-      console.error(err);
-      toast.error(err.response.data.message || "Server error", {
-        position: "top-right",
-        autoClose: 3000,
-      });
-    }
-  }
   };
 
   const renderInput = (name, placeholder, type = "text", size = "full") => (
@@ -109,7 +116,9 @@ const ListWithUs = ({ setShowModal }) => {
           errors[name] ? "border-red-500" : ""
         }`}
       />
-      {errors[name] && <p className="text-red-500 text-sm mt-1">{errors[name]}</p>}
+      {errors[name] && (
+        <p className="text-red-500 text-sm mt-1">{errors[name]}</p>
+      )}
     </div>
   );
 
@@ -156,7 +165,11 @@ const ListWithUs = ({ setShowModal }) => {
               errors.experienceDescription ? "border-red-500" : ""
             }`}
           />
-          {errors.experienceDescription && <p className="text-red-500 text-sm mt-1">{errors.experienceDescription}</p>}
+          {errors.experienceDescription && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.experienceDescription}
+            </p>
+          )}
         </div>
 
         {/* Smaller field for Estimated People */}

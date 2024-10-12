@@ -1,64 +1,64 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { Camera, Save, UserCircle, XCircle, Trash } from 'lucide-react';
-import { motion } from 'framer-motion';
-import { useSelector } from 'react-redux';
-import axios from 'axios';
-import {BASE_URL} from "../../constants";
+import React, { useState, useCallback, useEffect } from "react";
+import { Camera, Save, UserCircle, XCircle, Trash } from "lucide-react";
+import { motion } from "framer-motion";
+import { useSelector } from "react-redux";
+import axios from "axios";
+import { BASE_URL } from "../../constants";
 
 const Profile = () => {
-  const [editMode, setEditMode] = useState('view'); // 'view', 'edit', or 'photo'
+  const [editMode, setEditMode] = useState("view"); // 'view', 'edit', or 'photo'
 
-  const user = useSelector(state => state?.user?.user);
-  console.log("userProfile",user)
-  console.log("userProfile",user?.name)
+  const user = useSelector((state) => state?.user?.user);
+  console.log("userProfile", user);
+  console.log("userProfile", user?.name);
 
   const isoDate = user?.dateOfBirth;
   const date = new Date(isoDate);
-  const day = String(date.getUTCDate()).padStart(2, '0');
-  const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Months are 0-based
+  const day = String(date.getUTCDate()).padStart(2, "0");
+  const month = String(date.getUTCMonth() + 1).padStart(2, "0"); // Months are 0-based
   const year = date.getUTCFullYear();
   const formattedDate = `${day}/${month}/${year}`;
 
   const [profile, setProfile] = useState({
-    photo: '',
-    name: '',
-    email: '',
-    mobile: '',
-    dob: '',
-    gender: '',
-    occupation: ''
+    photo: "",
+    name: "",
+    email: "",
+    mobile: "",
+    dob: "",
+    gender: "",
+    occupation: "",
   });
 
   useEffect(() => {
     setProfile({
-      photo: '',
+      photo: "",
       name: user?.name,
       email: user?.email,
       mobile: user?.phoneNumber,
       dob: formattedDate,
       gender: user?.gender,
-      occupation: user?.occupation
+      occupation: user?.occupation,
     });
   }, [user]);
 
   const handleChange = useCallback((e) => {
     const { name, value } = e.target;
-    setProfile(prev => ({ ...prev, [name]: value }));
+    setProfile((prev) => ({ ...prev, [name]: value }));
   }, []);
 
-  const handleSave = useCallback(async() => {
-    console.log('Saving profile:', profile);
-    setEditMode('view');
+  const handleSave = useCallback(async () => {
+    console.log("Saving profile:", profile);
+    setEditMode("view");
 
     // Save profile to the database
-    const response = await axios.post(`${BASE_URL}/update-user-details`,{
-      name : profile.name,
-      mobile : profile.mobile,
-      occupation : profile.occupation
+    const response = await axios.post(`${BASE_URL}/api/update-user-details`, {
+      name: profile.name,
+      mobile: profile.mobile,
+      occupation: profile.occupation,
     });
 
     console.log(response.data);
-    if(response.data.success){
+    if (response.data.success) {
       console.log("Profile updated successfully");
     }
   }, [profile]);
@@ -67,64 +67,71 @@ const Profile = () => {
     if (e.target.files && e.target.files[0]) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        setProfile(prev => ({ ...prev, photo: e.target.result }));
-        setEditMode('view');
+        setProfile((prev) => ({ ...prev, photo: e.target.result }));
+        setEditMode("view");
       };
       reader.readAsDataURL(e.target.files[0]);
     }
   }, []);
 
   const handleCancelPhotoChange = () => {
-    setEditMode('view');
+    setEditMode("view");
   };
 
   const handleDeletePhoto = () => {
-    setProfile(prev => ({ ...prev, photo: '' }));
+    setProfile((prev) => ({ ...prev, photo: "" }));
   };
 
-  const Field = useCallback(({ label, value, editable, name }) => {
-    const [isFocused, setIsFocused] = useState(false);
+  const Field = useCallback(
+    ({ label, value, editable, name }) => {
+      const [isFocused, setIsFocused] = useState(false);
 
-    return (
-      <motion.div 
-        className="mb-6"
-        initial={{ scale: 1 }}
-        animate={{ scale: isFocused && editMode === 'edit' ? 1.05 : 1 }}
-        transition={{ duration: 0.3, ease: "easeInOut" }}
-      >
-        <label className="block text-sm font-medium text-gray-700 mb-2">{label}</label>
-        {editMode === 'edit' && editable ? (
-          <motion.input
-            type="text"
-            name={name}
-            value={value}
-            onChange={handleChange}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition duration-150 ease-in-out"
-          />
-        ) : (
-          <p className="text-black text-lg">{value}</p>
-        )}
-      </motion.div>
-    );
-  }, [editMode, handleChange]);
+      return (
+        <motion.div
+          className="mb-6"
+          initial={{ scale: 1 }}
+          animate={{ scale: isFocused && editMode === "edit" ? 1.05 : 1 }}
+          transition={{ duration: 0.3, ease: "easeInOut" }}
+        >
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            {label}
+          </label>
+          {editMode === "edit" && editable ? (
+            <motion.input
+              type="text"
+              name={name}
+              value={value}
+              onChange={handleChange}
+              onFocus={() => setIsFocused(true)}
+              onBlur={() => setIsFocused(false)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition duration-150 ease-in-out"
+            />
+          ) : (
+            <p className="text-black text-lg">{value}</p>
+          )}
+        </motion.div>
+      );
+    },
+    [editMode, handleChange]
+  );
 
   return (
-    <motion.div 
+    <motion.div
       className="bg-white p-8 rounded-lg shadow-lg max-w-4xl mx-auto mt-12 mb-12"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
     >
-      <h2 className="text-4xl font-bold mb-8 text-center text-black">User Profile</h2>
+      <h2 className="text-4xl font-bold mb-8 text-center text-black">
+        User Profile
+      </h2>
       <div className="flex flex-col md:flex-row items-center md:items-start">
         <div className="w-full md:w-1/3 mb-8 md:mb-0 md:mr-8">
           <div className="relative mb-6 text-center">
             {profile.photo ? (
-              <img 
-                src={profile.photo} 
-                alt="Profile" 
+              <img
+                src={profile.photo}
+                alt="Profile"
                 className="rounded-full w-48 h-48 object-cover mx-auto shadow-md"
               />
             ) : (
@@ -132,22 +139,25 @@ const Profile = () => {
                 <UserCircle size={96} className="text-gray-400" />
               </div>
             )}
-            {editMode === 'photo' && (
-              <label htmlFor="photo-upload" className="absolute bottom-2 right-1/2 transform translate-x-1/2 bg-black text-white p-3 rounded-full cursor-pointer shadow-lg hover:bg-gray-800 transition duration-150 ease-in-out">
+            {editMode === "photo" && (
+              <label
+                htmlFor="photo-upload"
+                className="absolute bottom-2 right-1/2 transform translate-x-1/2 bg-black text-white p-3 rounded-full cursor-pointer shadow-lg hover:bg-gray-800 transition duration-150 ease-in-out"
+              >
                 <Camera size={24} />
-                <input 
-                  id="photo-upload" 
-                  type="file" 
-                  className="hidden" 
+                <input
+                  id="photo-upload"
+                  type="file"
+                  className="hidden"
                   onChange={handlePhotoChange}
                   accept="image/*"
                 />
               </label>
             )}
           </div>
-          {editMode === 'photo' ? (
+          {editMode === "photo" ? (
             <>
-              <button 
+              <button
                 onClick={handleCancelPhotoChange}
                 className="w-full px-4 py-2 bg-gray-300 text-black rounded-md shadow-sm hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition duration-150 ease-in-out"
               >
@@ -156,14 +166,14 @@ const Profile = () => {
             </>
           ) : (
             <>
-              <button 
-                onClick={() => setEditMode('photo')}
+              <button
+                onClick={() => setEditMode("photo")}
                 className="w-full px-4 py-2 bg-black text-white rounded-md shadow-sm hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black transition duration-150 ease-in-out"
               >
-                {profile.photo ? 'Change Profile Photo' : 'Add Profile Photo'}
+                {profile.photo ? "Change Profile Photo" : "Add Profile Photo"}
               </button>
               {profile.photo && (
-                <button 
+                <button
                   onClick={handleDeletePhoto}
                   className="mt-2 w-full px-4 py-2 bg-red-600 text-white rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-150 ease-in-out"
                 >
@@ -174,25 +184,40 @@ const Profile = () => {
           )}
         </div>
         <div className="w-full md:w-2/3">
-          <Field label="Name" value={profile.name} editable={true} name="name" />
+          <Field
+            label="Name"
+            value={profile.name}
+            editable={true}
+            name="name"
+          />
           <Field label="Email" value={profile.email} editable={false} />
-          <Field label="Mobile Number" value={profile.mobile} editable={true} name="mobile" />
+          <Field
+            label="Mobile Number"
+            value={profile.mobile}
+            editable={true}
+            name="mobile"
+          />
           <Field label="Date of Birth" value={profile.dob} editable={false} />
           <Field label="Gender" value={profile.gender} editable={false} />
-          <Field label="Occupation" value={profile.occupation} editable={true} name="occupation" />
+          <Field
+            label="Occupation"
+            value={profile.occupation}
+            editable={true}
+            name="occupation"
+          />
         </div>
       </div>
       <div className="mt-8 text-center">
-        {editMode === 'edit' ? (
-          <button 
+        {editMode === "edit" ? (
+          <button
             onClick={handleSave}
             className="inline-flex items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-lg font-medium text-white bg-black hover:bg-gray-800 active:outline-none active:ring-2 active:ring-offset-2 active:ring-black transition duration-150 ease-in-out"
           >
             <Save className="mr-2 h-5 w-5" /> Save Changes
           </button>
-        ) : editMode === 'view' ? (
-          <button 
-            onClick={() => setEditMode('edit')}
+        ) : editMode === "view" ? (
+          <button
+            onClick={() => setEditMode("edit")}
             className="inline-flex items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-lg font-medium text-white bg-black hover:bg-gray-800 active:outline-none active:ring-2 active:ring-offset-2 active:ring-black transition duration-150 ease-in-out"
           >
             Edit Profile

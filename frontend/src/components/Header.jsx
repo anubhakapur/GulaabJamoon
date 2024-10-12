@@ -21,7 +21,7 @@ const Header = ({ home, scrollToFooter }) => {
 
   const handleLogout = async () => {
     try {
-      const response = await axios.get(`${BASE_URL}/logout`);
+      const response = await axios.get(`${BASE_URL}/api/logout`);
       if (response.data.success) {
         toast.success(response.data.message);
         dispatch(setUserDetails(null));
@@ -46,7 +46,6 @@ const Header = ({ home, scrollToFooter }) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
 
-  
   const handleNavClick = (e, href, id) => {
     e.preventDefault();
     setIsMenuOpen(false);
@@ -79,12 +78,11 @@ const Header = ({ home, scrollToFooter }) => {
       navigate(href);
     }
   };
-   const menuItems = [
+  const menuItems = [
     { label: "About", href: "/about" },
     { label: "Experiences", href: "/experiences" },
     { label: "Corporate XPs", href: "/corporate" },
     { label: "Blogs", href: "/" },
-    
   ];
 
   const additionalItems = [
@@ -232,7 +230,7 @@ const Header = ({ home, scrollToFooter }) => {
       </motion.header>
 
       <AnimatePresence>
-      {isMenuOpen && (
+        {isMenuOpen && (
           <motion.div
             className="fixed inset-0 bg-black/90 z-50 lg:hidden flex items-center justify-center"
             variants={dropdownVariants}
@@ -261,14 +259,14 @@ const Header = ({ home, scrollToFooter }) => {
               </svg>
             </button>
             <ul className="text-center">
-              {menuItems.map(({ label, href,id }) => (
+              {menuItems.map(({ label, href, id }) => (
                 <motion.li key={label} className="mb-6" variants={itemVariants}>
                   <Link
                     to={href}
                     className={`text-white text-2xl relative group transition-colors duration-300 hover:text-gray-300 pb-1 ${
                       location.pathname === href ? "text-gray-300" : ""
                     }`}
-                    onClick={(e)=>handleNavClick(e,href,id)}
+                    onClick={(e) => handleNavClick(e, href, id)}
                   >
                     {label}
                     <span className="absolute left-0 bottom-0 w-full h-0.5 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-in-out"></span>
@@ -276,7 +274,7 @@ const Header = ({ home, scrollToFooter }) => {
                 </motion.li>
               ))}
               {/* Add Corporate XPs and List with Us for small screen sizes */}
-              {additionalItems.map(({ label, href,id }) => (
+              {additionalItems.map(({ label, href, id }) => (
                 <motion.li
                   key={label}
                   className="mb-6 lg:hidden md:hidden"
@@ -292,25 +290,23 @@ const Header = ({ home, scrollToFooter }) => {
                 </motion.li>
               ))}
               <motion.li className="mb-6" variants={itemVariants}>
-              {
-                user_id ? (
+                {user_id ? (
                   <Link
-                  to="/user"
-                  className="text-white text-2xl relative group transition-colors duration-300 hover:text-gray-300 pb-1"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  My Profile
-                </Link>)
-                : (
+                    to="/user"
+                    className="text-white text-2xl relative group transition-colors duration-300 hover:text-gray-300 pb-1"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    My Profile
+                  </Link>
+                ) : (
                   <Link
-                  to="/signin"
-                  className="text-white text-2xl relative group transition-colors duration-300 hover:text-gray-300 pb-1"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Login
-                </Link>
-                )
-              }
+                    to="/signin"
+                    className="text-white text-2xl relative group transition-colors duration-300 hover:text-gray-300 pb-1"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Login
+                  </Link>
+                )}
               </motion.li>
             </ul>
           </motion.div>

@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
-import { motion } from 'framer-motion';
-import axios from 'axios';
-import { useState } from 'react';
-import { BASE_URL } from '../../constants';
+import React, { useEffect } from "react";
+import { motion } from "framer-motion";
+import axios from "axios";
+import { useState } from "react";
+import { BASE_URL } from "../../constants";
 
 const MyBookings = () => {
   // Mock data for bookings
@@ -13,7 +13,7 @@ const MyBookings = () => {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const response = await axios.get(`${BASE_URL}/user-bookings`);
+        const response = await axios.get(`${BASE_URL}/api/user-bookings`);
         console.log("response", response.data.data);
         setBookings(response.data.data);
       } catch (error) {
@@ -24,11 +24,11 @@ const MyBookings = () => {
     };
 
     fetchBookings();
-  },[]);
+  }, []);
 
-  useEffect(()=>{
-    console.log("bookings",bookings);
-  },[bookings]);
+  useEffect(() => {
+    console.log("bookings", bookings);
+  }, [bookings]);
 
   // const bookings = [
   //   { id: 1, destination: 'Paris', date: '2024-09-15', status: 'upcoming' },
@@ -39,15 +39,16 @@ const MyBookings = () => {
   // ];
 
   // Sort bookings by date
-  const sortedBookings = bookings.sort((a, b) => new Date(a.date) - new Date(b.date));
+  const sortedBookings = bookings.sort(
+    (a, b) => new Date(a.date) - new Date(b.date)
+  );
 
   // Get current date
   const today = new Date();
 
   // Separate upcoming and past trips
-  const upcomingTrips = bookings.filter(trip => new Date(trip.date) >= today);
-  const pastTrips = bookings.filter(trip => new Date(trip.date) < today);
-
+  const upcomingTrips = bookings.filter((trip) => new Date(trip.date) >= today);
+  const pastTrips = bookings.filter((trip) => new Date(trip.date) < today);
 
   // Separate upcoming and past trips
   // const upcomingTrips = sortedBookings.filter((booking) => booking.status === 'upcoming');
@@ -60,21 +61,27 @@ const MyBookings = () => {
       transition={{ duration: 0.3, ease: "easeInOut" }}
     >
       <h3 className="text-xl font-bold text-black">{trip.experienceId.name}</h3>
-      <p className="text-gray-600">Date: {new Date(trip.date).toLocaleDateString()}</p>
+      <p className="text-gray-600">
+        Date: {new Date(trip.date).toLocaleDateString()}
+      </p>
     </motion.div>
   );
 
   return (
-    <motion.div 
+    <motion.div
       className="bg-white p-8 rounded-lg shadow-lg max-w-4xl mx-auto mt-12 mb-12"
       initial={{ y: 50, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
     >
-      <h2 className="text-3xl font-bold mb-8 text-center text-black">My Bookings</h2>
+      <h2 className="text-3xl font-bold mb-8 text-center text-black">
+        My Bookings
+      </h2>
 
       <div className="mb-12">
-        <h3 className="text-2xl font-semibold mb-4 text-black">Upcoming Trips</h3>
+        <h3 className="text-2xl font-semibold mb-4 text-black">
+          Upcoming Trips
+        </h3>
         {upcomingTrips.length > 0 ? (
           upcomingTrips.map((trip) => <TripCard key={trip._id} trip={trip} />)
         ) : (

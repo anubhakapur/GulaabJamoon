@@ -35,7 +35,7 @@ const App = () => {
   const dispatch = useDispatch();
 
   const fetchUserDetails = async () => {
-    const dataResponse = await axios.get(`${BASE_URL}/user-details`);
+    const dataResponse = await axios.get(`${BASE_URL}/api/user-details`);
 
     if (dataResponse.data.success) {
       console.log("dataresponse", dataResponse.data.data);
@@ -46,8 +46,6 @@ const App = () => {
   useEffect(() => {
     fetchUserDetails();
   }, []);
-
- 
 
   return (
     <Context.Provider value={{ fetchUserDetails }}>
@@ -85,10 +83,10 @@ const App = () => {
               path="/responsible-travel-policy"
               element={<Responsibletravel />}
             />
-             <Route 
+            <Route
               path="/experiences/:tripName"
               element={<ExperienceDetails />}
-            /> 
+            />
           </Routes>
         </BrowserRouter>
       </div>

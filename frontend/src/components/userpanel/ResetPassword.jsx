@@ -4,10 +4,9 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import {BASE_URL} from "../../constants";
+import { BASE_URL } from "../../constants";
 
 const ResetPassword = () => {
-
   const user = useSelector((state) => state?.user?.user);
   const [email, setEmail] = useState("");
   const [oldPassword, setOldPassword] = useState("");
@@ -32,7 +31,7 @@ const ResetPassword = () => {
     return regex.test(password);
   };
 
-  const handleResetPassword = async() => {
+  const handleResetPassword = async () => {
     const newErrors = {};
 
     if (!validateEmail(email)) {
@@ -60,30 +59,26 @@ const ResetPassword = () => {
     }
 
     // toast.success("Password Changed");
-    
+
     // Add the API call here to send the data to the backend
-    try{
-      const response = await axios.post(`${BASE_URL}/reset-password`,{
+    try {
+      const response = await axios.post(`${BASE_URL}/api/reset-password`, {
         email,
         oldPassword,
-        newPassword
-      })
+        newPassword,
+      });
 
-      if(response.data.success){
+      if (response.data.success) {
         toast.success(response.data.message);
         setEmail("");
         setOldPassword("");
         setNewPassword("");
         setConfirmPassword("");
-        
-      }  
-        
-    }
-    catch(error){
+      }
+    } catch (error) {
       console.error(error);
       toast.error(error.response.data.message || "Server error");
     }
-
   };
 
   const handleForgotPassword = () => {
